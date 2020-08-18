@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "next": "^9.5.2",
+    "porp-types": "0.0.1-security",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   }
