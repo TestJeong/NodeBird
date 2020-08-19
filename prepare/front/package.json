@@ -9,10 +9,13 @@
   "author": "YunJae",
   "license": "ISC",
   "dependencies": {
+    "@ant-design/icons": "^4.2.2",
+    "antd": "^4.5.4",
     "next": "^9.5.2",
     "porp-types": "0.0.1-security",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "styled-components": "^5.1.1"
   },
   "devDependencies": {
     "eslint": "^7.7.0",
