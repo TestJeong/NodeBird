@@ -28,6 +28,10 @@ const LoginForm = ({ setIsLoggedIn }) => {
     setIsLoggedIn(true);
   }, [id, password]);
 
+  const testHandle = useCallback(() => {
+    console.log("hello");
+  }, []);
+
   return (
     // onFinsh는 자동적으로 e.prevent가 들어가있다(새로고침)
     <FormWrapper onFinish={onSubmitForm}>
@@ -51,6 +55,7 @@ const LoginForm = ({ setIsLoggedIn }) => {
         <Button type="primary" htmlType="submit" loading={false}>
           로그인
         </Button>
+        <Button onClick={testHandle}>테스트</Button>
         <Link href="/signup">
           <a>
             <Button>회원가입</Button>
