@@ -13,17 +13,21 @@ const Signup = () => {
   const [id, onChangeId] = useInput("");
   const [nickname, onChangeNickname] = useInput("");
   const [password, onChangePassword] = useInput("");
+
   const [passwordCheck, setPasswordcheck] = useState("");
   const [passwordError, setPasswordError] = useState(false);
+
   const onChangePasswordCheck = useCallback(
     (e) => {
       setPasswordcheck(e.target.value);
-      setPasswordError(e.target.value !== password);
+      setPasswordError(e.target.value !== password); //입력한 값과 password 값이 같지 않다면 true이므로 passwordError 가 false에서 true로 변경된다
     },
     [password]
   );
-  const [term, setTerm] = useState("");
+
+  const [term, setTerm] = useState(""); //체크박스 선택여부 확인.
   const [termError, setTermError] = useState(false);
+
   const onChangeTerm = useCallback((e) => {
     setTerm(e.target.checked);
     setTermError(false);
@@ -85,10 +89,11 @@ const Signup = () => {
             required
             onChange={onChangePasswordCheck}
           />
-          {password && (
+          {passwordError && (
             <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
           )}
         </div>
+
         <div>
           <Checkbox name="user-term" checked={term} onChange={onChangeTerm}>
             모든 것을 확인하고 동의합니다.
@@ -109,3 +114,5 @@ const Signup = () => {
   );
 };
 export default Signup;
+
+// checkbox 에서 check 의 기본값은 false.

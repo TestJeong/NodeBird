@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Head from "next/head";
 import "antd/dist/antd.css";
+import wrapper from "../store/configureStore";
 
 //페이지에서 공통된 것을 처리
 
@@ -22,6 +23,6 @@ NodeBird.propTypes = {
   Component: PropTypes.elementType.isRequired,
 };
 
-export default NodeBird;
+export default wrapper.withRedux(NodeBird);
 
 //pages들의 공통 부분
