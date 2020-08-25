@@ -1,11 +1,11 @@
 import { createWrapper } from "next-redux-wrapper";
-import { createStroe } from "redux";
+import { createStore } from "redux";
 
 import reducer from "../reducers";
 
 const configureStore = () => {
-  const store = createStroe(reducer);
-  store.dispatch({ type: "CHANGE_NICKNAME", data: "boogicho" });
+  const store = createStore(reducer);
+
   return store;
 };
 

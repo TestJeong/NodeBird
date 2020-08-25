@@ -19,28 +19,16 @@ export const loginAction = (data) => {
   };
 };
 
-export const logoutAction = (data) => {
+export const logoutAction = () => {
   return {
     type: "LOG_OUT",
   };
 };
 
-const changeNickname = (data) => {
-  return {
-    type: "CHANGE_NICKNAME",
-    data,
-  };
-};
-
-changeNickname("boogicho");
-
-store.dispatch(changeNickname("mighty tak"));
-
 // (이전상태, 액션) => 다음상태를 만들어냄
 const rootReducer = (state = init, action) => {
   switch (action.type) {
     case HYDRATE:
-      console.log("HYDRATE", action);
       return { ...state, ...action.payload };
     case "LOG_IN":
       return {
