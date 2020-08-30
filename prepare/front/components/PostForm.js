@@ -9,7 +9,7 @@ const PostForm = () => {
   const [text, setText] = useState("");
   const dispatch = useDispatch();
   const imageInput = useRef();
-  
+
   const onChangeText = useCallback((e) => {
     setText(e.target.value);
   });

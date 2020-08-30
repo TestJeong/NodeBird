@@ -1,32 +1,60 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Card, Button, Popover } from "antd";
 import {
   RetweetOutlined,
+  HeartTwoTone,
   HeartOutlined,
   MessageOutlined,
   EllipsisOutlined,
 } from "@ant-design/icons";
 import { useSelector } from "react-redux";
+import Avatar from "antd/lib/avatar/avatar";
+import PostImages from "./PostImages";
 
 const PostCard = ({ post }) => {
-  const { me } = useSelector((state) => state.user);
+  const [liked, setLiked] = useState(false);
+  const [commetFormOpened, setCommentFormOpened] = useState(false);
+
+  const onToggleLike = useCallback(() => {
+    setLiked((prev) => !prev);
+  }, []);
+
+  const onToggleComment = useCallback(() => {
+    setCommentFormOpened((prev) => !prev);
+  }, []);
+
+  const id = useSelector((state) => state.user.me?.id); // 옵셔널 체이닝
+
   return (
     <div>
       <Card
-        cover={post.Image[0] && <PostImages imges={post.Images} />}
+        cover={post.Images && <PostImages images={post.Images} />}
         actions={[
           <RetweetOutlined key="retwwet" />,
-          <HeartOutlined key="heart" />,
-          <MessageOutlined key="comment" />,
+          liked ? (
+            <HeartTwoTone
+              twoTonecolor="#eb2f96"
+              key="heart"
+              onClick={onToggleLike}
+            />
+          ) : (
+            <HeartOutlined key="heart" onClick={onToggleLike} />
+          ),
+          <MessageOutlined key="comment" onClick={onToggleComment} />,
 
           <Popover
             key="more"
             content={
               <Button.Group>
-                <Button>수정</Button>
-                <Button type="danger">삭제</Button>
-                <Button>신고</Button>
+                {id && post.User.id === id ? (
+                  <>
+                    <Button>수정</Button>
+                    <Button type="danger">삭제</Button>
+                  </>
+                ) : (
+                  <Button>신고</Button>
+                )}
               </Button.Group>
             }
           >
@@ -34,13 +62,15 @@ const PostCard = ({ post }) => {
           </Popover>,
         ]}
       >
-        <Image />
-        <Content />
-        <Button></Button>
+        <Card.Meta
+          avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
+          title={post.User.nickname}
+          description={post.content}
+        />
       </Card>
-
-      <CommentForm />
-      <Comment />
+      {commetFormOpened && <div>댓글부분</div>}
+      {/* <CommentForm /> */}
+      {/* <Comment /> */}
     </div>
   );
 };
