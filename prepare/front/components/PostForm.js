@@ -9,6 +9,7 @@ const PostForm = () => {
   const [text, setText] = useState("");
   const dispatch = useDispatch();
   const imageInput = useRef();
+  
   const onChangeText = useCallback((e) => {
     setText(e.target.value);
   });
@@ -18,14 +19,14 @@ const PostForm = () => {
     setText("");
   }, []);
 
-  const onClickImageUploa = useCallback(() => {
+  const onClickImageUpload = useCallback(() => {
     imageInput.current.click();
   }, [imageInput.current]);
 
   return (
     <Form
       style={{ margin: "10px 0 20px" }}
-      encType="multipart/form-data"
+      encType="multipart/form-data" //업로드할 파일이있는 양식에서 사용
       onFinish={onSubmit}
     >
       <Input.TextArea
@@ -37,7 +38,7 @@ const PostForm = () => {
 
       <div>
         <input type="file" multiple hidden ref={imageInput} />
-        <Button onClick={onClickImageUploa}>이미지 업로드</Button>
+        <Button onClick={onClickImageUpload}>이미지 업로드</Button>
         <Button type="primary" style={{ float: "right" }} htmlType="submit">
           짹짹
         </Button>
