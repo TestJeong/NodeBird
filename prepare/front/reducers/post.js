@@ -2,7 +2,7 @@ export const init = {
   mainPosts: [
     {
       id: 1,
-      
+
       User: {
         id: 1,
         nickname: "제로초",
@@ -18,6 +18,10 @@ export const init = {
         {
           User: { nickname: "nero" },
           content: "우와 개정판이 나왔군요",
+        },
+        {
+          User: { nickname: "Yun" },
+          content: "두근 두근 하네요",
         },
       ],
     },

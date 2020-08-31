@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
-import { Card, Button, Popover } from "antd";
+import { Card, Button, Popover, List, Comment } from "antd";
 import {
   RetweetOutlined,
   HeartTwoTone,
@@ -11,6 +11,7 @@ import {
 import { useSelector } from "react-redux";
 import Avatar from "antd/lib/avatar/avatar";
 import PostImages from "./PostImages";
+import CommentForm from "./CommentForm";
 
 const PostCard = ({ post }) => {
   const [liked, setLiked] = useState(false);
@@ -27,7 +28,7 @@ const PostCard = ({ post }) => {
   const id = useSelector((state) => state.user.me?.id); // 옵셔널 체이닝
 
   return (
-    <div>
+    <div style={{ marginBottom: "20px" }}>
       <Card
         cover={post.Images && <PostImages images={post.Images} />}
         actions={[
@@ -68,9 +69,25 @@ const PostCard = ({ post }) => {
           description={post.content}
         />
       </Card>
-      {commetFormOpened && <div>댓글부분</div>}
-      {/* <CommentForm /> */}
-      {/* <Comment /> */}
+      {commetFormOpened && (
+        <div>
+          <CommentForm post={post} />
+          <List
+            header={`${post.Comments.length}개의 댓글`}
+            itemLayout="horizontal"
+            dataSource={post.Comments}
+            renderItem={(item) => (
+              <li>
+                <Comment
+                  author={item.User.nickname}
+                  avatar={<Avatar>{item.User.nickname}</Avatar>}
+                  content={item.content}
+                />
+              </li>
+            )}
+          />
+        </div>
+      )}
     </div>
   );
 };
