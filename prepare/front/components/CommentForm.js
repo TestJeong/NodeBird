@@ -8,7 +8,7 @@ const CommentForm = ({ post }) => {
   const id = useSelector((state) => state.user.me?.id);
   const [commentText, onChangeCommentText] = useInput("");
   const onSubmitComment = useCallback(() => {
-    console.log(post.id, commentText);
+    console.log(post.id, commentText, id);
   }, [commentText]);
 
   return (

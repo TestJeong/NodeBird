@@ -10,8 +10,16 @@ export const init = {
 
       content: "첫 번째 게시글 #해시태그 #익스프레스",
 
-      Image: [
-        { src: "https://gimg.gilbut.co.kr/book/BN001998/rn_view_BN001998.jpg" },
+      Images: [
+        {
+          src: "https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg",
+        },
+        {
+          src: "https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg",
+        },
+        {
+          src: "https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg",
+        },
       ],
 
       Comments: [
@@ -21,7 +29,7 @@ export const init = {
         },
         {
           User: { nickname: "Yun" },
-          content: "두근 두근 하네요",
+          content: "두근 두근  하네요",
         },
       ],
     },

@@ -1,6 +1,6 @@
 export const init = {
   isLoggedIn: false,
-  me: null,
+  me: null, // 로그인한 id와 paw가 저장
   signUpdata: {},
   loginData: {},
 };
@@ -8,7 +8,7 @@ export const init = {
 export const loginAction = (data) => {
   return {
     type: "LOG_IN",
-    data,
+    data, // data : data 이므로 LoginForm에서 dispatch로 전달받은loginAction의 인자값이 data이다
   };
 };
 
