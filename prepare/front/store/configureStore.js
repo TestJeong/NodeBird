@@ -7,7 +7,7 @@ import { rootSaga } from "../sagas";
 import reducer from "../reducers";
 
 const loggerMiddleware = ({ dispatch, getState }) => (next) => (action) => {
-  console.log(action);
+  console.log("thunk", action);
   return next(action);
 };
 
