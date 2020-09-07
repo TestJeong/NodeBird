@@ -38,11 +38,14 @@ export const init = {
   postAdded: false, // 게시글 추가가 완료되면 true로 변경
 };
 
-const ADD_POST = "ADD_POST";
+const ADD_POST_REQUEST = "ADD_POST_REQUEST";
+const ADD_POST_SUCCES = "ADD_POST_SUCCES";
+const ADD_POST_FAILURE = "ADD_POST_FAILURE";
 
-export const addPost = {
-  type: ADD_POST,
-};
+export const addPost = (data) => ({
+  type: ADD_POST_REQUEST,
+  data,
+});
 
 const dummyPost = {
   id: 2,
