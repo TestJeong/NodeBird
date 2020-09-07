@@ -35,15 +35,29 @@ export const init = {
     },
   ],
   imagePaths: [], // 이미지 주소
-  postAdded: false, // 게시글 추가가 완료되면 true로 변경
+  addPostLoading: false,
+  addPostDone: false,
+  addPostError: null,
+  addCommentLoading: false,
+  addCommentDone: false,
+  addCommentError: null,
 };
 
 const ADD_POST_REQUEST = "ADD_POST_REQUEST";
-const ADD_POST_SUCCES = "ADD_POST_SUCCES";
+const ADD_POST_SUCCESS = "ADD_POST_SUCCESS";
 const ADD_POST_FAILURE = "ADD_POST_FAILURE";
+
+const ADD_COMMENT_REQUEST = "ADD_COMMENT_REQUEST";
+const ADD_COMMENT_SUCCESS = "ADD_COMMENT_SUCCESS";
+const ADD_COMMENT_FAILURE = "ADD_COMMENT_FAILURE";
 
 export const addPost = (data) => ({
   type: ADD_POST_REQUEST,
+  data,
+});
+
+export const addComment = (data) => ({
+  type: ADD_COMMENT_REQUEST,
   data,
 });
 
@@ -62,11 +76,47 @@ const dummyPost = {
 
 const reducer = (state = init, action) => {
   switch (action.type) {
-    case ADD_POST:
+    case ADD_POST_REQUEST:
+      return {
+        ...state,
+        addPostLoading: true,
+        addPostDone: false,
+        addPostError: null,
+      };
+
+    case ADD_POST_SUCCESS:
       return {
         ...state,
         mainPosts: [dummyPost, ...state.mainPosts], //dummyPost를 앞에 추가해야 최신 포스터가 제일 위에 있음
-        postAdded: true,
+        addPostLoading: false,
+        addPostDone: true,
+      };
+    case ADD_POST_FAILURE:
+      return {
+        ...state,
+        addPostLoading: false,
+        addPostError: action.error,
+      };
+
+    case ADD_COMMENT_REQUEST:
+      return {
+        ...state,
+        addCommentLoading: true,
+        addCommentDone: false,
+        addCommentError: null,
+      };
+
+    case ADD_COMMENT_SUCCESS:
+      return {
+        ...state,
+        addCommentLoading: false,
+        addCommentDone: true,
+      };
+    case ADD_COMMENT_FAILURE:
+      return {
+        ...state,
+        addCommentLoading: false,
+        addCommentError: action.error,
       };
 
     default:
