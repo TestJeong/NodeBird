@@ -4,7 +4,7 @@ import Link from "next/link";
 import styled from "styled-components";
 import useInput from "../hooks/useInput";
 import { useDispatch, useSelector } from "react-redux";
-import { loginRequestAction, sagaRequestAction } from "../reducers/user";
+import { loginRequestAction } from "../reducers/user";
 
 const ButtonWrapper = styled.div`
   margin-top: 11px;
@@ -24,10 +24,6 @@ const LoginForm = () => {
     console.log(email, password);
     dispatch(loginRequestAction({ email, password }));
   }, [email, password]);
-
-  const sssaaa = () => {
-    dispatch(sagaRequestAction());
-  };
 
   return (
     // onFinsh는 자동적으로 e.prevent가 들어가있다(새로고침)
@@ -58,7 +54,6 @@ const LoginForm = () => {
         <Button type="primary" htmlType="submit">
           로그인
         </Button>
-        <Button onClick={sssaaa}>SaGa</Button>
 
         <Link href="/signup">
           <a>

@@ -16,7 +16,7 @@ import {
   UNFOLLOW_REQUEST,
   UNFOLLOW_SUCCESS,
   UNFOLLOW_FAILURE,
-  SAGA_TEST,
+  HOHO,
 } from "../reducers/user";
 
 function logInAPI(data) {
@@ -63,9 +63,10 @@ function* signUp() {
   }
 } // put 디스패치
 
-function* gogosaga() {
-  console.log("gogosaga");
-  yield put({ type: SAGA_TEST });
+function* logIng(action) {
+  console.log("saga쪽 테스트", action);
+
+  //yield put({ type: HOHO });
 }
 
 function* watchLogIn() {
@@ -80,15 +81,6 @@ function* watchSignUp() {
   yield takeLatest(SIGN_UP_REQUEST, signUp);
 }
 
-function* sagaT() {
-  yield takeLatest(SIGN_UP_REQUEST, gogosaga);
-}
-
 export default function* userSaga() {
-  yield all([
-    fork(watchLogIn),
-    fork(watchLogOut),
-    fork(watchSignUp),
-    fork(sagaT),
-  ]);
+  yield all([fork(watchLogIn), fork(watchLogOut), fork(watchSignUp)]);
 }

@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import useInput from "../hooks/useInput";
 
 const PostForm = () => {
-  const { imagePaths } = useSelector((state) => state.post);
+  const { imagePaths, addPostDone } = useSelector((state) => state.post);
   const [text, onChangeText, setText] = useInput("");
   const dispatch = useDispatch();
   const imageInput = useRef();
