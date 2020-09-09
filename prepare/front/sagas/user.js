@@ -1,4 +1,4 @@
-import { all, fork, put, takeLatest, delay } from "redux-saga/effects";
+import { all, fork, put, takeLatest, delay, take } from "redux-saga/effects";
 import axios from "axios";
 import {
   LOG_IN_REQUEST,
@@ -16,6 +16,7 @@ import {
   UNFOLLOW_REQUEST,
   UNFOLLOW_SUCCESS,
   UNFOLLOW_FAILURE,
+  SAGA_TEST,
 } from "../reducers/user";
 
 function logInAPI(data) {
@@ -23,6 +24,7 @@ function logInAPI(data) {
 }
 
 function* logIn(action) {
+  console.log("사가 실행");
   try {
     console.log("saga run", action.data);
     //const result = yield call(logInAPI, action.data);
@@ -61,6 +63,11 @@ function* signUp() {
   }
 } // put 디스패치
 
+function* gogosaga() {
+  console.log("gogosaga");
+  yield put({ type: SAGA_TEST });
+}
+
 function* watchLogIn() {
   yield takeLatest(LOG_IN_REQUEST, logIn);
 } // LOG_IN 액션이 실행될때 까지 기다다리며 액션이 실행되면 logIn 제너레이터 함수가 실행됨
@@ -73,6 +80,15 @@ function* watchSignUp() {
   yield takeLatest(SIGN_UP_REQUEST, signUp);
 }
 
+function* sagaT() {
+  yield takeLatest(SIGN_UP_REQUEST, gogosaga);
+}
+
 export default function* userSaga() {
-  yield all([fork(watchLogIn), fork(watchLogOut), fork(watchSignUp)]);
+  yield all([
+    fork(watchLogIn),
+    fork(watchLogOut),
+    fork(watchSignUp),
+    fork(sagaT),
+  ]);
 }

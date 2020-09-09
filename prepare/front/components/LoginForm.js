@@ -4,7 +4,7 @@ import Link from "next/link";
 import styled from "styled-components";
 import useInput from "../hooks/useInput";
 import { useDispatch, useSelector } from "react-redux";
-import { loginRequestAction } from "../reducers/user";
+import { loginRequestAction, sagaRequestAction } from "../reducers/user";
 
 const ButtonWrapper = styled.div`
   margin-top: 11px;
@@ -16,22 +16,32 @@ const FormWrapper = styled(Form)`
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const { isLoggingIn } = useSelector((state) => state.user);
-  const [id, onChangeId] = useInput("");
+  const { logInLodading } = useSelector((state) => state.user);
+  const [email, onChangeEmail] = useInput("");
   const [password, onChangePassword] = useInput("");
 
   const onSubmitForm = useCallback(() => {
-    console.log(id, password);
-    dispatch(loginRequestAction({ id, password }));
-  }, [id, password]);
+    console.log(email, password);
+    dispatch(loginRequestAction({ email, password }));
+  }, [email, password]);
+
+  const sssaaa = () => {
+    dispatch(sagaRequestAction());
+  };
 
   return (
     // onFinsh는 자동적으로 e.prevent가 들어가있다(새로고침)
     <FormWrapper onFinish={onSubmitForm}>
       <div>
-        <label htmlFor="user-id">아이디</label>
+        <label htmlFor="user-email">이메일</label>
         <br />
-        <Input name="user-id" value={id} onChange={onChangeId} required />
+        <Input
+          name="user-email"
+          type="email"
+          value={email}
+          onChange={onChangeEmail}
+          required
+        />
       </div>
       <div>
         <label htmlFor="user-password">비밀번호</label>
@@ -45,9 +55,10 @@ const LoginForm = () => {
         />
       </div>
       <ButtonWrapper>
-        <Button type="primary" htmlType="submit" loading={isLoggingIn}>
+        <Button type="primary" htmlType="submit">
           로그인
         </Button>
+        <Button onClick={sssaaa}>SaGa</Button>
 
         <Link href="/signup">
           <a>
@@ -60,3 +71,5 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
+
+//loading={logInLodading}

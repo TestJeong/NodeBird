@@ -12,7 +12,7 @@ const SearchInput = styled(Input.Search)`
 `;
 
 const AppLayout = ({ children }) => {
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn); // 데이터가 변경되면 알아서 리렌더링이 된다
+  const { me } = useSelector((state) => state.user); // 데이터가 변경되면 알아서 리렌더링이 된다
   return (
     <div>
       <Menu mode="horizontal">
@@ -37,7 +37,7 @@ const AppLayout = ({ children }) => {
       </Menu>
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {isLoggedIn ? <UserProfile /> : <LoginForm />}
+          {me ? <UserProfile /> : <LoginForm />}
         </Col>
         <Col xs={24} md={12}>
           {children}

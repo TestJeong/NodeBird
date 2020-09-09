@@ -33,6 +33,8 @@ export const UNFOLLOW_REQUEST = "UNFOLLOW_REQUEST";
 export const UNFOLLOW_SUCCESS = "UNFOLLOW_SUCCESS";
 export const UNFOLLOW_FAILURE = "UNFOLLOW_FAILURE";
 
+export const SAGA_TEST = "SAGA_TEST";
+
 const dummyUser = (data) => ({
   ...action.data,
   nickname: "YUN",
@@ -41,6 +43,10 @@ const dummyUser = (data) => ({
   Followings: [],
   Followers: [],
 });
+
+export const sagaRequestAction = () => {
+  type: SAGA_TEST;
+};
 
 export const loginRequestAction = (data) => {
   return {
@@ -57,8 +63,12 @@ export const logoutRequestAction = () => {
 
 const reducer = (state = init, action) => {
   switch (action.type) {
+    case SAGA_TEST:
+      console.log("테스트중입니다");
+
     case LOG_IN_REQUEST:
       console.log("reducer run");
+      console.log("asdf");
       return {
         ...state,
         logInLodading: true,
