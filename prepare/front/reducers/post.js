@@ -1,3 +1,5 @@
+import shortid from "shortid";
+
 export const init = {
   mainPosts: [
     {
@@ -61,16 +63,25 @@ export const addComment = (data) => ({
   data,
 });
 
-const dummyPost = {
-  id: 2,
-  content: "더미데이터 입니다",
+const dummyPost = (data) => ({
+  id: shortid.generate(),
+  content: data,
   User: {
     id: 1,
     nickname: "ZeroCh",
   },
   Images: [],
   Comments: [],
-};
+});
+
+const dummyComment = (data) => ({
+  id: shortid.generate(),
+  content: data,
+  User: {
+    id: 1,
+    nickname: "제로초",
+  },
+});
 
 //User, Image, Comments 이렇게 대문자를 쓴 이유는 다른 정보와 합쳐주기 때문에
 
@@ -87,7 +98,7 @@ const reducer = (state = init, action) => {
     case ADD_POST_SUCCESS:
       return {
         ...state,
-        mainPosts: [dummyPost, ...state.mainPosts], //dummyPost를 앞에 추가해야 최신 포스터가 제일 위에 있음
+        mainPosts: [dummyPost(action.data), ...state.mainPosts], //dummyPost를 앞에 추가해야 최신 포스터가 제일 위에 있음
         addPostLoading: false,
         addPostDone: true,
       };
@@ -106,12 +117,22 @@ const reducer = (state = init, action) => {
         addCommentError: null,
       };
 
-    case ADD_COMMENT_SUCCESS:
+    case ADD_COMMENT_SUCCESS: {
+      const postIndex = state.mainPosts.findIndex(
+        (v) => v.id === action.data.postId
+      );
+      const post = { ...state.mainPosts[postIndex] };
+      post.Comments = [dummyComment(action.data.content), ...post.Comments];
+      const mainPosts = [...state.mainPosts];
+      mainPosts[postIndex] = post;
       return {
         ...state,
+        mainPosts,
         addCommentLoading: false,
         addCommentDone: true,
       };
+    }
+
     case ADD_COMMENT_FAILURE:
       return {
         ...state,

@@ -63,12 +63,6 @@ function* signUp() {
   }
 } // put 디스패치
 
-function* logIng(action) {
-  console.log("saga쪽 테스트", action);
-
-  //yield put({ type: HOHO });
-}
-
 function* watchLogIn() {
   yield takeLatest(LOG_IN_REQUEST, logIn);
 } // LOG_IN 액션이 실행될때 까지 기다다리며 액션이 실행되면 logIn 제너레이터 함수가 실행됨

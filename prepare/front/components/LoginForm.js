@@ -51,7 +51,7 @@ const LoginForm = () => {
         />
       </div>
       <ButtonWrapper>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={logInLodading}>
           로그인
         </Button>
 
