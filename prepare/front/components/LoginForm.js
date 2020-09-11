@@ -67,4 +67,3 @@ const LoginForm = () => {
 
 export default LoginForm;
 
-//loading={logInLodading}
