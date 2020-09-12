@@ -17,6 +17,6 @@ const PostCardContent = ({ postData }) => (
   </div>
 );
 
-PostCardContent.propTypes = { postData: PropTypes.string.isRequired };
+PostCardContent.propTypes = { postData: PropTypes.string };
 
 export default PostCardContent;
