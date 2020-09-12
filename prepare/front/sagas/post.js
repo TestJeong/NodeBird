@@ -36,7 +36,7 @@ function removePostAPI(data) {
 }
 
 function* removePost(action) {
-  console.log("removePost 실행");
+  console.log("removePost 실행", action);
   try {
     //const result = yield call(removePostAPI);
     yield delay(1000);
