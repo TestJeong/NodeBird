@@ -1,6 +1,12 @@
 import produce from "immer";
 
 export const init = {
+  followLodading: false, // 팔로우 시도중
+  followDone: false,
+  followError: false,
+  unfollowLodading: false, // 언팔로우 시도중
+  unfollowDone: false,
+  unfollowError: false,
   logInLodading: false, // 로그인 시도중
   logInDone: false,
   logInError: false,
@@ -78,12 +84,49 @@ export const logoutRequestAction = () => {
 const reducer = (state = init, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
+      case FOLLOW_REQUEST:
+        draft.followLodading = true;
+        draft.followError = null;
+        draft.followDone = false;
+        break;
+
+      case FOLLOW_SUCCESS:
+        draft.followLodading = false;
+        draft.followDone = true;
+        draft.me.Followings.push({ id: action.data });
+        break;
+
+      case FOLLOW_FAILURE:
+        draft.followLodading = false;
+        draft.followError = action.error;
+        break;
+
+      case UNFOLLOW_REQUEST:
+        draft.unfollowLodading = true;
+        draft.unfollowError = null;
+        draft.unfollowDone = false;
+        break;
+
+      case UNFOLLOW_SUCCESS:
+        draft.unfollowLodading = false;
+        draft.unfollowDone = true;
+        draft.me.Followings = draft.me.Followings.filter(
+          (v) => v.id !== action.data
+        ); //언팔로우 한사람만 빠진다
+        break;
+
+      case UNFOLLOW_FAILURE:
+        draft.unfollowLodading = false;
+        draft.unfollowError = action.error;
+        break;
+
       case LOG_IN_REQUEST:
         console.log("reducer run");
 
         draft.logInLodading = true;
         draft.logInError = null;
         draft.logInDone = false;
+        break;
 
       case LOG_IN_SUCCESS:
         console.log("로그인 완료");
@@ -91,8 +134,8 @@ const reducer = (state = init, action) => {
         draft.logInLodading = false;
         draft.logInDone = true;
         draft.me = dummyUser(action.data);
-
         break;
+
       case LOG_IN_FAILURE:
         draft.logInLodading = false;
         draft.logInError = action.error;
@@ -103,37 +146,45 @@ const reducer = (state = init, action) => {
         draft.logOutDone = false;
         draft.logOutError = null;
         break;
+
       case LOG_OUT_SUCCESS:
         draft.logOutLoading = false;
         draft.logOutDone = true;
         draft.me = null;
         break;
+
       case LOG_OUT_FAILURE:
         draft.logOutLoading = false;
         draft.logOutError = action.error;
         break;
+
       case SIGN_UP_REQUEST:
         draft.signUpLoading = true;
         draft.signUpDone = false;
         draft.signUpError = null;
         break;
+
       case SIGN_UP_SUCCESS:
         draft.signUpLoading = false;
         draft.signUpDone = true;
         break;
+
       case SIGN_UP_FAILURE:
         draft.signUpLoading = false;
         draft.signUpError = action.error;
         break;
+
       case CHANGE_NICKNAME_REQUEST:
         draft.changeNicknameLoading = true;
         draft.changeNicknameDone = false;
         draft.changeNicknameError = null;
         break;
+
       case CHANGE_NICKNAME_SUCCESS:
         draft.changeNicknameLoading = false;
         draft.changeNicknameDone = true;
         break;
+
       case CHANGE_NICKNAME_FAILURE:
         draft.changeNicknameLoading = false;
         draft.changeNicknameError = action.error;
