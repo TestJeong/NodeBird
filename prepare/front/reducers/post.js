@@ -3,47 +3,12 @@ import produce from "immer";
 import faker from "faker";
 
 export const init = {
-  mainPosts: [
-    {
-      id: 1,
-
-      User: {
-        id: 1,
-        nickname: "제로초",
-      },
-
-      content: "첫 번째 게시글 #해시태그 #익스프레스",
-
-      Images: [
-        {
-          id: shortid.generate(),
-          src: "https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg",
-        },
-        {
-          id: shortid.generate(),
-          src: "https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg",
-        },
-        {
-          id: shortid.generate(),
-          src: "https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg",
-        },
-      ],
-
-      Comments: [
-        {
-          id: shortid.generate(),
-          User: { id: shortid.generate(), nickname: "nero" },
-          content: "우와 개정판이 나왔군요",
-        },
-        {
-          id: shortid.generate(),
-          User: { id: shortid.generate(), nickname: "Yun" },
-          content: "두근 두근  하네요",
-        },
-      ],
-    },
-  ],
+  mainPosts: [],
   imagePaths: [], // 이미지 주소
+  hasMorePosts: true,
+  loadPostsLoading: false,
+  loadPostsDone: false,
+  loadPostsError: null,
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
@@ -55,8 +20,8 @@ export const init = {
   addCommentError: null,
 };
 
-init.mainPosts = init.mainPosts.concat(
-  Array(20)
+export const generateDummyPost = (number) =>
+  Array(number)
     .fill()
     .map(() => ({
       id: shortid.generate(),
@@ -79,8 +44,11 @@ init.mainPosts = init.mainPosts.concat(
           content: faker.lorem.sentence(),
         },
       ],
-    }))
-);
+    }));
+
+export const LOAD_POSTS_REQUEST = "LOAD_POSTS_REQUEST";
+export const LOAD_POSTS_SUCCESS = "LOAD_POSTS_SUCCESS";
+export const LOAD_POSTS_FAILURE = "LOAD_POSTS_FAILURE";
 
 export const ADD_POST_REQUEST = "ADD_POST_REQUEST";
 export const ADD_POST_SUCCESS = "ADD_POST_SUCCESS";
@@ -129,6 +97,23 @@ const dummyComment = (data) => ({
 const reducer = (state = init, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
+      case LOAD_POSTS_REQUEST:
+        draft.loadPostsLoading = true;
+        draft.loadPostsDone = false;
+        draft.loadPostsError = null;
+        break;
+      case LOAD_POSTS_SUCCESS:
+        draft.loadPostsLoading = false;
+        draft.loadPostsDone = true;
+        draft.mainPosts = action.data.concat(draft.mainPosts);
+        draft.hasMorePosts = draft.mainPosts.length < 50;
+        break;
+
+      case LOAD_POSTS_FAILURE:
+        draft.loadPostsLoading = false;
+        draft.loadPostsError = action.error;
+        break;
+
       case ADD_POST_REQUEST:
         draft.addPostLoading = true;
         draft.addPostDone = false;
@@ -138,7 +123,7 @@ const reducer = (state = init, action) => {
         /* mainPosts: [dummyPost(action.data), ...state.mainPosts], //dummyPost를 앞에 추가해야 최신 포스터가 제일 위에 있음 */
         draft.addPostLoading = false;
         draft.addPostDone = true;
-        draft.mainPosts = [dummyPost(action.data), ...state.mainPosts];
+        draft.mainPosts.unshift(dummyPost(action.data));
         break;
 
       case ADD_POST_FAILURE:

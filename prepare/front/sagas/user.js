@@ -16,8 +16,39 @@ import {
   UNFOLLOW_REQUEST,
   UNFOLLOW_SUCCESS,
   UNFOLLOW_FAILURE,
-  HOHO,
 } from "../reducers/user";
+
+function followAPI(data) {
+  return axios.post("/api/follow", data);
+}
+
+function* follow(action) {
+  console.log("사가 실행");
+  try {
+    console.log("saga run", action.data);
+    //const result = yield call(logInAPI, action.data);
+    yield delay(1000);
+    yield put({ type: FOLLOW_SUCCESS, data: action.data });
+  } catch (err) {
+    yield put({ type: FOLLOW_FAILURE, error: err.response.data });
+  }
+} // put 디스패치
+
+function unfollowAPI(data) {
+  return axios.post("/api/unfollow", data);
+}
+
+function* unfollow(action) {
+  console.log("사가 실행");
+  try {
+    console.log("saga run", action.data);
+    //const result = yield call(logInAPI, action.data);
+    yield delay(1000);
+    yield put({ type: UNFOLLOW_SUCCESS, data: action.data });
+  } catch (err) {
+    yield put({ type: UNFOLLOW_FAILURE, error: err.response.data });
+  }
+} // put 디스패치
 
 function logInAPI(data) {
   return axios.post("/api/login", data);
@@ -63,6 +94,14 @@ function* signUp() {
   }
 } // put 디스패치
 
+function* watchFollow() {
+  yield takeLatest(FOLLOW_REQUEST, follow);
+}
+
+function* watchUnFollow() {
+  yield takeLatest(UNFOLLOW_REQUEST, unfollow);
+}
+
 function* watchLogIn() {
   yield takeLatest(LOG_IN_REQUEST, logIn);
 } // LOG_IN 액션이 실행될때 까지 기다다리며 액션이 실행되면 logIn 제너레이터 함수가 실행됨
@@ -76,5 +115,11 @@ function* watchSignUp() {
 }
 
 export default function* userSaga() {
-  yield all([fork(watchLogIn), fork(watchLogOut), fork(watchSignUp)]);
+  yield all([
+    fork(watchFollow),
+    fork(watchUnFollow),
+    fork(watchLogIn),
+    fork(watchLogOut),
+    fork(watchSignUp),
+  ]);
 }

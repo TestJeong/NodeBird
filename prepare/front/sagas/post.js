@@ -10,9 +10,28 @@ import {
   ADD_COMMENT_REQUEST,
   ADD_COMMENT_SUCCESS,
   ADD_COMMENT_FAILURE,
+  LOAD_POSTS_REQUEST,
+  LOAD_POSTS_SUCCESS,
+  LOAD_POSTS_FAILURE,
 } from "../reducers/post";
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from "../reducers/user";
 import shortid from "shortid";
+import { generateDummyPost } from "../reducers/post";
+
+function loadPostsAPI(data) {
+  return axios.get("/api/post");
+}
+
+function* loadPosts(action) {
+  console.log("loadPosts 실행");
+  try {
+    //const result = yield call(loadPostsAPI);
+    yield delay(1000);
+    yield put({ type: LOAD_POSTS_SUCCESS, data: generateDummyPost(10) });
+  } catch (err) {
+    yield put({ type: LOAD_POSTS_FAILURE, error: err.response.data });
+  }
+} // put 디스패치
 
 function addPostAPI(data) {
   return axios.post("/api/post");
@@ -65,6 +84,10 @@ function* addComment(action) {
   }
 } // put 디스패치
 
+function* watchLoadPost() {
+  yield takeLatest(LOAD_POSTS_REQUEST, loadPosts);
+}
+
 function* watchAddPost() {
   yield takeLatest(ADD_POST_REQUEST, addPost);
 }
@@ -78,5 +101,10 @@ function* watchAddComment() {
 }
 
 export default function* postSaga() {
-  yield all([fork(watchAddPost), fork(watchRemovePost), fork(watchAddComment)]);
+  yield all([
+    fork(watchLoadPost),
+    fork(watchAddPost),
+    fork(watchRemovePost),
+    fork(watchAddComment),
+  ]);
 }
