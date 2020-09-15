@@ -42,6 +42,7 @@ const PostCard = ({ post }) => {
   return (
     <div style={{ marginBottom: "20px" }}>
       <Card
+        title={post.User.nickname}
         cover={post.Images[0] && <PostImages images={post.Images} />}
         actions={[
           <RetweetOutlined key="retwwet" />,

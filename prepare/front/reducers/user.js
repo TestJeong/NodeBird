@@ -13,10 +13,10 @@ export const init = {
   logOutLoading: false, //로그아웃 시도중
   logOutDone: false,
   logOutError: null,
-  signUploading: false, // 로그아웃 시도중
+  signUploading: false, // 회원가입 시도중
   signUpDone: false,
   signUpError: null,
-  changeNicknameLoading: false,
+  changeNicknameLoading: false, // 닉네임 변경 시도중
   changeNicknameDone: false,
   changeNicknameError: null,
   me: null, // 로그인한 id와 paw가 저장
