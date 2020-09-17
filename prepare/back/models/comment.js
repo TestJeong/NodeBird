@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Comment = sequelize.defind(
+  const Comment = sequelize.define(
     "Comment",
     {
       content: {
@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       charset: "utf8mb4",
-      collate: "utf8_general_ci",
+      collate: "utf8mb4_general_ci",
     }
   );
   Comment.associate = (db) => {

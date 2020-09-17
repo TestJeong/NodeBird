@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.defind(
+  const User = sequelize.define(
     "User",
     {
       email: {
@@ -18,12 +18,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       charset: "utf8mb4",
-      collate: "utf8_general_ci",
+      collate: "utf8mb4_general_ci",
     }
   );
   User.associate = (db) => {
     db.User.hasMany(db.Post);
-    db.User.hanMany(db.Comment);
+    db.User.hasMany(db.Comment);
     db.User.belongsToMany(db.Post, { through: "Like", as: "Liked" });
     db.User.belongsToMany(db.User, {
       through: "Follow",
