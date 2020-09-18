@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const postRouter = require("./routes/post");
 const userRouter = require("./routes/user");
 const db = require("./models");
@@ -12,7 +13,7 @@ db.sequelize
   .catch(console.error);
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true })); // form 했을때 받아온 데이터를 해석해서 back쪽에있는 router의 req.body에 보내준다
 
 app.get("/", (req, res) => {
   res.send("hello express");
@@ -30,6 +31,7 @@ app.get("/posts", (req, res) => {
   ]);
 });
 
+app.use(cors({ origin: true }));
 app.use("/post", postRouter);
 app.use("/user", userRouter);
 

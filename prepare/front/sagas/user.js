@@ -80,7 +80,7 @@ function* logOut() {
   }
 } // put 디스패치
 
-function signUpAPI() {
+function signUpAPI(data) {
   return axios.post("http://localhost:3065/user", data);
 }
 
