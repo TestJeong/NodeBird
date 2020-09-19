@@ -4,6 +4,7 @@ const postRouter = require("./routes/post");
 const userRouter = require("./routes/user");
 const db = require("./models");
 const app = express();
+const passportConfig = require("./passport");
 
 db.sequelize
   .sync()
@@ -11,6 +12,7 @@ db.sequelize
     console.log("db 연결 성공!");
   })
   .catch(console.error);
+passportConfig();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // form 했을때 받아온 데이터를 해석해서 back쪽에있는 router의 req.body에 보내준다
