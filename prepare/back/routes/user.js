@@ -5,15 +5,19 @@ const passport = require("passport");
 
 const router = express.Router();
 
+//미들웨어 확장
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
+    //// local.js에서 done은 콜백함수와 같다(null, false, reason)이 err, user,info 쪽으로 온다
     if (err) {
       console.error(err);
       return next(err);
     }
+
     if (info) {
       return res.status(401).send(info.reason);
     }
+
     return req.logIn(user, async (loginErr) => {
       if (loginErr) {
         console.error(loginErr);
