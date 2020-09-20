@@ -17,7 +17,7 @@ router.post("/login", (req, res, next) => {
     if (info) {
       return res.status(401).send(info.reason);
     }
-
+    // passport 로그인
     return req.logIn(user, async (loginErr) => {
       if (loginErr) {
         console.error(loginErr);

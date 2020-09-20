@@ -133,7 +133,7 @@ const reducer = (state = init, action) => {
 
         draft.logInLodading = false;
         draft.logInDone = true;
-        draft.me = dummyUser(action.data);
+        draft.me = action.data;
         break;
 
       case LOG_IN_FAILURE:

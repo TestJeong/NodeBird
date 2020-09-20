@@ -10,6 +10,7 @@ module.exports = () => {
         usernameField: "email",
         passwordField: "password",
       },
+      //로그인에 관련된 전략
       async (email, password, done) => {
         try {
           const user = await User.findOne({
