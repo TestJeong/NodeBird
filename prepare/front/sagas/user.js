@@ -67,13 +67,12 @@ function* logIn(action) {
 } // put 디스패치
 
 function logOutAPI() {
-  return axios.post("/user/logOut");
+  return axios.post("/user/logout");
 }
 
 function* logOut() {
   try {
-    //const result = yield call(logOutAPI);
-    yield delay(1000);
+    yield call(logOutAPI);
     yield put({ type: LOG_OUT_SUCCESS });
   } catch (err) {
     yield put({ type: LOG_OUT_FAILURE, error: err.response.data });

@@ -73,4 +73,10 @@ router.post("/", async (req, res, next) => {
   }
 }); // POST /user/
 
+router.post("/logout", (req, res, next) => {
+  req.logout();
+  req.session.destroy();
+  res.send("ok");
+}); // passport.deserializeUser가 매번실행이 되어 req.user에 정보가 담겨있음
+
 module.exports = router;
