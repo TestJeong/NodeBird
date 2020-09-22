@@ -83,8 +83,6 @@ const dummyPost = (data) => ({
   Comments: [],
 });
 
-
-
 //User, Image, Comments 이렇게 대문자를 쓴 이유는 다른 정보와 합쳐주기 때문에
 
 const reducer = (state = init, action) => {
@@ -162,7 +160,7 @@ const reducer = (state = init, action) => {
           addCommentDone: true,
         }; */
 
-        const post = draft.mainPosts.find((v) => v.id === action.data.P ostId);
+        const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
         post.Comments.unshift(action.data);
         draft.addCommentLoading = false;
         draft.addCommentDone = true;

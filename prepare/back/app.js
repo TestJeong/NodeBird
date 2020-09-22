@@ -49,7 +49,7 @@ app.get("/posts", (req, res) => {
   ]);
 });
 
-app.use(cors({ origin: true }));
+app.use(cors({ origin: true, credentials: true }));
 app.use("/post", postRouter);
 app.use("/user", userRouter);
 
