@@ -17,16 +17,16 @@ const Signup = () => {
   const { signUploading, signUpDone, signUpError, me } = useSelector(
     (state) => state.user
   );
-
+// replace는 뒤로가기 눌렀을때 나오지 않음
   useEffect(() => {
     if (me && me.id) {
-      Router.push("/");
+      Router.replace("/");
     }
   }, [me && me.id]);
 
   useEffect(() => {
     if (signUpDone) {
-      Router.push("/");
+      Router.replace("/");
     }
   }, [signUpDone]);
 

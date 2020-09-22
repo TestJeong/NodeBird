@@ -1,4 +1,5 @@
 const express = require("express");
+const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const { User, Post } = require("../models");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
@@ -7,7 +8,7 @@ const db = require("../models");
 const router = express.Router();
 
 //미들웨어 확장
-router.post("/login", (req, res, next) => {
+router.post("/login", isNotLoggedIn, (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     //// local.js에서 done은 콜백함수와 같다(null, false, reason)이 err, user,info 쪽으로 온다
     if (err) {
@@ -48,7 +49,7 @@ router.post("/login", (req, res, next) => {
   })(req, res, next);
 }); //POST /user/login
 
-router.post("/", async (req, res, next) => {
+router.post("/", isNotLoggedIn, async (req, res, next) => {
   try {
     const exUser = await User.findOne({
       where: {
@@ -73,7 +74,7 @@ router.post("/", async (req, res, next) => {
   }
 }); // POST /user/
 
-router.post("/logout", (req, res, next) => {
+router.post("/logout", isLoggedIn, (req, res, next) => {
   req.logout();
   req.session.destroy();
   res.send("ok");
