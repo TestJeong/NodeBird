@@ -83,14 +83,7 @@ const dummyPost = (data) => ({
   Comments: [],
 });
 
-const dummyComment = (data) => ({
-  id: shortid.generate(),
-  content: data,
-  User: {
-    id: 1,
-    nickname: "제로초",
-  },
-});
+
 
 //User, Image, Comments 이렇게 대문자를 쓴 이유는 다른 정보와 합쳐주기 때문에
 
@@ -123,7 +116,7 @@ const reducer = (state = init, action) => {
         /* mainPosts: [dummyPost(action.data), ...state.mainPosts], //dummyPost를 앞에 추가해야 최신 포스터가 제일 위에 있음 */
         draft.addPostLoading = false;
         draft.addPostDone = true;
-        draft.mainPosts.unshift(dummyPost(action.data));
+        draft.mainPosts.unshift(action.data);
         break;
 
       case ADD_POST_FAILURE:
@@ -169,8 +162,8 @@ const reducer = (state = init, action) => {
           addCommentDone: true,
         }; */
 
-        const post = draft.mainPosts.find((v) => v.id === action.data.postId);
-        post.Comments.unshift(dummyComment(action.data.content));
+        const post = draft.mainPosts.find((v) => v.id === action.data.P ostId);
+        post.Comments.unshift(action.data);
         draft.addCommentLoading = false;
         draft.addCommentDone = true;
         break;

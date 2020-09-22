@@ -67,7 +67,7 @@ router.post("/", isNotLoggedIn, async (req, res, next) => {
       password: hashedPassword,
     });
 
-    ~res.status(200).send("ok");
+    res.status(200).send("ok");
   } catch (error) {
     console.error(error);
     next(error);
