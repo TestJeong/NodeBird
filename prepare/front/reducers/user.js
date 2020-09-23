@@ -1,28 +1,42 @@
 import produce from "immer";
 
 export const init = {
+  loadUserLodading: false, // 유저 정보 가져오기 시도중
+  loadUserDone: false,
+  loadUserError: false,
+
   followLodading: false, // 팔로우 시도중
   followDone: false,
   followError: false,
+
   unfollowLodading: false, // 언팔로우 시도중
   unfollowDone: false,
   unfollowError: false,
+
   logInLodading: false, // 로그인 시도중
   logInDone: false,
   logInError: false,
+
   logOutLoading: false, //로그아웃 시도중
   logOutDone: false,
   logOutError: null,
+
   signUploading: false, // 회원가입 시도중
   signUpDone: false,
   signUpError: null,
+
   changeNicknameLoading: false, // 닉네임 변경 시도중
   changeNicknameDone: false,
   changeNicknameError: null,
+
   me: null, // 로그인한 id와 paw가 저장
   signUpdata: {},
   loginData: {},
 };
+//LOAD_MY_INFO_REQUEST
+export const LOAD_MY_INFO_REQUEST = "LOAD_MY_INFO_REQUEST";
+export const LOAD_MY_INFO_SUCCESS = "LOAD_MY_INFO_SUCCESS";
+export const LOAD_MY_INFO_FAILURE = "LOAD_MY_INFO_FAILURE";
 
 export const LOG_IN_REQUEST = "LOG_IN_REQUEST";
 export const LOG_IN_SUCCESS = "LOG_IN_SUCCESS";
@@ -84,6 +98,23 @@ export const logoutRequestAction = () => {
 const reducer = (state = init, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
+      case LOAD_MY_INFO_REQUEST:
+        draft.loadUserLodading = true;
+        draft.loadUserError = null;
+        draft.loadUserDone = false;
+        break;
+
+      case LOAD_MY_INFO_SUCCESS:
+        draft.loadUserLodading = false;
+        draft.loadUserDone = true;
+        draft.me = action.data;
+        break;
+
+      case LOAD_MY_INFO_FAILURE:
+        draft.loadUserLodading = false;
+        draft.loadUserError = action.error;
+        break;
+
       case FOLLOW_REQUEST:
         draft.followLodading = true;
         draft.followError = null;
