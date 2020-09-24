@@ -40,10 +40,6 @@ const Home = () => {
     };
   }, [hasMorePosts, loadPostsLoading]);
 
-  useEffect(() => {
-    dispatch({ type: LOAD_POSTS_REQUEST });
-  }, []);
-
   return (
     <AppLayout>
       {me && <PostForm />}

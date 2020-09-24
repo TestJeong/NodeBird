@@ -1,6 +1,4 @@
-import shortid from "shortid";
 import produce from "immer";
-import faker from "faker";
 
 export const init = {
   mainPosts: [],
@@ -19,32 +17,6 @@ export const init = {
   addCommentDone: false,
   addCommentError: null,
 };
-
-export const generateDummyPost = (number) =>
-  Array(number)
-    .fill()
-    .map(() => ({
-      id: shortid.generate(),
-      User: {
-        id: shortid.generate(),
-        nickname: faker.name.findName(),
-      },
-      content: faker.lorem.paragraph(),
-      Images: [
-        {
-          src: faker.image.image(),
-        },
-      ],
-      Comments: [
-        {
-          User: {
-            id: shortid.generate(),
-            nickname: faker.name.findName(),
-          },
-          content: faker.lorem.sentence(),
-        },
-      ],
-    }));
 
 export const LOAD_POSTS_REQUEST = "LOAD_POSTS_REQUEST";
 export const LOAD_POSTS_SUCCESS = "LOAD_POSTS_SUCCESS";
@@ -71,18 +43,6 @@ export const addComment = (data) => ({
   type: ADD_COMMENT_REQUEST,
   data,
 });
-
-const dummyPost = (data) => ({
-  id: data.id,
-  content: data.content,
-  User: {
-    id: 1,
-    nickname: "ZeroCh",
-  },
-  Images: [],
-  Comments: [],
-});
-
 //User, Image, Comments 이렇게 대문자를 쓴 이유는 다른 정보와 합쳐주기 때문에
 
 const reducer = (state = init, action) => {

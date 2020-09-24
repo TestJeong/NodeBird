@@ -4,11 +4,13 @@ const session = require("express-session");
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
 const postRouter = require("./routes/post");
+const postsRouter = require("./routes/posts");
 const userRouter = require("./routes/user");
 const db = require("./models");
 const app = express();
 const passportConfig = require("./passport");
 const dotenv = require("dotenv");
+const morgan = require("morgan");
 
 dotenv.config();
 
@@ -19,6 +21,8 @@ db.sequelize
   })
   .catch(console.error);
 passportConfig();
+
+app.use(morgan("dev"));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // form 했을때 받아온 데이터를 해석해서 back쪽에있는 router의 req.body에 보내준다
@@ -37,19 +41,8 @@ app.get("/", (req, res) => {
   res.send("hello express");
 });
 
-app.get("/", (req, res) => {
-  res.send("hello api");
-});
-
-app.get("/posts", (req, res) => {
-  res.json([
-    { id: 1, content: "hello" },
-    { id: 2, content: "hello2" },
-    { id: 3, content: "hello3" },
-  ]);
-});
-
 app.use(cors({ origin: true, credentials: true }));
+app.use("/posts", postsRouter);
 app.use("/post", postRouter);
 app.use("/user", userRouter);
 
