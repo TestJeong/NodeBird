@@ -1,4 +1,5 @@
 import produce from "immer";
+import { User } from "../../back/models";
 
 export const init = {
   mainPosts: [],
@@ -73,10 +74,13 @@ const reducer = (state = init, action) => {
         draft.likePostDone = false;
         draft.likePostError = null;
         break;
-      case LIKE_POST_SUCCESS:
+      case LIKE_POST_SUCCESS: {
+        const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
+        post.Likers.push({ id: action.data.UserId });
         draft.likePostLoading = false;
         draft.likePostDone = true;
         break;
+      }
       case LIKE_POST_FAILURE:
         draft.likePostLoading = false;
         draft.likePostError = action.error;
@@ -87,10 +91,13 @@ const reducer = (state = init, action) => {
         draft.unlikePostDone = false;
         draft.unlikePostError = null;
         break;
-      case UNLIKE_POST_SUCCESS:
+      case UNLIKE_POST_SUCCESS: {
+        const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
+        post.Likers = post.Likers.filter((v) => v.id !== action.data.UserId);
         draft.unlikePostLoading = false;
         draft.unlikePostDone = true;
         break;
+      }
       case UNLIKE_POST_FAILURE:
         draft.unlikePostLoading = false;
         draft.unlikePostError = action.error;
