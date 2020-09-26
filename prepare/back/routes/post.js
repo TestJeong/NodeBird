@@ -37,7 +37,6 @@ router.post("/:postId/comment", isLoggedIn, async (req, res, next) => {
       PostId: req.params.postId,
       UserId: req.user.id,
     });
-    console.log(comment);
     const fullComment = await Comment.findOne({
       where: { id: comment.id },
       include: [

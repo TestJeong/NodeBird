@@ -13,11 +13,7 @@ import Avatar from "antd/lib/avatar/avatar";
 import PostImages from "./PostImages";
 import CommentForm from "./CommentForm";
 import PostCardContent from "./PostCardContent";
-import {
-  REMOVE_POST_REQUEST,
-  LIKE_POST_REQUEST,
-  UNLIKE_POST_REQUEST,
-} from "../reducers/post";
+import { REMOVE_POST_REQUEST } from "../reducers/post";
 import FollowButton from "../components/FollowButton";
 
 const PostCard = ({ post }) => {
@@ -25,12 +21,8 @@ const PostCard = ({ post }) => {
   const [liked, setLiked] = useState(false);
   const [commetFormOpened, setCommentFormOpened] = useState(false);
 
-  const onLike = useCallback(() => {
-    dispatch({ type: LIKE_POST_REQUEST, data: post.id });
-  }, []);
-
-  const onUnLike = useCallback(() => {
-    dispatch({ type: UNLIKE_POST_REQUEST, data: post.id });
+  const onToggleLike = useCallback(() => {
+    setLiked((prev) => !prev);
   }, []);
 
   const onToggleComment = useCallback(() => {
@@ -58,10 +50,10 @@ const PostCard = ({ post }) => {
             <HeartTwoTone
               twoTonecolor="#eb2f96"
               key="heart"
-              onClick={onUnLike}
+              onClick={onToggleLike}
             />
           ) : (
-            <HeartOutlined key="heart" onClick={onLike} />
+            <HeartOutlined key="heart" onClick={onToggleLike} />
           ),
           <MessageOutlined key="comment" onClick={onToggleComment} />,
 
