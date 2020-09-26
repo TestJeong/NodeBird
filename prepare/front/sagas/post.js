@@ -1,6 +1,12 @@
 import { all, fork, put, takeLatest, delay, call } from "redux-saga/effects";
 import axios from "axios";
 import {
+  LIKE_POST_REQUEST,
+  LIKE_POST_SUCCESS,
+  LIKE_POST_FAILURE,
+  UNLIKE_POST_REQUEST,
+  UNLIKE_POST_SUCCESS,
+  UNLIKE_POST_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   ADD_POST_FAILURE,
@@ -16,17 +22,47 @@ import {
 } from "../reducers/post";
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from "../reducers/user";
 
+function likePostAPI(data) {
+  return axios.patch(`/post/${data}/like`);
+}
+
+function* likePost(action) {
+  console.log("likePost 실행");
+  try {
+    const result = yield call(likePostAPI, action.data);
+    yield put({ type: LIKE_POST_SUCCESS, data: result.data });
+  } catch (err) {
+    console.error(err);
+    yield put({ type: LIKE_POST_FAILURE, error: err.response.data });
+  }
+} // put 디스패치
+
+function unLikePostAPI(data) {
+  return axios.delete(`/post/${data}/like`);
+}
+
+function* unLikePost(action) {
+  console.log("unLikePost 실행");
+  try {
+    const result = yield call(unLikePostAPI, action.data);
+    yield put({ type: UNLIKE_POST_SUCCESS, data: result.data });
+  } catch (err) {
+    console.error(err);
+    yield put({ type: UNLIKE_POST_FAILURE, error: err.response.data });
+  }
+} // put 디스패치
+
 function loadPostsAPI(data) {
-  return axios.get("/api/post");
+  return axios.get("/posts", data);
 }
 
 function* loadPosts(action) {
   console.log("loadPosts 실행");
   try {
-    //const result = yield call(loadPostsAPI);
-    yield delay(1000);
-    yield put({ type: LOAD_POSTS_SUCCESS, data: generateDummyPost(10) });
+    const result = yield call(loadPostsAPI, action.data);
+    yield put({ type: LOAD_POSTS_SUCCESS, data: result.data });
   } catch (err) {
+    console.error(err);
     yield put({ type: LOAD_POSTS_FAILURE, error: err.response.data });
   }
 } // put 디스패치
@@ -74,9 +110,18 @@ function* addComment(action) {
     const result = yield call(addCommentAPI, action.data);
     yield put({ type: ADD_COMMENT_SUCCESS, data: result.data });
   } catch (err) {
+    console.error(err);
     yield put({ type: ADD_COMMENT_FAILURE, error: err.response.data });
   }
 } // put 디스패치
+
+function* watchLikePost() {
+  yield takeLatest(LIKE_POST_REQUEST, likePost);
+}
+
+function* watchUnlikePost() {
+  yield takeLatest(UNLIKE_POST_REQUEST, unLikePost);
+}
 
 function* watchLoadPost() {
   yield takeLatest(LOAD_POSTS_REQUEST, loadPosts);
@@ -96,6 +141,8 @@ function* watchAddComment() {
 
 export default function* postSaga() {
   yield all([
+    fork(watchLikePost),
+    fork(watchUnlikePost),
     fork(watchLoadPost),
     fork(watchAddPost),
     fork(watchRemovePost),

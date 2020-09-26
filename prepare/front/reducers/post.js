@@ -1,11 +1,18 @@
 import shortid from "shortid";
 import produce from "immer";
-import { User } from "../../back/models";
 
 export const init = {
   mainPosts: [],
   imagePaths: [], // 이미지 주소
   hasMorePosts: true,
+  likePostLoading: false,
+  likePostDone: false,
+  likePostError: null,
+
+  unlikePostLoading: false,
+  unlikePostDone: false,
+  unlikePostError: null,
+
   loadPostsLoading: false,
   loadPostsDone: false,
   loadPostsError: null,
@@ -19,6 +26,14 @@ export const init = {
   addCommentDone: false,
   addCommentError: null,
 };
+
+export const LIKE_POST_REQUEST = "LIKE_POST_REQUEST";
+export const LIKE_POST_SUCCESS = "LIKE_POST_SUCCESS";
+export const LIKE_POST_FAILURE = "LIKE_POST_FAILURE";
+
+export const UNLIKE_POST_REQUEST = "UNLIKE_POST_REQUEST";
+export const UNLIKE_POST_SUCCESS = "UNLIKE_POST_SUCCESS";
+export const UNLIKE_POST_FAILURE = "UNLIKE_POST_FAILURE";
 
 export const LOAD_POSTS_REQUEST = "LOAD_POSTS_REQUEST";
 export const LOAD_POSTS_SUCCESS = "LOAD_POSTS_SUCCESS";
@@ -44,17 +59,6 @@ export const addPost = (data) => ({
 export const addComment = (data) => ({
   type: ADD_COMMENT_REQUEST,
   data,
-});
-
-const dummyPost = (data) => ({
-  id: data.id,
-  content: data.content,
-  User: {
-    id: 1,
-    nickname: "ZeroCh",
-  },
-  Images: [],
-  Comments: [],
 });
 
 //User, Image, Comments 이렇게 대문자를 쓴 이유는 다른 정보와 합쳐주기 때문에
