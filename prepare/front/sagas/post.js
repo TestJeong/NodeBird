@@ -15,7 +15,6 @@ import {
   LOAD_POSTS_FAILURE,
 } from "../reducers/post";
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from "../reducers/user";
-import shortid from "shortid";
 
 function loadPostsAPI(data) {
   return axios.get("/api/post");

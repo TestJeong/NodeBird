@@ -62,7 +62,6 @@ const dummyPost = (data) => ({
 const reducer = (state = init, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
-<<<<<<< HEAD
       case LIKE_POST_REQUEST:
         draft.likePostLoading = true;
         draft.likePostDone = false;
@@ -97,8 +96,6 @@ const reducer = (state = init, action) => {
         draft.unlikePostError = action.error;
         break;
 
-=======
->>>>>>> parent of b4df4512... like, unlike 구현1
       case LOAD_POSTS_REQUEST:
         draft.loadPostsLoading = true;
         draft.loadPostsDone = false;
