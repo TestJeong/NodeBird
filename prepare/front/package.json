@@ -18,6 +18,7 @@
     "next": "^9.5.2",
     "next-redux-saga": "^4.1.2",
     "next-redux-wrapper": "^6.0.2",
+    "pg-hstore": "^2.3.3",
     "porp-types": "0.0.1-security",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

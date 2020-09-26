@@ -1,5 +1,10 @@
+import shortid from "shortid";
 import produce from "immer";
+<<<<<<< HEAD
 import { User } from "../../back/models";
+=======
+import faker from "faker";
+>>>>>>> parent of 96b78f3c... 댓글 구현
 
 export const init = {
   mainPosts: [],
@@ -31,6 +36,7 @@ export const init = {
   addCommentError: null,
 };
 
+<<<<<<< HEAD
 export const LIKE_POST_REQUEST = "LIKE_POST_REQUEST";
 export const LIKE_POST_SUCCESS = "LIKE_POST_SUCCESS";
 export const LIKE_POST_FAILURE = "LIKE_POST_FAILURE";
@@ -38,6 +44,33 @@ export const LIKE_POST_FAILURE = "LIKE_POST_FAILURE";
 export const UNLIKE_POST_REQUEST = "UNLIKE_POST_REQUEST";
 export const UNLIKE_POST_SUCCESS = "UNLIKE_POST_SUCCESS";
 export const UNLIKE_POST_FAILURE = "UNLIKE_POST_FAILURE";
+=======
+export const generateDummyPost = (number) =>
+  Array(number)
+    .fill()
+    .map(() => ({
+      id: shortid.generate(),
+      User: {
+        id: shortid.generate(),
+        nickname: faker.name.findName(),
+      },
+      content: faker.lorem.paragraph(),
+      Images: [
+        {
+          src: faker.image.image(),
+        },
+      ],
+      Comments: [
+        {
+          User: {
+            id: shortid.generate(),
+            nickname: faker.name.findName(),
+          },
+          content: faker.lorem.sentence(),
+        },
+      ],
+    }));
+>>>>>>> parent of 96b78f3c... 댓글 구현
 
 export const LOAD_POSTS_REQUEST = "LOAD_POSTS_REQUEST";
 export const LOAD_POSTS_SUCCESS = "LOAD_POSTS_SUCCESS";
@@ -64,6 +97,18 @@ export const addComment = (data) => ({
   type: ADD_COMMENT_REQUEST,
   data,
 });
+
+const dummyPost = (data) => ({
+  id: data.id,
+  content: data.content,
+  User: {
+    id: 1,
+    nickname: "ZeroCh",
+  },
+  Images: [],
+  Comments: [],
+});
+
 //User, Image, Comments 이렇게 대문자를 쓴 이유는 다른 정보와 합쳐주기 때문에
 
 const reducer = (state = init, action) => {
