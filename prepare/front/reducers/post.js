@@ -1,10 +1,6 @@
 import shortid from "shortid";
 import produce from "immer";
-<<<<<<< HEAD
 import { User } from "../../back/models";
-=======
-import faker from "faker";
->>>>>>> parent of 96b78f3c... 댓글 구현
 
 export const init = {
   mainPosts: [],
@@ -36,7 +32,6 @@ export const init = {
   addCommentError: null,
 };
 
-<<<<<<< HEAD
 export const LIKE_POST_REQUEST = "LIKE_POST_REQUEST";
 export const LIKE_POST_SUCCESS = "LIKE_POST_SUCCESS";
 export const LIKE_POST_FAILURE = "LIKE_POST_FAILURE";
@@ -44,33 +39,6 @@ export const LIKE_POST_FAILURE = "LIKE_POST_FAILURE";
 export const UNLIKE_POST_REQUEST = "UNLIKE_POST_REQUEST";
 export const UNLIKE_POST_SUCCESS = "UNLIKE_POST_SUCCESS";
 export const UNLIKE_POST_FAILURE = "UNLIKE_POST_FAILURE";
-=======
-export const generateDummyPost = (number) =>
-  Array(number)
-    .fill()
-    .map(() => ({
-      id: shortid.generate(),
-      User: {
-        id: shortid.generate(),
-        nickname: faker.name.findName(),
-      },
-      content: faker.lorem.paragraph(),
-      Images: [
-        {
-          src: faker.image.image(),
-        },
-      ],
-      Comments: [
-        {
-          User: {
-            id: shortid.generate(),
-            nickname: faker.name.findName(),
-          },
-          content: faker.lorem.sentence(),
-        },
-      ],
-    }));
->>>>>>> parent of 96b78f3c... 댓글 구현
 
 export const LOAD_POSTS_REQUEST = "LOAD_POSTS_REQUEST";
 export const LOAD_POSTS_SUCCESS = "LOAD_POSTS_SUCCESS";

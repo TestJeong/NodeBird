@@ -22,7 +22,6 @@ import {
 } from "../reducers/post";
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from "../reducers/user";
 import shortid from "shortid";
-import { generateDummyPost } from "../reducers/post";
 
 function likePostAPI(data) {
   return axios.patch(`/post/${data}/like`);
