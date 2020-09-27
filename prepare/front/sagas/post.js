@@ -27,7 +27,7 @@ function likePostAPI(data) {
 }
 
 function* likePost(action) {
-  console.log("likePost 실행");
+  console.log("likePost 실행", action.data);
   try {
     const result = yield call(likePostAPI, action.data);
     yield put({ type: LIKE_POST_SUCCESS, data: result.data });

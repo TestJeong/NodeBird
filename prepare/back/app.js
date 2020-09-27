@@ -10,7 +10,7 @@ const db = require("./models");
 const app = express();
 const passportConfig = require("./passport");
 const dotenv = require("dotenv");
-//const morgan = require("morgan");
+const morgan = require("morgan");
 
 dotenv.config();
 
@@ -22,7 +22,7 @@ db.sequelize
   .catch(console.error);
 passportConfig();
 
-//app.use(morgan("dev"));
+app.use(morgan("dev"));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // form 했을때 받아온 데이터를 해석해서 back쪽에있는 router의 req.body에 보내준다

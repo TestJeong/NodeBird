@@ -22,11 +22,12 @@ import FollowButton from "../components/FollowButton";
 
 const PostCard = ({ post }) => {
   const dispatch = useDispatch();
-  const [liked, setLiked] = useState(false);
+
   const [commetFormOpened, setCommentFormOpened] = useState(false);
 
   const onLike = useCallback(() => {
     dispatch({ type: LIKE_POST_REQUEST, data: post.id });
+    console.log("포스트카드", post.id);
   }, []);
 
   const onUnLike = useCallback(() => {
@@ -46,6 +47,7 @@ const PostCard = ({ post }) => {
 
   const id = useSelector((state) => state.user.me?.id); // 옵셔널 체이닝
   const { removePostLoading } = useSelector((state) => state.post);
+  const liked = post.Likers.find((v) => v.id === id);
 
   return (
     <div style={{ marginBottom: "20px" }}>
@@ -128,6 +130,7 @@ PostCard.propTypes = {
     createAt: PropTypes.string,
     Comment: PropTypes.arrayOf(PropTypes.object),
     Images: PropTypes.arrayOf(PropTypes.object),
+    Likers: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
 };
 
