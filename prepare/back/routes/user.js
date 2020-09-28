@@ -118,4 +118,21 @@ router.post("/logout", isLoggedIn, (req, res, next) => {
   res.send("ok");
 }); // passport.deserializeUser가 매번실행이 되어 req.user에 정보가 담겨있음
 
+router.patch("/nickname", isLoggedIn, async (req, res, next) => {
+  try {
+    await User.update(
+      {
+        nickname: req.body.nickname, //프론트
+      },
+      {
+        where: { id: req.user.id },
+      }
+    );
+    res.status(200).json({ nickname: req.body.nickname });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 module.exports = router;

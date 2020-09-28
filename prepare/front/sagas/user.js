@@ -19,7 +19,25 @@ import {
   LOAD_MY_INFO_REQUEST,
   LOAD_MY_INFO_SUCCESS,
   LOAD_MY_INFO_FAILURE,
+  CHANGE_NICKNAME_REQUEST,
+  CHANGE_NICKNAME_SUCCESS,
+  CHANGE_NICKNAME_FAILURE,
 } from "../reducers/user";
+
+function changeNicknameAPI(data) {
+  return axios.patch("/user/nickname", { nickname: data });
+}
+
+function* changeNickname(action) {
+  console.log("사가 실행");
+  try {
+    const result = yield call(changeNicknameAPI, action.data);
+    yield put({ type: CHANGE_NICKNAME_SUCCESS, data: result.data });
+  } catch (err) {
+    console.error(err);
+    yield put({ type: CHANGE_NICKNAME_FAILURE, error: err.response.data });
+  }
+} // put 디스패치
 
 function loadUserAPI() {
   return axios.get("/user");
@@ -112,6 +130,10 @@ function* signUp(action) {
   }
 } // put 디스패치
 
+function* watchChangeNickname() {
+  yield takeLatest(CHANGE_NICKNAME_REQUEST, changeNickname);
+}
+
 function* watchLoadUser() {
   yield takeLatest(LOAD_MY_INFO_REQUEST, loadUser);
 }
@@ -138,6 +160,7 @@ function* watchSignUp() {
 
 export default function* userSaga() {
   yield all([
+    fork(watchChangeNickname),
     fork(watchLoadUser),
     fork(watchFollow),
     fork(watchUnFollow),
