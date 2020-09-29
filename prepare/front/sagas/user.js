@@ -55,32 +55,31 @@ function* loadUser(action) {
 } // put 디스패치
 
 function followAPI(data) {
-  return axios.post("/api/follow", data);
+  return axios.patch(`/user/${data}/follow`, data);
 }
 
 function* follow(action) {
   console.log("사가 실행");
   try {
     console.log("saga run", action.data);
-    //const result = yield call(logInAPI, action.data);
-    yield delay(1000);
-    yield put({ type: FOLLOW_SUCCESS, data: action.data });
+    const result = yield call(followAPI, action.data);
+    yield put({ type: FOLLOW_SUCCESS, data: result.data });
   } catch (err) {
     yield put({ type: FOLLOW_FAILURE, error: err.response.data });
   }
 } // put 디스패치
 
 function unfollowAPI(data) {
-  return axios.post("/api/unfollow", data);
+  return axios.post(`/user/${data}/unfollow`);
 }
 
 function* unfollow(action) {
   console.log("사가 실행");
   try {
     console.log("saga run", action.data);
-    //const result = yield call(logInAPI, action.data);
+    const result = yield call(unfollowAPI, action.data);
     yield delay(1000);
-    yield put({ type: UNFOLLOW_SUCCESS, data: action.data });
+    yield put({ type: UNFOLLOW_SUCCESS, data: result.data });
   } catch (err) {
     yield put({ type: UNFOLLOW_FAILURE, error: err.response.data });
   }

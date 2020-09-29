@@ -124,7 +124,7 @@ const reducer = (state = init, action) => {
       case FOLLOW_SUCCESS:
         draft.followLodading = false;
         draft.followDone = true;
-        draft.me.Followings.push({ id: action.data });
+        draft.me.Followings.push({ id: action.data.UserId });
         break;
 
       case FOLLOW_FAILURE:
