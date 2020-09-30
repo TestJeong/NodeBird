@@ -13,6 +13,10 @@ export const init = {
   unfollowDone: false,
   unfollowError: false,
 
+  removefollowerLodading: false, // 언팔로우 시도중
+  removefollowerDone: false,
+  removefollowerError: false,
+
   logInLodading: false, // 로그인 시도중
   logInDone: false,
   logInError: false,
@@ -28,6 +32,14 @@ export const init = {
   changeNicknameLoading: false, // 닉네임 변경 시도중
   changeNicknameDone: false,
   changeNicknameError: null,
+
+  loadFollowersLoading: false, // 팔로워 목록 불러오는 중
+  loadFollowersDone: false,
+  loadFollowersError: null,
+
+  loadFollowingsLoading: false, // 팔로잉 목록 불러오는 중
+  loadFollowingsDone: false,
+  loadFollowingsError: null,
 
   me: null, // 로그인한 id와 paw가 저장
   signUpdata: {},
@@ -61,6 +73,18 @@ export const FOLLOW_FAILURE = "FOLLOW_FAILURE";
 export const UNFOLLOW_REQUEST = "UNFOLLOW_REQUEST";
 export const UNFOLLOW_SUCCESS = "UNFOLLOW_SUCCESS";
 export const UNFOLLOW_FAILURE = "UNFOLLOW_FAILURE";
+
+export const REMOVE_FOLLOWER_REQUEST = "REMOVE_FOLLOWER_REQUEST";
+export const REMOVE_FOLLOWER_SUCCESS = "REMOVE_FOLLOWER_SUCCESS";
+export const REMOVE_FOLLOWER_FAILURE = "REMOVE_FOLLOWER_FAILURE";
+
+export const LOAD_FOLLOWERS_REQUEST = "LOAD_FOLLOWERS_REQUEST";
+export const LOAD_FOLLOWERS_SUCCESS = "LOAD_FOLLOWERS_SUCCESS";
+export const LOAD_FOLLOWERS_FAILURE = "LOAD_FOLLOWERS_FAILURE";
+
+export const LOAD_FOLLOWINGS_REQUEST = "LOAD_FOLLOWINGS_REQUEST";
+export const LOAD_FOLLOWINGS_SUCCESS = "LOAD_FOLLOWINGS_SUCCESS";
+export const LOAD_FOLLOWINGS_FAILURE = "LOAD_FOLLOWINGS_FAILURE";
 
 export const ADD_POST_TO_ME = "ADD_POST_TO_ME";
 export const REMOVE_POST_OF_ME = "REMOVE_POST_OF_ME";
@@ -142,13 +166,32 @@ const reducer = (state = init, action) => {
         draft.unfollowLodading = false;
         draft.unfollowDone = true;
         draft.me.Followings = draft.me.Followings.filter(
-          (v) => v.id !== action.data
+          (v) => v.id !== action.data.UserId
         ); //언팔로우 한사람만 빠진다
         break;
 
       case UNFOLLOW_FAILURE:
         draft.unfollowLodading = false;
         draft.unfollowError = action.error;
+        break;
+
+      case REMOVE_FOLLOWER_REQUEST:
+        draft.removefollowerLodading = true;
+        draft.removefollowerError = null;
+        draft.removefollowerDone = false;
+        break;
+
+      case REMOVE_FOLLOWER_SUCCESS:
+        draft.removefollowerLodading = false;
+        draft.removefollowerDone = true;
+        draft.me.Followers = draft.me.Followers.filter(
+          (v) => v.id !== action.data.UserId
+        ); //언팔로우 한사람만 빠진다
+        break;
+
+      case REMOVE_FOLLOWER_FAILURE:
+        draft.removefollowerLodading = false;
+        draft.removefollowerError = action.error;
         break;
 
       case LOG_IN_REQUEST:
@@ -220,6 +263,40 @@ const reducer = (state = init, action) => {
       case CHANGE_NICKNAME_FAILURE:
         draft.changeNicknameLoading = false;
         draft.changeNicknameError = action.error;
+        break;
+
+      case LOAD_FOLLOWERS_REQUEST:
+        draft.loadFollowersLoading = true;
+        draft.loadFollowersDone = false;
+        draft.loadFollowersError = null;
+        break;
+
+      case LOAD_FOLLOWERS_SUCCESS:
+        draft.me.Followers = action.data;
+        draft.loadFollowersLoading = false;
+        draft.loadFollowersDone = true;
+        break;
+
+      case LOAD_FOLLOWERS_FAILURE:
+        draft.loadFollowersLoading = false;
+        draft.loadFollowersError = action.error;
+        break;
+
+      case LOAD_FOLLOWINGS_REQUEST:
+        draft.loadFollowingsLoading = true;
+        draft.loadFollowingsDone = false;
+        draft.loadFollowingsError = null;
+        break;
+
+      case LOAD_FOLLOWINGS_SUCCESS:
+        draft.me.Followings = action.data;
+        draft.loadFollowingsLoading = false;
+        draft.loadFollowingsDone = true;
+        break;
+
+      case LOAD_FOLLOWINGS_FAILURE:
+        draft.loadFollowingsLoading = false;
+        draft.loadFollowingsError = action.error;
         break;
 
       case ADD_POST_TO_ME:
