@@ -4,7 +4,9 @@ import produce from "immer";
 export const init = {
   mainPosts: [],
   imagePaths: [], // 이미지 주소
+
   hasMorePosts: true,
+
   likePostLoading: false,
   likePostDone: false,
   likePostError: null,
@@ -20,12 +22,15 @@ export const init = {
   loadPostsLoading: false,
   loadPostsDone: false,
   loadPostsError: null,
+
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
+
   removePostLoading: false,
   removePostDone: false,
   removePostError: null,
+
   addCommentLoading: false,
   addCommentDone: false,
   addCommentError: null,
@@ -59,6 +64,8 @@ export const ADD_COMMENT_REQUEST = "ADD_COMMENT_REQUEST";
 export const ADD_COMMENT_SUCCESS = "ADD_COMMENT_SUCCESS";
 export const ADD_COMMENT_FAILURE = "ADD_COMMENT_FAILURE";
 
+export const REMOVE_IMAGE = "REMOVE_IMAGE";
+
 export const addPost = (data) => ({
   type: ADD_POST_REQUEST,
   data,
@@ -74,6 +81,10 @@ export const addComment = (data) => ({
 const reducer = (state = init, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
+      case REMOVE_IMAGE:
+        draft.imagePaths = draft.imagePaths.filter((v, i) => i !== action.data);
+        break;
+
       case UPLOAD_IMAGES_REQUEST:
         draft.uploadImagesLoading = true;
         draft.uploadImagesDone = false;
@@ -90,6 +101,7 @@ const reducer = (state = init, action) => {
         draft.uploadImagesLoading = false;
         draft.uploadImagesError = action.error;
         break;
+      ////////////////////////////////////////////////
 
       case LIKE_POST_REQUEST:
         draft.likePostLoading = true;
@@ -107,6 +119,7 @@ const reducer = (state = init, action) => {
         draft.likePostLoading = false;
         draft.likePostError = action.error;
         break;
+      ////////////////////////////////////////////////
 
       case UNLIKE_POST_REQUEST:
         draft.unlikePostLoading = true;
@@ -124,6 +137,7 @@ const reducer = (state = init, action) => {
         draft.unlikePostLoading = false;
         draft.unlikePostError = action.error;
         break;
+      ////////////////////////////////////////////////
 
       case LOAD_POSTS_REQUEST:
         draft.loadPostsLoading = true;
@@ -141,6 +155,7 @@ const reducer = (state = init, action) => {
         draft.loadPostsLoading = false;
         draft.loadPostsError = action.error;
         break;
+      ////////////////////////////////////////////////
 
       case ADD_POST_REQUEST:
         draft.addPostLoading = true;
@@ -152,12 +167,14 @@ const reducer = (state = init, action) => {
         draft.addPostLoading = false;
         draft.addPostDone = true;
         draft.mainPosts.unshift(action.data);
+        draft.imagePaths = [];
         break;
 
       case ADD_POST_FAILURE:
         draft.addPostLoading = false;
         draft.addPostError = action.error;
         break;
+      ////////////////////////////////////////////////
 
       case REMOVE_POST_REQUEST:
         draft.removePostLoading = true;
@@ -177,6 +194,7 @@ const reducer = (state = init, action) => {
         draft.removePostLoading = false;
         draft.removePostError = action.error;
         break;
+      ////////////////////////////////////////////////
 
       case ADD_COMMENT_REQUEST:
         draft.addCommentLoading = true;

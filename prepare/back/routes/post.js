@@ -9,19 +9,47 @@ const { isLoggedIn } = require("./middlewares");
 const router = express.Router();
 
 try {
-  fs.accessSync("/uploads");
+  fs.accessSync("uploads");
 } catch (error) {
-  console.log("uploads 폴더가 없으므로 생성합니다");
+  console.log("uploads 폴더가 없으므로 생성합니다.");
   fs.mkdirSync("uploads");
 }
 
-router.post("/", isLoggedIn, async (req, res, next) => {
+const upload = multer({
+  storage: multer.diskStorage({
+    destination(req, file, done) {
+      done(null, "uploads");
+    },
+    filename(req, file, done) {
+      // 제로초.png
+      const ext = path.extname(file.originalname); //확장자 추출(.png)
+      const basename = path.basename(file.originalname, ext); //제로초
+      done(null, basename + "_" + new Date().getTime() + ext);
+    },
+  }),
+  limits: { fileSize: 20 * 1024 * 1024 },
+});
+
+router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
   // POST/post
   try {
     const post = await Post.create({
       content: req.body.content,
       UserId: req.user.id,
     });
+
+    if (req.body.image) {
+      if (Array.isArray(req.body.image)) {
+        const images = await Promise.all(
+          req.body.image.map((image) => Image.create({ src: image })) //데이터베이스 이미지 파일을 저장하는 것이 아닌 데이터베이스에는 이미지 주소만 보관함
+        ); // 이미지를 여러개 올리면image [이미지1.png , 이미지2.png]
+        await post.addImages(images);
+      } else {
+        const image = await Image.create({ src: req.body.image });
+        await post.addImages(image);
+      } // 이미지를 한개만 올리면 image 이미지1.png
+    }
+
     const fullPost = await Post.findOne({
       where: { id: post.id },
       include: [
@@ -43,21 +71,6 @@ router.post("/", isLoggedIn, async (req, res, next) => {
     console.error(error);
     next(error);
   }
-});
-
-const upload = multer({
-  storage: multer.diskStorage({
-    destination(req, file, done) {
-      done(null, "uploads");
-    },
-    filename(req, file, done) {
-      // 제로초.png
-      const ext = path.extname(file.originalname); //확장자 추출(.png)
-      const basename = path.basename(file.originalname, ext); //제로초
-      done(null, basename + new Date().getTime() + ext);
-    },
-  }),
-  limits: { fileSize: 20 * 1024 * 1024 },
 });
 
 router.post(
