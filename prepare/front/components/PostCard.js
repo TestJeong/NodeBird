@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Card, Button, Popover, List, Comment } from "antd";
 import {
@@ -23,9 +23,17 @@ import FollowButton from "../components/FollowButton";
 
 const PostCard = ({ post }) => {
   const dispatch = useDispatch();
-  const { removePostLoading } = useSelector((state) => state.post);
+  const { removePostLoading, retweetError } = useSelector(
+    (state) => state.post
+  );
   const id = useSelector((state) => state.user.me?.id); // 옵셔널 체이닝
   const [commetFormOpened, setCommentFormOpened] = useState(false);
+
+  /*   useEffect(() => {
+    if (retweetError) {
+      alert(retweetError);
+    }
+  }, [retweetError]); */
 
   const onLike = useCallback(() => {
     if (!id) {
