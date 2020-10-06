@@ -29,12 +29,6 @@ const PostCard = ({ post }) => {
   const id = useSelector((state) => state.user.me?.id); // 옵셔널 체이닝
   const [commetFormOpened, setCommentFormOpened] = useState(false);
 
-  /*   useEffect(() => {
-    if (retweetError) {
-      alert(retweetError);
-    }
-  }, [retweetError]); */
-
   const onLike = useCallback(() => {
     if (!id) {
       return alert("로그인이 필요합니다");
@@ -118,13 +112,33 @@ const PostCard = ({ post }) => {
             <EllipsisOutlined />
           </Popover>,
         ]}
+        title={
+          post.RetweetId ? `${post.User.nickname}님이 리트윗 하셨습니다` : null
+        }
         extra={id && <FollowButton post={post} />}
       >
-        <Card.Meta
-          avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
-          title={post.User.nickname}
-          description={<PostCardContent postData={post.content} />}
-        />
+        {post.RetweetId && post.Retweet ? (
+          <Card
+            cover={
+              post.Retweet.Images[0] && (
+                <PostImages images={post.Retweet.Images} />
+              )
+            }
+          >
+            {" "}
+            <Card.Meta
+              avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
+              title={post.Retweet.User.nickname}
+              description={<PostCardContent postData={post.Retweet.content} />}
+            />{" "}
+          </Card>
+        ) : (
+          <Card.Meta
+            avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
+            title={post.User.nickname}
+            description={<PostCardContent postData={post.content} />}
+          />
+        )}
       </Card>
       {commetFormOpened && (
         <div>
@@ -158,6 +172,8 @@ PostCard.propTypes = {
     Comment: PropTypes.arrayOf(PropTypes.object),
     Images: PropTypes.arrayOf(PropTypes.object),
     Likers: PropTypes.arrayOf(PropTypes.object),
+    RetweetId: PropTypes.number,
+    Retweet: PropTypes.objectOf(PropTypes.any),
   }).isRequired,
 };
 
