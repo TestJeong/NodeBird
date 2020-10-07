@@ -25,6 +25,9 @@ import {
   RETWEET_REQUEST,
   RETWEET_SUCCESS,
   RETWEET_FAILURE,
+  LOAD_POST_REQUEST,
+  LOAD_POST_SUCCESS,
+  LOAD_POST_FAILURE,
 } from "../reducers/post";
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from "../reducers/user";
 
@@ -58,20 +61,40 @@ function* unLikePost(action) {
   }
 } // put 디스패치
 
-function loadPostsAPI(data) {
-  return axios.get("/posts", data);
+function loadPostsAPI(lastId) {
+  return axios.get(`/posts?lastId=${lastId || 0}`);
 }
 
 function* loadPosts(action) {
   console.log("loadPosts 실행");
   try {
-    const result = yield call(loadPostsAPI, action.data);
+    const result = yield call(loadPostsAPI, action.lastId);
     yield put({ type: LOAD_POSTS_SUCCESS, data: result.data });
   } catch (err) {
     console.error(err);
     yield put({ type: LOAD_POSTS_FAILURE, error: err.response.data });
   }
 } // put 디스패치
+
+function loadPostAPI(data) {
+  return axios.get(`/post/${data}`);
+}
+
+function* loadPost(action) {
+  try {
+    const result = yield call(loadPostAPI, action.data);
+    yield put({
+      type: LOAD_POST_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: LOAD_POST_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
 
 function addPostAPI(data) {
   return axios.post("/post", data);
@@ -158,6 +181,10 @@ function* watchUnlikePost() {
 }
 
 function* watchLoadPost() {
+  yield takeLatest(LOAD_POST_REQUEST, loadPost);
+}
+
+function* watchLoadPosts() {
   yield takeLatest(LOAD_POSTS_REQUEST, loadPosts);
 }
 
@@ -187,6 +214,7 @@ export default function* postSaga() {
     fork(watchuploadImages),
     fork(watchLikePost),
     fork(watchUnlikePost),
+    fork(watchLoadPosts),
     fork(watchLoadPost),
     fork(watchAddPost),
     fork(watchRemovePost),

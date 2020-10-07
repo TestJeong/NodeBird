@@ -39,7 +39,8 @@ const Home = () => {
         document.documentElement.scrollHeight - 300
       ) {
         if (hasMorePosts && !loadPostsLoading) {
-          dispatch({ type: LOAD_POSTS_REQUEST });
+          const lastId = mainPosts[mainPosts.length - 1]?.id; //옵셔널 체이닝
+          dispatch({ type: LOAD_POSTS_REQUEST, lastId });
         }
       }
     }
@@ -47,7 +48,7 @@ const Home = () => {
     return () => {
       window.removeEventListener("scroll", onScroll);
     };
-  }, [hasMorePosts, loadPostsLoading]);
+  }, [hasMorePosts, loadPostsLoading, mainPosts]);
 
   return (
     <AppLayout>
