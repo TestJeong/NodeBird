@@ -1,4 +1,4 @@
-import { createWrapper } from "next-redux-wrapper";
+import { createWrapper } from "next-redux-wrapper"; // next에 리덕스를 붙여 사용하기 위해 설치해줘야 한다
 import { createStore, compose, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import createSagaMiddleware from "redux-saga";

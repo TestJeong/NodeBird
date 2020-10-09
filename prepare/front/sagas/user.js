@@ -106,6 +106,7 @@ function* logIn(action) {
     const result = yield call(logInAPI, action.data);
     yield put({ type: LOG_IN_SUCCESS, data: result.data });
   } catch (err) {
+    console.error(err);
     yield put({ type: LOG_IN_FAILURE, error: err.response.data });
   }
 } // put 디스패치
