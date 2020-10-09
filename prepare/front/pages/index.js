@@ -7,6 +7,7 @@ import PostCard from "../components/PostCard";
 import { LOAD_POSTS_REQUEST } from "../reducers/post";
 import { LOAD_MY_INFO_REQUEST } from "../reducers/user";
 import wrapper from "../store/configureStore";
+import axios from "axios";
 
 const Home = () => {
   const { me } = useSelector((state) => state.user);
@@ -50,11 +51,18 @@ const Home = () => {
       ))}
     </AppLayout>
   );
+  
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async (context) => {
-    console.log(context);
+    console.log("context => ", (context));
+    const cookie = context.req ? context.req.headers.cookie : "";
+    axios.defaults.headers.Cookie = "";
+    if (context && cookie) {
+      axios.defaults.headers.Cookie = cookie;
+    }
+
     context.store.dispatch({
       type: LOAD_MY_INFO_REQUEST,
     });
@@ -62,10 +70,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
     context.store.dispatch({
       type: LOAD_POSTS_REQUEST,
     });
-
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();
-  }
+  },
 );
 
 export default Home;

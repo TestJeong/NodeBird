@@ -9,6 +9,8 @@ const rootReducer = (state, action) => {
   switch (action.type) {
     case HYDRATE:
       console.log("HADRATE", action); // getServerSideProps가 실행되어 결과값을 HYDRATE에 보내준다
+      
+
       return action.payload;
     default: {
       const combineReducer = combineReducers({
