@@ -1,8 +1,8 @@
-import shortid from "shortid";
 import produce from "immer";
 
 export const init = {
   mainPosts: [],
+  singlePost : null,
   imagePaths: [], // 이미지 주소
 
   hasMorePosts: true,

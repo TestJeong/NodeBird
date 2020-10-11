@@ -81,6 +81,7 @@ function loadPostAPI(data) {
 }
 
 function* loadPost(action) {
+  console.log("eodd", action.data)
   try {
     const result = yield call(loadPostAPI, action.data);
     yield put({
