@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const postsRouter = require("./routes/posts");
 const postRouter = require("./routes/post");
 const userRouter = require("./routes/user");
+const hashtagRouter = require("./routes/hashtag")
 const db = require("./models");
 const app = express();
 const passportConfig = require("./passport");
@@ -54,7 +55,9 @@ app.use(cors({ origin: true, credentials: true }));
 app.use("/posts", postsRouter);
 app.use("/post", postRouter);
 app.use("/user", userRouter);
+app.use("/hashtag", hashtagRouter)
 
 app.listen(3065, () => {
   console.log("서버 실행 중");
 });
+ 
