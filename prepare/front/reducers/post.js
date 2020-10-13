@@ -183,7 +183,6 @@ const reducer = (state = init, action) => {
       case LOAD_USER_POSTS_REQUEST:
       case LOAD_HASHTAG_POSTS_REQUEST:
       case LOAD_POSTS_REQUEST:
-        console.log("asdf");
         draft.loadPostsLoading = true;
         draft.loadPostsDone = false;
         draft.loadPostsError = null;

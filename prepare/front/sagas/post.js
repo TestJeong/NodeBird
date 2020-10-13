@@ -68,7 +68,8 @@ function* unLikePost(action) {
 } // put 디스패치
 
 function loadHashtagPostsAPI(data, lastId) {
-  return axios.get(`/hashtag/${data}lastId=${lastId || 0}`);
+  console.log("tlfgodg")
+  return axios.get(`/hashtag/${encodeURIComponent(data)}`);
 }
 
 function* loadHashtagPosts(action) {

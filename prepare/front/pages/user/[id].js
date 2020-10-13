@@ -20,6 +20,7 @@ const User = () => {
   const { userInfo, me } = useSelector((state) => state.user);
 
   useEffect(() => {
+    console.log("user", mainPosts)
     const onScroll = () => {
       if (window.pageYOffset + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
         if (hasMorePosts && !loadPostsLoading) {
