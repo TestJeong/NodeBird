@@ -22,8 +22,8 @@ const Profile = () => {
   const [ followersLimit, setFollowerLimit] = useState(3)
   const [ followingLimit, setFollowingLimit] = useState(3)
 
-  const {data: followersData, error: followerError} = useSWR(`http://localhost:3060/user/followers?limit=${followersLimit}`, fetcher)
-  const {data: followingsData, error: followingError} = useSWR(`http://localhost:3060/user/followings?limit=${followingLimit}`, fetcher)
+  const {data: followersData, error: followerError} = useSWR(`http://localhost:3065/user/followers?limit=${followersLimit}`, fetcher)
+  const {data: followingsData, error: followingError} = useSWR(`http://localhost:3065/user/followings?limit=${followingLimit}`, fetcher)
 
   useEffect(() => {
     if (!(me && me.id)) {
