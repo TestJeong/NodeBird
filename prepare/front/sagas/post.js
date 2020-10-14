@@ -69,7 +69,7 @@ function* unLikePost(action) {
 
 function loadHashtagPostsAPI(data, lastId) {
   console.log("tlfgodg")
-  return axios.get(`/hashtag/${encodeURIComponent(data)}`);
+  return axios.get(`/hashtag/${encodeURIComponent(data)}?lastId=${lastId || 0}`);
 }
 
 function* loadHashtagPosts(action) {

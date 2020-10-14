@@ -162,7 +162,7 @@ function loadFollowersAPI(data) {
 function* loadFollowers(action) {
   try {
     const result = yield call(loadFollowersAPI, action.data);
-    console.log("xptmxm", result.data);
+    console.log("팔로워", result.data);
     yield put({ type: LOAD_FOLLOWERS_SUCCESS, data: result.data });
   } catch (err) {
     yield put({ type: LOAD_FOLLOWERS_FAILURE, error: err.response.data });
@@ -170,18 +170,25 @@ function* loadFollowers(action) {
 } // put 디스패치
 
 function loadFollowingsAPI(data) {
-  return axios.get("/user/followings", data);
+  return axios.get('/user/followings', data);
 }
 
 function* loadFollowings(action) {
   try {
     const result = yield call(loadFollowingsAPI, action.data);
-    console.log(result);
-    yield put({ type: LOAD_FOLLOWINGS_SUCCESS, data: result.data });
+    console.log("팔로잉", result.data);
+    yield put({
+      type: LOAD_FOLLOWINGS_SUCCESS,
+      data: result.data,
+    });
   } catch (err) {
-    yield put({ type: LOAD_FOLLOWINGS_FAILURE, error: err.response.data });
+    console.error(err);
+    yield put({
+      type: LOAD_FOLLOWINGS_FAILURE,
+      error: err.response.data,
+    });
   }
-} // put 디스패치
+}
 
 function removeFollowerAPI(data) {
   return axios.delete(`/user/follower/${data}`);
