@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next -p 3060"
+    "dev": "next -p 3060",
+    "build" : "ANALYZE=true NODE_ENV=production next build"
   },
   "author": "YunJae",
   "license": "ISC",
