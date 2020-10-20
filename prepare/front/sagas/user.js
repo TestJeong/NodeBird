@@ -34,6 +34,9 @@ import {
   REMOVE_FOLLOWER_REQUEST,
   REMOVE_FOLLOWER_SUCCESS,
   REMOVE_FOLLOWER_FAILURE,
+  UPLOAD_AVATAR_IMAGE_REQUEST,
+  UPLOAD_AVATAR_IMAGE_SUCCESS,
+  UPLOAD_AVATAR_IMAGE_FAILURE,
 } from "../reducers/user";
 
 function changeNicknameAPI(data) {
@@ -204,6 +207,22 @@ function* removeFollower(action) {
   }
 } // put 디스패치
 
+function uploadAvatarAPI(data) {
+  return axios.post(`/user/avatar`, data);
+}
+
+function* uploadAvatar(action) {
+  console.log("dff???")
+  try {
+    const result = yield call(uploadAvatarAPI, action.data);
+    console.log(result);
+    yield put({ type: UPLOAD_AVATAR_IMAGE_SUCCESS, data: result.data });
+  } catch (error) {
+    console.error(error)
+    yield put({ type: UPLOAD_AVATAR_IMAGE_FAILURE, error: error.response.data });
+  }
+} // put 디스패치
+
 function* watchChangeNickname() {
   yield takeLatest(CHANGE_NICKNAME_REQUEST, changeNickname);
 }
@@ -248,8 +267,13 @@ function* watchRemoveFollower() {
   yield takeLatest(REMOVE_FOLLOWER_REQUEST, removeFollower);
 }
 
+function* watchUploadAvatar() {
+  yield takeLatest(UPLOAD_AVATAR_IMAGE_REQUEST, uploadAvatar);
+}
+
 export default function* userSaga() {
   yield all([
+    fork(watchUploadAvatar),
     fork(watchRemoveFollower),
     fork(watchLoadFollowers),
     fork(watchLoadFollowings),

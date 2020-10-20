@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from "react";
-import { Form, Input } from "antd";
+import { Form, Input, Card, Button } from "antd";
 import { CHANGE_NICKNAME_REQUEST } from "../reducers/user";
 import useInput from "../hooks/useInput";
 import { useSelector, useDispatch } from "react-redux";
@@ -21,6 +21,8 @@ const NicknameEditForm = () => {
     border: "1px solid #d9d9d9",
     padding: "20px",
   }));
+
+
   return (
     <Form style={style}>
       <Input.Search
@@ -31,6 +33,7 @@ const NicknameEditForm = () => {
         onSearch={onSubmit}
       />
     </Form>
+    
   );
 };
 

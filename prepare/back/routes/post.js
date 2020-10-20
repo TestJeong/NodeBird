@@ -87,11 +87,7 @@ router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
   }
 });
 
-router.post(
-  "/images",
-  isLoggedIn,
-  upload.array("image"),
-  async (req, res, next) => {
+router.post("/images", isLoggedIn, upload.array("image"), async (req, res, next) => {
     console.log(req.files); // 업로드 된 후 실행 될것
     res.json(req.files.map((v) => v.filename));
   }

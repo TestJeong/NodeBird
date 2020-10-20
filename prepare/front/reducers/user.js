@@ -1,6 +1,8 @@
 import produce from "immer";
 
 export const init = {
+  avatarImage : [],
+
   loadUserLodading: false, // 유저 정보 가져오기 시도중
   loadUserDone: false,
   loadUserError: false,
@@ -94,6 +96,10 @@ export const LOAD_FOLLOWINGS_REQUEST = "LOAD_FOLLOWINGS_REQUEST";
 export const LOAD_FOLLOWINGS_SUCCESS = "LOAD_FOLLOWINGS_SUCCESS";
 export const LOAD_FOLLOWINGS_FAILURE = "LOAD_FOLLOWINGS_FAILURE";
 
+export const UPLOAD_AVATAR_IMAGE_REQUEST = "UPLOAD_AVATAR_IMAGE_REQUEST";
+export const UPLOAD_AVATAR_IMAGE_SUCCESS = "UPLOAD_AVATAR_IMAGE_SUCCESS";
+export const UPLOAD_AVATAR_IMAGE_FAILURE = "UPLOAD_AVATAR_IMAGE_FAILURE";
+
 export const ADD_POST_TO_ME = "ADD_POST_TO_ME";
 export const REMOVE_POST_OF_ME = "REMOVE_POST_OF_ME";
 
@@ -130,6 +136,23 @@ export const logoutRequestAction = () => {
 const reducer = (state = init, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
+      case UPLOAD_AVATAR_IMAGE_REQUEST:
+        draft.loadMyInfoLodading = true;
+        draft.loadMyInfoError = null;
+        draft.loadMyInfoDone = false;
+        break;
+
+      case UPLOAD_AVATAR_IMAGE_SUCCESS:
+        draft.loadMyInfoLodading = false;
+        draft.loadMyInfoDone = true;
+        draft.avatarImage = action.data;
+        break;
+
+      case UPLOAD_AVATAR_IMAGE_FAILURE:
+        draft.loadMyInfoLodading = false;
+        draft.loadMyInfoError = action.error;
+        break;
+
       case LOAD_MY_INFO_REQUEST:
         draft.loadMyInfoLodading = true;
         draft.loadMyInfoError = null;

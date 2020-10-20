@@ -47,6 +47,7 @@ const PostForm = () => {
     [].forEach.call(e.target.files, (f) => {
       imageFormData.append("image", f);
     });
+    console.log("postimage", imageFormData)
     dispatch({
       type: UPLOAD_IMAGES_REQUEST,
       data: imageFormData,
@@ -62,7 +63,7 @@ const PostForm = () => {
 
   return (
     <Form
-      style={{ margin: "10px 0 20px" }}
+      style={{ margin: "30px 0 30px" }}
       encType="multipart/form-data" //업로드할 파일이있는 양식에서 사용
       onFinish={onSubmit}
     >
@@ -82,9 +83,9 @@ const PostForm = () => {
           ref={imageInput}
           onChange={onChangeImages}
         />
-        <Button onClick={onClickImageUpload}>이미지 업로드</Button>
-        <Button type="primary" style={{ float: "right" }} htmlType="submit">
-          짹짹
+        <Button onClick={onClickImageUpload} style={{marginTop : "15px"}}>이미지 업로드</Button>
+        <Button type="primary" style={{ float: "right", marginTop : "15px"  }} htmlType="submit">
+          SEND
         </Button>
       </div>
 

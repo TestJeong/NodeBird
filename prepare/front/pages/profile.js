@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import Head from "next/head";
 import AppLayout from "../components/AppLayout";
 import NicknameEditForm from "../components/NicknameEditForm";
+import AvatarImage from "../components/AvatarImage";
 import Router from 'next/router'
 import {END} from 'redux-saga'
 import axios from 'axios'
@@ -55,6 +56,7 @@ const Profile = () => {
       </Head>
       <AppLayout>
         <NicknameEditForm />
+        <AvatarImage />
         <FollowList header="팔로잉" data={followingsData} onClickMore={loadMoreFollowings} loading={!followingsData && !followingError} />
         <FollowList header="팔로워" data={followersData} onClickMore={loadMoreFollowers} loading={!followersData && !followerError} />
       </AppLayout>

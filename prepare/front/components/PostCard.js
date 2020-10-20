@@ -76,9 +76,10 @@ const PostCard = ({ post }) => {
   const liked = post.Likers.find((v) => v.id === id);
 
   return (
-    <div style={{ marginBottom: "20px" }}>
+    <div style={{ marginBottom: "20px"}}>
       <Card
-        title={post.User.nickname}
+      style={{width: "600px", margin: "0 auto"}}
+      title={post.User.nickname}
         cover={post.Images[0] && <PostImages images={post.Images} />}
         actions={[
           <RetweetOutlined key="retwwet" onClick={onRetweet} />,
@@ -117,10 +118,13 @@ const PostCard = ({ post }) => {
             <EllipsisOutlined />
           </Popover>,
         ]}
+        
         title={
           post.RetweetId ? `${post.User.nickname}님이 리트윗 하셨습니다` : null
         }
+        
         extra={id && <FollowButton post={post} />}
+        
       >
         {post.RetweetId && post.Retweet ? (
           <Card

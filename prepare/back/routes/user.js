@@ -1,4 +1,6 @@
 const express = require("express");
+const multer = require("multer")
+const path = require("path");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const { User, Post, Image, Comment } = require('../models');
 const bcrypt = require("bcrypt");
@@ -6,6 +8,21 @@ const passport = require("passport");
 const { Op } = require('sequelize');
 
 const router = express.Router();
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination(req, file, done) {
+      done(null, "uploads");
+    },
+    filename(req, file, done) {
+      // 제로초.png
+      const ext = path.extname(file.originalname); //확장자 추출(.png)
+      const basename = path.basename(file.originalname, ext); //제로초
+      done(null, basename + "_" + new Date().getTime() + ext);
+    },
+  }),
+  limits: { fileSize: 20 * 1024 * 1024 },
+});
 
 router.get("/", async (req, res, next) => {
   console.log(req.headers);
@@ -74,6 +91,12 @@ router.get('/followings', isLoggedIn, async (req, res, next) => { // GET /user/f
     next(error);
   }
 });
+
+router.post("/avatar", isLoggedIn, upload.array("avatar"), async (req, res, next) => {
+  console.log(req.files); // 업로드 된 후 실행 될것
+  res.json(req.files.map((v) => v.filename));
+}
+);
 
 router.get('/:userId/posts', async (req, res, next) => { // GET /user/1/posts
   try {
