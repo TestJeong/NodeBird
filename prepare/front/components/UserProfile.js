@@ -45,7 +45,7 @@ const UserProfile = () => {
     >
       <Card.Meta avatar={(
         <Link href={`/user/${me.id}`}>
-          <a><Avatar>{me.nickname[0]}</Avatar></a>
+          <a><Avatar src={me.avatar}></Avatar></a>
         </Link>
       )} title={me.nickname} />
       <Button onClick={onLogOut} loading={logOutLoading}>

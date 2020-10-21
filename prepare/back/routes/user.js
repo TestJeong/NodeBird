@@ -1,6 +1,7 @@
 const express = require("express");
 const multer = require("multer")
 const path = require("path");
+const fs = require("fs");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const { User, Post, Image, Comment } = require('../models');
 const bcrypt = require("bcrypt");
@@ -9,10 +10,17 @@ const { Op } = require('sequelize');
 
 const router = express.Router();
 
+try {
+  fs.accessSync("uploads/avatar");
+} catch (error) {
+  console.log("avatar 폴더가 없으므로 생성합니다.");
+  fs.mkdirSync("uploads/avatar");
+}
+
 const upload = multer({
   storage: multer.diskStorage({
     destination(req, file, done) {
-      done(null, "uploads");
+      done(null, "uploads/avatar");
     },
     filename(req, file, done) {
       // 제로초.png
@@ -93,10 +101,31 @@ router.get('/followings', isLoggedIn, async (req, res, next) => { // GET /user/f
 });
 
 router.post("/avatar", isLoggedIn, upload.array("avatar"), async (req, res, next) => {
-  console.log(req.files); // 업로드 된 후 실행 될것
+  console.log("??????")
+  console.log(req.file); // 업로드 된 후 실행 될것
   res.json(req.files.map((v) => v.filename));
 }
 );
+
+router.post("/changeavatar", isLoggedIn, upload.array("avatar"), async (req, res, next) => {
+  console.log("ffffff", req.file)
+  console.log("req.body.avatar 입니다",req.body.avatar); // 업로드 된 후 실행 될것
+  try {
+
+    await User.update(
+      {
+        avatar: req.body.avatar, //프론트
+      },
+      {
+        where: { id: req.user.id },
+      }
+    );
+    res.status(200).json({ avatar: req.body.avatar });
+  } catch (error) {
+    console.error(error);
+    next(error);
+}
+});
 
 router.get('/:userId/posts', async (req, res, next) => { // GET /user/1/posts
   try {

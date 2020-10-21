@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(100),
         allowNull: false, //비밀번호 필수
       },
+      avatar: {
+        type: DataTypes.STRING,
+        defaultValue: 'https://placeimg.com/140/140/any',
+      }
+      
     },
     {
       charset: "utf8mb4",

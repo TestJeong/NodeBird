@@ -100,6 +100,10 @@ export const UPLOAD_AVATAR_IMAGE_REQUEST = "UPLOAD_AVATAR_IMAGE_REQUEST";
 export const UPLOAD_AVATAR_IMAGE_SUCCESS = "UPLOAD_AVATAR_IMAGE_SUCCESS";
 export const UPLOAD_AVATAR_IMAGE_FAILURE = "UPLOAD_AVATAR_IMAGE_FAILURE";
 
+export const CHANGE_AVATAR_IMAGE_REQUEST = "CHANGE_AVATAR_IMAGE_REQUEST";
+export const CHANGE_AVATAR_IMAGE_SUCCESS = "CHANGE_AVATAR_IMAGE_SUCCESS";
+export const CHANGE_AVATAR_IMAGE_FAILURE = "CHANGE_AVATAR_IMAGE_FAILURE";
+
 export const ADD_POST_TO_ME = "ADD_POST_TO_ME";
 export const REMOVE_POST_OF_ME = "REMOVE_POST_OF_ME";
 
@@ -136,6 +140,23 @@ export const logoutRequestAction = () => {
 const reducer = (state = init, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
+      case CHANGE_AVATAR_IMAGE_REQUEST:
+        draft.loadMyInfoLodading = true;
+        draft.loadMyInfoError = null;
+        draft.loadMyInfoDone = false;
+        break;
+
+      case CHANGE_AVATAR_IMAGE_SUCCESS:
+        draft.loadMyInfoLodading = false;
+        draft.loadMyInfoDone = true;
+        draft.me.avatar = action.data;
+        break;
+
+      case CHANGE_AVATAR_IMAGE_FAILURE:
+        draft.loadMyInfoLodading = false;
+        draft.loadMyInfoError = action.error;
+        break;
+
       case UPLOAD_AVATAR_IMAGE_REQUEST:
         draft.loadMyInfoLodading = true;
         draft.loadMyInfoError = null;
@@ -180,6 +201,7 @@ const reducer = (state = init, action) => {
         draft.loadUserLodading = false;
         draft.loadUserDone = true;
         draft.userInfo = action.data;
+       
         break;
 
       case LOAD_USER_FAILURE:

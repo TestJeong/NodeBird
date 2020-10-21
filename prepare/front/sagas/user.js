@@ -37,6 +37,9 @@ import {
   UPLOAD_AVATAR_IMAGE_REQUEST,
   UPLOAD_AVATAR_IMAGE_SUCCESS,
   UPLOAD_AVATAR_IMAGE_FAILURE,
+  CHANGE_AVATAR_IMAGE_REQUEST,
+  CHANGE_AVATAR_IMAGE_SUCCESS,
+  CHANGE_AVATAR_IMAGE_FAILURE,
 } from "../reducers/user";
 
 function changeNicknameAPI(data) {
@@ -212,7 +215,7 @@ function uploadAvatarAPI(data) {
 }
 
 function* uploadAvatar(action) {
-  console.log("dff???")
+  console.log("uploadAvatar 실행")
   try {
     const result = yield call(uploadAvatarAPI, action.data);
     console.log(result);
@@ -220,6 +223,22 @@ function* uploadAvatar(action) {
   } catch (error) {
     console.error(error)
     yield put({ type: UPLOAD_AVATAR_IMAGE_FAILURE, error: error.response.data });
+  }
+} // put 디스패치
+
+function changeAvatarAPI(data) {
+  return axios.post(`/user/changeavatar`, data);
+}
+
+function* changeAvatar(action) {
+  console.log("Change Avatar 실행")
+  try {
+    const result = yield call(changeAvatarAPI, action.data);
+    console.log("Saga_Change Avatar",result);
+    yield put({ type: CHANGE_AVATAR_IMAGE_SUCCESS, data: result.data });
+  } catch (error) {
+    console.error(error)
+    yield put({ type: CHANGE_AVATAR_IMAGE_FAILURE, error: error.response.data });
   }
 } // put 디스패치
 
@@ -271,8 +290,13 @@ function* watchUploadAvatar() {
   yield takeLatest(UPLOAD_AVATAR_IMAGE_REQUEST, uploadAvatar);
 }
 
+function* watchChangeAvatar() {
+  yield takeLatest(CHANGE_AVATAR_IMAGE_REQUEST, changeAvatar);
+}
+
 export default function* userSaga() {
   yield all([
+    fork(watchChangeAvatar),
     fork(watchUploadAvatar),
     fork(watchRemoveFollower),
     fork(watchLoadFollowers),

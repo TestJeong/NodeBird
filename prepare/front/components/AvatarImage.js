@@ -1,6 +1,6 @@
 import React, {useMemo, useRef, useCallback} from "react";
 import {Form, Card, Button } from "antd";
-import { UPLOAD_AVATAR_IMAGE_REQUEST } from "../reducers/user";
+import { CHANGE_AVATAR_IMAGE_REQUEST, UPLOAD_AVATAR_IMAGE_REQUEST } from "../reducers/user";
 import {useDispatch, useSelector} from 'react-redux'
 
 
@@ -30,6 +30,18 @@ const AvatarImage = () => {
       data: imageFormData,
     });
   });
+
+  const onSubmit = useCallback(() => {
+   
+    const formData = new FormData();
+    avatarImage.forEach((p) => {
+      formData.append("avatar", p);
+    });
+    return dispatch({
+      type: CHANGE_AVATAR_IMAGE_REQUEST,
+      data: formData,
+    });
+  }, [avatarImage]);
   
 
   const style = useMemo(() => ({
@@ -41,6 +53,7 @@ const AvatarImage = () => {
   return (
     <Form
       encType="multipart/form-data"
+      onFinish={onSubmit}
     >
       <Card title={"프로필 이미지 변경"} style={style}>
       <input 
@@ -52,7 +65,7 @@ const AvatarImage = () => {
         onChange={onChangeAvatar}        
       />
       <Button onClick={onUploadAvatar}>업로드</Button>
-      <Button>수정</Button>
+      <Button type="primary" htmlType="submit">변경</Button>
       <div>
         {avatarImage.map((v, i) => (
           <div key={v} style={{ display: "inline-block" }}>

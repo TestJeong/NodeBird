@@ -144,6 +144,7 @@ function* addPost(action) {
   console.log("addPost 실행");
   try {
     const result = yield call(addPostAPI, action.data);
+    console.log("Saga_appPost", result)
     yield put({ type: ADD_POST_SUCCESS, data: result.data });
     yield put({ type: ADD_POST_TO_ME, data: result.data.id });
   } catch (err) {
@@ -191,6 +192,7 @@ function uploadImagesAPI(data) {
 function* uploadImages(action) {
   try {
     const result = yield call(uploadImagesAPI, action.data);
+    console.log("uploadImages입니다", result)
     yield put({ type: UPLOAD_IMAGES_SUCCESS, data: result.data });
   } catch (err) {
     console.error(err);
