@@ -1,10 +1,11 @@
-import React, {useMemo, useRef, useCallback} from "react";
+import React, {useMemo, useRef, useCallback, useState} from "react";
 import {Form, Card, Button } from "antd";
 import { CHANGE_AVATAR_IMAGE_REQUEST, UPLOAD_AVATAR_IMAGE_REQUEST } from "../reducers/user";
 import {useDispatch, useSelector} from 'react-redux'
 
 
 const AvatarImage = () => {
+  const [imageAvatar, setImageAvatar] = useState(null)
   const dispatch = useDispatch()
 
   const {avatarImage} = useSelector((state) => state.user);
@@ -19,12 +20,13 @@ const AvatarImage = () => {
   )
   
   const onChangeAvatar = useCallback((e) => {
-    console.log("Avatar", e.target.files);
+
+    console.log("hook",imageAvatar)
     const imageFormData = new FormData();
     [].forEach.call(e.target.files, (f) => {
       imageFormData.append("avatar", f);
     });
-    console.log(imageFormData)
+    
     dispatch({
       type: UPLOAD_AVATAR_IMAGE_REQUEST,
       data: imageFormData,
@@ -62,7 +64,8 @@ const AvatarImage = () => {
         multiple
         hidden
         ref={userAvatarImage}
-        onChange={onChangeAvatar}        
+        onChange={onChangeAvatar}
+        value={imageAvatar}       
       />
       <Button onClick={onUploadAvatar}>업로드</Button>
       <Button type="primary" htmlType="submit">변경</Button>
