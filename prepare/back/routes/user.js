@@ -101,14 +101,12 @@ router.get('/followings', isLoggedIn, async (req, res, next) => { // GET /user/f
 });
 
 router.post("/avatar", isLoggedIn, upload.array("avatar"), async (req, res, next) => {
-  console.log("??????")
   console.log(req.file); // 업로드 된 후 실행 될것
   res.json(req.files.map((v) => v.filename));
 }
 );
 
 router.post("/changeavatar", isLoggedIn, upload.array("avatar"), async (req, res, next) => {
-  console.log("ffffff", req.file)
   console.log("req.body.avatar 입니다",req.body.avatar); // 업로드 된 후 실행 될것
   try {
 

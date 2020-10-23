@@ -1,27 +1,27 @@
-import React, {useMemo, useRef, useCallback, useState} from "react";
+import React, {useMemo, useCallback, useEffect} from "react";
 import {Form, Card, Button } from "antd";
 import { CHANGE_AVATAR_IMAGE_REQUEST, UPLOAD_AVATAR_IMAGE_REQUEST } from "../reducers/user";
 import {useDispatch, useSelector} from 'react-redux'
+import styles from "../styles/styles.module.scss"
+
 
 
 const AvatarImage = () => {
-  const [imageAvatar, setImageAvatar] = useState(null)
+
   const dispatch = useDispatch()
 
-  const {avatarImage} = useSelector((state) => state.user);
-  
-  const userAvatarImage = useRef()
+  const {avatarImage, changeAvatarImageDone} = useSelector((state) => state.user);
 
-  const onUploadAvatar = useCallback(
-    () => {
-      userAvatarImage.current.click()
-    },
-    [userAvatarImage.current],
-  )
-  
+  useEffect(() => {
+    if(changeAvatarImageDone) {
+      console.log("chagne avatar done")
+    
+    }
+
+  },[changeAvatarImageDone])
+
   const onChangeAvatar = useCallback((e) => {
 
-    console.log("hook",imageAvatar)
     const imageFormData = new FormData();
     [].forEach.call(e.target.files, (f) => {
       imageFormData.append("avatar", f);
@@ -58,32 +58,22 @@ const AvatarImage = () => {
       onFinish={onSubmit}
     >
       <Card title={"프로필 이미지 변경"} style={style}>
-      <input 
-        type="file"
-        name="avatar"
-        multiple
-        hidden
-        ref={userAvatarImage}
-        onChange={onChangeAvatar}
-        value={imageAvatar}       
-      />
-      <Button onClick={onUploadAvatar}>업로드</Button>
-      <Button type="primary" htmlType="submit">변경</Button>
-      <div>
-        {avatarImage.map((v, i) => (
-          <div key={v} style={{ display: "inline-block" }}>
-            <img
-              src={`http://localhost:3065/${v}`}
-              style={{ width: "200px" }}
-              alt={v}
-            />
-
-            <div>
-              <Button>제거</Button>
-            </div>
-          </div>
-        ))}
+      <div class={styles.container}>
+      <div class={styles.avatarupload}>
+        <div class={styles.avataredit}>
+          <input type="file" id="imageUpload" accept=".png, .jpg, .jpeg" name="avatar" onChange={onChangeAvatar} />
+          <label for="imageUpload"></label>
+        </div>
+        <div class={styles.avatarpreview}>
+          {avatarImage ? <img
+            src={`http://localhost:3065/avatar/${avatarImage[0]}`}
+          /> : null}
+        </div>
       </div>
+    </div>
+      
+      <Button type="primary" htmlType="submit">변경</Button>
+      
       
       </Card>
     </Form>

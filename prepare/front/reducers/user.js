@@ -47,6 +47,11 @@ export const init = {
   loadFollowingsDone: false,
   loadFollowingsError: null,
 
+  changeAvatarImageLoading : false,
+  changeAvatarImageDone : false,
+  changeAvatarImageError : null,
+
+
   me: null, // 로그인한 id와 paw가 저장
   userInfo: null,
 };
@@ -141,20 +146,21 @@ const reducer = (state = init, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
       case CHANGE_AVATAR_IMAGE_REQUEST:
-        draft.loadMyInfoLodading = true;
-        draft.loadMyInfoError = null;
-        draft.loadMyInfoDone = false;
+        draft.changeAvatarImageLoading = true;
+        draft.changeAvatarImageError = null;
+        draft.changeAvatarImageDone = false;
         break;
 
       case CHANGE_AVATAR_IMAGE_SUCCESS:
-        draft.loadMyInfoLodading = false;
-        draft.loadMyInfoDone = true;
+        draft.changeAvatarImageLoading = false;
+        draft.changeAvatarImageDone = true;
         draft.me.avatar = action.data;
+        draft.avatarImage = [];
         break;
 
       case CHANGE_AVATAR_IMAGE_FAILURE:
-        draft.loadMyInfoLodading = false;
-        draft.loadMyInfoError = action.error;
+        draft.changeAvatarImageLoading = false;
+        draft.changeAvatarImageError = action.error;
         break;
 
       case UPLOAD_AVATAR_IMAGE_REQUEST:
