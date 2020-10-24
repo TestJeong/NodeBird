@@ -142,7 +142,7 @@ const PostCard = ({ post }) => {
             <Card.Meta
               avatar={(
                 <Link href={`/user/${post.Retweet.User.id}`}>
-                  <a><Avatar src={`http://localhost:3065/avatar/${me.avatar}`}></Avatar></a>
+                  <a><Avatar src={`http://localhost:3065/avatar/${post.User.avatar}`}></Avatar></a>
                 </Link>
               )}
               title={post.Retweet.User.nickname}
@@ -154,7 +154,7 @@ const PostCard = ({ post }) => {
           <Card.Meta
             avatar={(
               <Link href={`/user/${post.User.id}`}>
-                <a><Avatar src={`http://localhost:3065/avatar/${me.avatar}`}></Avatar></a>
+                <a><Avatar src={`http://localhost:3065/avatar/${post.User.avatar}`}></Avatar></a>
                 </Link>
                 )}
             title={post.User.nickname}
@@ -175,7 +175,7 @@ const PostCard = ({ post }) => {
                   author={item.User.nickname}
                   avatar={(
                     <Link href={`/user/${item.User.id}`}>
-                      <a><Avatar src={`http://localhost:3065/avatar/${me.avatar}`}></Avatar></a>
+                      <a><Avatar src={`http://localhost:3065/avatar/${post.User.avatar}`}></Avatar></a>
                     </Link>
                   )}
                   content={item.content}

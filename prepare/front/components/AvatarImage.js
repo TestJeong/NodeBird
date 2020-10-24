@@ -1,5 +1,6 @@
 import React, {useMemo, useCallback, useEffect} from "react";
 import {Form, Card, Button } from "antd";
+import {EditOutlined} from "@ant-design/icons";
 import { CHANGE_AVATAR_IMAGE_REQUEST, UPLOAD_AVATAR_IMAGE_REQUEST } from "../reducers/user";
 import {useDispatch, useSelector} from 'react-redux'
 import styles from "../styles/avatarimg.module.scss"
@@ -57,7 +58,7 @@ const AvatarImage = () => {
       <div class={styles.avatarupload}>
         <div class={styles.avataredit}>
           <input type="file" id="imageUpload" accept=".png, .jpg, .jpeg" name="avatar" onChange={onChangeAvatar} />
-          <label for="imageUpload"></label>
+          <label for="imageUpload"><EditOutlined /></label>
         </div>
         <div class={styles.avatarpreview}>
           <img

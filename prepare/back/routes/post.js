@@ -72,7 +72,7 @@ router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
           model: Comment,
           include: [{ model: User, attributes: ["id", "nickname"] }], // 댓글 작성자
         },
-        { model: User, attributes: ["id", "nickname"] }, // 게시글 작성자
+        { model: User, attributes: ["id", "nickname", "avatar"] }, // 게시글 작성자
         {
           model: User, //좋아요 누른 사람
           as: "Likers",
