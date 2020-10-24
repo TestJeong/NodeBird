@@ -23,15 +23,17 @@ import {
 } from "../reducers/post";
 import FollowButton from "../components/FollowButton";
 import moment from 'moment'
+import styles from '../styles//postcard.module.scss'
 
 moment.locale("ko")
 
 const PostCard = ({ post }) => {
   const dispatch = useDispatch();
-  const { removePostLoading, retweetError } = useSelector(
+  const { removePostLoading } = useSelector(
     (state) => state.post
   );
   const id = useSelector((state) => state.user.me?.id); // 옵셔널 체이닝
+  const { me } = useSelector((state) => state.user)
   const [commetFormOpened, setCommentFormOpened] = useState(false);
 
   const onLike = useCallback(() => {
@@ -78,6 +80,7 @@ const PostCard = ({ post }) => {
   return (
     <div style={{ marginBottom: "20px"}}>
       <Card
+      className={styles.card}
       style={{width: "600px", margin: "0 auto"}}
       title={post.User.nickname}
         cover={post.Images[0] && <PostImages images={post.Images} />}
@@ -139,7 +142,7 @@ const PostCard = ({ post }) => {
             <Card.Meta
               avatar={(
                 <Link href={`/user/${post.Retweet.User.id}`}>
-                  <a><Avatar>{post.User.nickname[0]}</Avatar></a>
+                  <a><Avatar src={`http://localhost:3065/avatar/${me.avatar}`}></Avatar></a>
                 </Link>
               )}
               title={post.Retweet.User.nickname}
@@ -151,7 +154,7 @@ const PostCard = ({ post }) => {
           <Card.Meta
             avatar={(
               <Link href={`/user/${post.User.id}`}>
-                <a><Avatar>{post.User.nickname[0]}</Avatar></a>
+                <a><Avatar src={`http://localhost:3065/avatar/${me.avatar}`}></Avatar></a>
                 </Link>
                 )}
             title={post.User.nickname}
@@ -172,7 +175,7 @@ const PostCard = ({ post }) => {
                   author={item.User.nickname}
                   avatar={(
                     <Link href={`/user/${item.User.id}`}>
-                      <a><Avatar>{item.User.nickname[0]}</Avatar></a>
+                      <a><Avatar src={`http://localhost:3065/avatar/${me.avatar}`}></Avatar></a>
                     </Link>
                   )}
                   content={item.content}

@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import useInput from "../hooks/useInput";
 
 const SearchInput = styled(Input.Search)`
-  vertical-align: "middle";
+  vertical-align: middle;
 `;
 
 const AppLayout = ({ children }) => {

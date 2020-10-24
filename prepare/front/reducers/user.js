@@ -50,6 +50,10 @@ export const init = {
   changeAvatarImageLoading : false,
   changeAvatarImageDone : false,
   changeAvatarImageError : null,
+  
+  changeAvatarUploadLoading : false,
+  changeAvatarUploadDone : false,
+  changeAvatarUploadError : null,
 
 
   me: null, // 로그인한 id와 paw가 저장
@@ -155,7 +159,8 @@ const reducer = (state = init, action) => {
         draft.changeAvatarImageLoading = false;
         draft.changeAvatarImageDone = true;
         draft.me.avatar = action.data;
-        draft.avatarImage = [];
+        
+        
         break;
 
       case CHANGE_AVATAR_IMAGE_FAILURE:
@@ -164,20 +169,20 @@ const reducer = (state = init, action) => {
         break;
 
       case UPLOAD_AVATAR_IMAGE_REQUEST:
-        draft.loadMyInfoLodading = true;
-        draft.loadMyInfoError = null;
-        draft.loadMyInfoDone = false;
+        draft.changeAvatarUploadLoading = true;
+        draft.changeAvatarUploadError = null;
+        draft.changeAvatarUploadDone = false;
         break;
 
       case UPLOAD_AVATAR_IMAGE_SUCCESS:
-        draft.loadMyInfoLodading = false;
-        draft.loadMyInfoDone = true;
+        draft.changeAvatarUploadLoading = false;
+        draft.changeAvatarUploadDone = true;
         draft.avatarImage = action.data;
         break;
 
       case UPLOAD_AVATAR_IMAGE_FAILURE:
-        draft.loadMyInfoLodading = false;
-        draft.loadMyInfoError = action.error;
+        draft.changeAvatarUploadLoading = false;
+        draft.changeAvatarUploadError = action.error;
         break;
 
       case LOAD_MY_INFO_REQUEST:

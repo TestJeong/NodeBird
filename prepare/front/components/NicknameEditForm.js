@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 const NicknameEditForm = () => {
   const { me } = useSelector((state) => state.user);
-  const [nickname, onChangeNickname] = useInput(me?.nicknaem || "");
+  const [nickname, onChangeNickname] = useInput(me?.nickname || "");
   const dispatch = useDispatch();
 
   const onSubmit = useCallback(() => {

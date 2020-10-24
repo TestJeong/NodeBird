@@ -2,23 +2,14 @@ import React, {useMemo, useCallback, useEffect} from "react";
 import {Form, Card, Button } from "antd";
 import { CHANGE_AVATAR_IMAGE_REQUEST, UPLOAD_AVATAR_IMAGE_REQUEST } from "../reducers/user";
 import {useDispatch, useSelector} from 'react-redux'
-import styles from "../styles/styles.module.scss"
-
+import styles from "../styles/avatarimg.module.scss"
 
 
 const AvatarImage = () => {
 
   const dispatch = useDispatch()
 
-  const {avatarImage, changeAvatarImageDone} = useSelector((state) => state.user);
-
-  useEffect(() => {
-    if(changeAvatarImageDone) {
-      console.log("chagne avatar done")
-    
-    }
-
-  },[changeAvatarImageDone])
+  const {avatarImage, changeAvatarImageDone,changeAvatarUploadDone, me} = useSelector((state) => state.user);
 
   const onChangeAvatar = useCallback((e) => {
 
@@ -44,12 +35,16 @@ const AvatarImage = () => {
       data: formData,
     });
   }, [avatarImage]);
-  
+
+  useEffect(() => {
+    if(changeAvatarImageDone) {
+      window.location.reload(false);
+    }
+  })
 
   const style = useMemo(() => ({
     marginBottom: "20px",
     border: "1px solid #d9d9d9",
-    
   }));
 
   return (
@@ -65,9 +60,9 @@ const AvatarImage = () => {
           <label for="imageUpload"></label>
         </div>
         <div class={styles.avatarpreview}>
-          {avatarImage ? <img
-            src={`http://localhost:3065/avatar/${avatarImage[0]}`}
-          /> : null}
+          <img
+            src={`http://localhost:3065/avatar/${changeAvatarUploadDone ? avatarImage[0] : me.avatar}`}
+          />
         </div>
       </div>
     </div>

@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { Card, Avatar, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutRequestAction } from "../reducers/user";
-import dd from '../styles/styles.module.scss'
 
 const UserProfile = () => {
   const dispatch = useDispatch();

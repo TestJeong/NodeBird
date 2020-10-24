@@ -1,0 +1,7 @@
+.card {
+  width: 600px;
+  margin: 0 auto;
+  &:hover {
+    background-color: gainsboro;
+  }
+}
