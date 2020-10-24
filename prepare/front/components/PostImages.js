@@ -13,7 +13,7 @@ height: 100%;
 const Plusimg = styled.div `
   width: 50%;
   height: auto;
-  background-color: gainsboro;
+  background-color: #e7e7e7;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -59,7 +59,9 @@ const PostImages = ({ images }) => {
   if (images.length === 2) {
     return (
       <>
+        <Contianer>
         <img
+          style={style}
           role="presentation"
           width="50%"
           src={`http://localhost:3065/${images[0].src}`}
@@ -67,6 +69,7 @@ const PostImages = ({ images }) => {
           onClick={onZoom}
         />
         <img
+          style={style}
           role="presentation"
           width="50%"
           src={`http://localhost:3065/${images[1].src}`}
@@ -74,6 +77,7 @@ const PostImages = ({ images }) => {
           onClick={onZoom}
         />
         {showImagesZoom && <ImagesZoom images={images} onClose={onClose} />}
+        </Contianer>
       </>
     );
   }

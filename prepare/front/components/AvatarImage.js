@@ -66,8 +66,9 @@ const AvatarImage = () => {
         </div>
       </div>
     </div>
-      
-      <Button type="primary" htmlType="submit">변경</Button>
+      <div style={{textAlign: "center", margin: "10px 0"}}>
+        <Button type="primary" htmlType="submit">변경</Button>
+      </div>
       
       
       </Card>
