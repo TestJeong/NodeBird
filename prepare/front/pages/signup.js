@@ -1,16 +1,19 @@
 import React, { useState, useCallback, useEffect } from "react";
 import Head from "next/head";
 import Router from "next/router";
-import axios from 'axios'
-import {END} from 'redux-saga'
+import axios from "axios";
+import { END } from "redux-saga";
 import AppLayout from "../components/AppLayout";
+import { EditOutlined } from "@ant-design/icons";
+import styles from "../styles/signup.module.scss";
+import avatarimg from "../styles/avatarimg.module.scss";
 
 import { Form, Input, Checkbox, Button } from "antd";
 import useInput from "../hooks/useInput";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { SIGN_UP_REQUEST, LOAD_MY_INFO_REQUEST } from "../reducers/user";
-import wrapper from '../store/configureStore';
+import wrapper from "../store/configureStore";
 
 const ErrorMessage = styled.div`
   color: red;
@@ -21,7 +24,7 @@ const Signup = () => {
   const { signUploading, signUpDone, signUpError, me } = useSelector(
     (state) => state.user
   );
-// replace는 뒤로가기 눌렀을때 나오지 않음
+  // replace는 뒤로가기 눌렀을때 나오지 않음
   useEffect(() => {
     if (me && me.id) {
       Router.replace("/");
@@ -78,82 +81,126 @@ const Signup = () => {
   );
 
   return (
-    <AppLayout>
+    <>
       <Head>
         <meta charSet="utf-8" />
         <title>회원가입 | NodeBird</title>
       </Head>
-      <Form onFinish={onSubmit}>
-        <div>
-          <label htmlFor="user-email">이메일</label>
-          <br />
-          <Input
-            name="user-email"
-            type="email"
-            value={email}
-            required
-            onChange={onChangeEmail}
-          />
-        </div>
-        <div>
-          <label htmlFor="user-nickname">닉네임</label>
-          <br />
-          <Input
-            name="user-nickname"
-            value={nickname}
-            required
-            onChange={onChangeNickname}
-          />
-        </div>
-        <div>
-          <label htmlFor="user-password">비밀번호</label>
-          <br />
-          <Input
-            name="user-password"
-            type="password"
-            value={password}
-            required
-            onChange={onChangePassword}
-          />
-        </div>
-        <div>
-          <label htmlFor="user-password">비밀번호 체크</label>
-          <br />
-          <Input
-            name="user-password"
-            type="password"
-            value={passwordCheck}
-            required
-            onChange={onChangePasswordCheck}
-          />
-          {passwordError && (
-            <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
-          )}
-        </div>
 
-        <div>
-          <Checkbox name="user-term" checked={term} onChange={onChangeTerm}>
-            모든 것을 확인하고 동의합니다.
-          </Checkbox>
-          {termError && (
-            <ErrorMessage style={{ color: "red" }}>
-              약관에 동의하지 않으시면 가입이 불가합니다.
-            </ErrorMessage>
-          )}
+      <div className={styles.main_container}>
+        <div className={styles.left_section}></div>
+
+        <div className={styles.right_section}>
+          <div className={styles.form_container}>
+            <Form onFinish={onSubmit}>
+              <div className={styles.avatar}>
+                <label htmlFor="user-avatar">프로필 사진</label>
+                <br />
+
+                <div>
+                  <div class={avatarimg.container}>
+                    <div class={avatarimg.avatarupload}>
+                      <div class={avatarimg.avataredit}>
+                        <input
+                          type="file"
+                          id="imageUpload"
+                          accept=".png, .jpg, .jpeg"
+                          name="avatar"
+                        />
+                        <label for="imageUpload">
+                          <EditOutlined />
+                        </label>
+                      </div>
+                      <div class={avatarimg.avatarpreview}>
+                        <img src={"https://placeimg.com/140/140/any"} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className={(styles.email, styles.rowbutton)}>
+                <label htmlFor="user-email">이메일</label>
+                <br />
+                <Input
+                  name="user-email"
+                  type="email"
+                  value={email}
+                  required
+                  onChange={onChangeEmail}
+                />
+              </div>
+
+              <div className={(styles.nickname, styles.rowbutton)}>
+                <label htmlFor="user-nickname">닉네임</label>
+                <br />
+                <Input
+                  name="user-nickname"
+                  value={nickname}
+                  required
+                  onChange={onChangeNickname}
+                />
+              </div>
+              <div className={(styles.password, styles.rowbutton)}>
+                <label htmlFor="user-password">비밀번호</label>
+                <br />
+                <Input
+                  name="user-password"
+                  type="password"
+                  value={password}
+                  required
+                  onChange={onChangePassword}
+                />
+              </div>
+              <div className={(styles.passwordcheck, styles.rowbutton)}>
+                <label htmlFor="user-password">비밀번호 체크</label>
+                <br />
+                <Input
+                  name="user-password"
+                  type="password"
+                  value={passwordCheck}
+                  required
+                  onChange={onChangePasswordCheck}
+                />
+                {passwordError && (
+                  <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
+                )}
+              </div>
+
+              <div className={(styles.checkbox, styles.rowbutton)}>
+                <Checkbox
+                  name="user-term"
+                  checked={term}
+                  onChange={onChangeTerm}
+                >
+                  모든 것을 확인하고 동의합니다.
+                </Checkbox>
+                {termError && (
+                  <ErrorMessage style={{ color: "red" }}>
+                    약관에 동의하지 않으시면 가입이 불가합니다.
+                  </ErrorMessage>
+                )}
+              </div>
+              <div className={styles.submit_button} style={{ marginTop: 10 }}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={signUploading}
+                >
+                  제출
+                </Button>
+              </div>
+            </Form>
+          </div>
         </div>
-        <div style={{ marginTop: 10 }}>
-          <Button type="primary" htmlType="submit" loading={signUploading}>
-            제출
-          </Button>
-        </div>
-      </Form>
-    </AppLayout>
+      </div>
+    </>
   );
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async (context) => {
-    console.log("context => ", (context));
+    console.log("context => ", context);
     const cookie = context.req ? context.req.headers.cookie : "";
     axios.defaults.headers.Cookie = "";
     if (context && cookie) {
@@ -163,10 +210,10 @@ export const getServerSideProps = wrapper.getServerSideProps(
     context.store.dispatch({
       type: LOAD_MY_INFO_REQUEST,
     });
-     
+
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();
-  },
+  }
 );
 
 export default Signup;

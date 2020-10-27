@@ -8,6 +8,7 @@ import UserProfile from "../components/UserProfile";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import useInput from "../hooks/useInput";
+import FollowList from "./FollowList";
 
 const SearchInput = styled(Input.Search)`
   vertical-align: middle;
@@ -56,7 +57,7 @@ const AppLayout = ({ children }) => {
           {children}
         </Col>
         <Col xs={24} md={6}>
-          
+          <FollowList />
         </Col>
       </Row>
     </div>
