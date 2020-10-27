@@ -153,9 +153,11 @@ function signUpAPI(data) {
 }
 
 function* signUp(action) {
+  console.log("sign saga실행", result.data);
   try {
     const result = yield call(signUpAPI, action.data);
-    yield put({ type: SIGN_UP_SUCCESS });
+    console.log("sign saga 값", result.data);
+    yield put({ type: SIGN_UP_SUCCESS, data: result.data });
   } catch (err) {
     yield put({ type: SIGN_UP_FAILURE, error: err.response.data });
   }
@@ -176,7 +178,7 @@ function* loadFollowers(action) {
 } // put 디스패치
 
 function loadFollowingsAPI(data) {
-  return axios.get('/user/followings', data);
+  return axios.get("/user/followings", data);
 }
 
 function* loadFollowings(action) {
@@ -215,14 +217,17 @@ function uploadAvatarAPI(data) {
 }
 
 function* uploadAvatar(action) {
-  console.log("uploadAvatar 실행")
+  console.log("uploadAvatar 실행");
   try {
     const result = yield call(uploadAvatarAPI, action.data);
     console.log(result);
     yield put({ type: UPLOAD_AVATAR_IMAGE_SUCCESS, data: result.data });
   } catch (error) {
-    console.error(error)
-    yield put({ type: UPLOAD_AVATAR_IMAGE_FAILURE, error: error.response.data });
+    console.error(error);
+    yield put({
+      type: UPLOAD_AVATAR_IMAGE_FAILURE,
+      error: error.response.data,
+    });
   }
 } // put 디스패치
 
@@ -231,14 +236,17 @@ function changeAvatarAPI(data) {
 }
 
 function* changeAvatar(action) {
-  console.log("Change Avatar 실행")
+  console.log("Change Avatar 실행");
   try {
     const result = yield call(changeAvatarAPI, action.data);
-    console.log("Saga_Change Avatar",result);
+    console.log("Saga_Change Avatar", result);
     yield put({ type: CHANGE_AVATAR_IMAGE_SUCCESS, data: result.data });
   } catch (error) {
-    console.error(error)
-    yield put({ type: CHANGE_AVATAR_IMAGE_FAILURE, error: error.response.data });
+    console.error(error);
+    yield put({
+      type: CHANGE_AVATAR_IMAGE_FAILURE,
+      error: error.response.data,
+    });
   }
 } // put 디스패치
 

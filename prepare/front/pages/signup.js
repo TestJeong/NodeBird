@@ -3,7 +3,6 @@ import Head from "next/head";
 import Router from "next/router";
 import axios from "axios";
 import { END } from "redux-saga";
-import AppLayout from "../components/AppLayout";
 import { EditOutlined } from "@ant-design/icons";
 import styles from "../styles/signup.module.scss";
 import avatarimg from "../styles/avatarimg.module.scss";
@@ -12,7 +11,11 @@ import { Form, Input, Checkbox, Button } from "antd";
 import useInput from "../hooks/useInput";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { SIGN_UP_REQUEST, LOAD_MY_INFO_REQUEST } from "../reducers/user";
+import {
+  SIGN_UP_REQUEST,
+  LOAD_MY_INFO_REQUEST,
+  UPLOAD_AVATAR_IMAGE_REQUEST,
+} from "../reducers/user";
 import wrapper from "../store/configureStore";
 
 const ErrorMessage = styled.div`
@@ -21,9 +24,13 @@ const ErrorMessage = styled.div`
 
 const Signup = () => {
   const dispatch = useDispatch();
-  const { signUploading, signUpDone, signUpError, me } = useSelector(
-    (state) => state.user
-  );
+  const {
+    signUploading,
+    signUpDone,
+    signUpError,
+    me,
+    avatarImage,
+  } = useSelector((state) => state.user);
   // replace는 뒤로가기 눌렀을때 나오지 않음
   useEffect(() => {
     if (me && me.id) {
@@ -66,6 +73,20 @@ const Signup = () => {
     setTermError(false);
   }, []);
 
+  const onChangeAvatar = useCallback((e) => {
+    const imageFormData = new FormData();
+    [].forEach.call(e.target.files, (f) => {
+      imageFormData.append("avatar", f);
+    });
+
+    console.log("회원가입 이미지 테스트", imageFormData);
+
+    dispatch({
+      type: UPLOAD_AVATAR_IMAGE_REQUEST,
+      data: imageFormData,
+    });
+  });
+
   const onSubmit = useCallback(
     (e) => {
       if (password !== passwordCheck) {
@@ -74,10 +95,16 @@ const Signup = () => {
       if (!term) {
         return setTermError(true);
       }
-      console.log(email, nickname, password);
-      dispatch({ type: SIGN_UP_REQUEST, data: { email, password, nickname } });
+      const formData = new FormData();
+      avatarImage.forEach((p) => {
+        formData.append("avatar", p);
+      });
+      dispatch({
+        type: SIGN_UP_REQUEST,
+        data: { email, password, nickname, formData },
+      });
     },
-    [password, passwordCheck, term]
+    [password, passwordCheck, term, avatarImage]
   );
 
   return (
@@ -106,13 +133,20 @@ const Signup = () => {
                           id="imageUpload"
                           accept=".png, .jpg, .jpeg"
                           name="avatar"
+                          onChange={onChangeAvatar}
                         />
                         <label for="imageUpload">
                           <EditOutlined />
                         </label>
                       </div>
                       <div class={avatarimg.avatarpreview}>
-                        <img src={"https://placeimg.com/140/140/any"} />
+                        <img
+                          src={
+                            avatarImage
+                              ? `http://localhost:3065/avatar/${avatarImage[0]}`
+                              : "https://placeimg.com/140/140/any"
+                          }
+                        />
                       </div>
                     </div>
                   </div>

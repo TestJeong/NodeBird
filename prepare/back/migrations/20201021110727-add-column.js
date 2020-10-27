@@ -1,16 +1,15 @@
-'use strict';
+"use strict";
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     queryInterface.addColumn(
-      'Users', // name of Target model
-      'avatar', // name of the key we're adding
+      "Users", // name of Target model
+      "avatar", // name of the key we're adding
       {
         type: Sequelize.STRING,
-        defaultValue: 'https://placeimg.com/140/140/any',
       }
-    )
-  
+    );
+
     /**
      * Add altering commands here.
      *
@@ -21,14 +20,14 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
     queryInterface.removeColumn(
-      'Users', // name of the Target model
-      'avatar' // key we want to remove
-    )
+      "Users", // name of the Target model
+      "avatar" // key we want to remove
+    );
     /**
      * Add reverting commands here.
      *
      * Example:
      * await queryInterface.dropTable('users');
      */
-  }
+  },
 };

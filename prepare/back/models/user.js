@@ -17,9 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       avatar: {
         type: DataTypes.STRING,
-        defaultValue: 'https://placeimg.com/140/140/any',
-      }
-      
+      },
     },
     {
       charset: "utf8mb4",

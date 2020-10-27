@@ -1,12 +1,12 @@
 const express = require("express");
-const multer = require("multer")
+const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
-const { User, Post, Image, Comment } = require('../models');
+const { User, Post, Image, Comment } = require("../models");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
-const { Op } = require('sequelize');
+const { Op } = require("sequelize");
 
 const router = express.Router();
 
@@ -64,18 +64,19 @@ router.get("/", async (req, res, next) => {
     }
   } catch (error) {
     console.error(error);
-    next(error); 
+    next(error);
   }
 });
 
-router.get('/followers', isLoggedIn, async (req, res, next) => { // GET /user/followers
+router.get("/followers", isLoggedIn, async (req, res, next) => {
+  // GET /user/followers
   try {
-    const user = await User.findOne({ where: { id: req.user.id }});
+    const user = await User.findOne({ where: { id: req.user.id } });
     if (!user) {
-      res.status(403).send('없는 사람을 찾으려고 하시네요?');
+      res.status(403).send("없는 사람을 찾으려고 하시네요?");
     }
     const followers = await user.getFollowers({
-      limit: parseInt(req.query.limit)
+      limit: parseInt(req.query.limit),
     });
     res.status(200).json(followers);
   } catch (error) {
@@ -84,14 +85,15 @@ router.get('/followers', isLoggedIn, async (req, res, next) => { // GET /user/fo
   }
 });
 
-router.get('/followings', isLoggedIn, async (req, res, next) => { // GET /user/followings
+router.get("/followings", isLoggedIn, async (req, res, next) => {
+  // GET /user/followings
   try {
-    const user = await User.findOne({ where: { id: req.user.id }});
+    const user = await User.findOne({ where: { id: req.user.id } });
     if (!user) {
-      res.status(403).send('없는 사람을 찾으려고 하시네요?');
+      res.status(403).send("없는 사람을 찾으려고 하시네요?");
     }
     const followings = await user.getFollowings({
-      limit: parseInt(req.query.limit)
+      limit: parseInt(req.query.limit),
     });
     res.status(200).json(followings);
   } catch (error) {
@@ -100,67 +102,83 @@ router.get('/followings', isLoggedIn, async (req, res, next) => { // GET /user/f
   }
 });
 
-router.post("/avatar", isLoggedIn, upload.array("avatar"), async (req, res, next) => {
+router.post("/avatar", upload.array("avatar"), async (req, res, next) => {
   console.log(req.file); // 업로드 된 후 실행 될것
   res.json(req.files.map((v) => v.filename));
-}
-);
-
-router.post("/changeavatar", isLoggedIn, upload.array("avatar"), async (req, res, next) => {
-  console.log("req.body.avatar 입니다",req.body.avatar); // 업로드 된 후 실행 될것
-  try {
-
-    await User.update(
-      {
-        avatar: req.body.avatar, //프론트
-      },
-      {
-        where: { id: req.user.id },
-      }
-    );
-    res.status(200).json({ avatar: req.body.avatar });
-  } catch (error) {
-    console.error(error);
-    next(error);
-}
 });
 
-router.get('/:userId/posts', async (req, res, next) => { // GET /user/1/posts
+router.post(
+  "/changeavatar",
+  isLoggedIn,
+  upload.array("avatar"),
+  async (req, res, next) => {
+    console.log("req.body.avatar 입니다", req.body.avatar); // 업로드 된 후 실행 될것
+    try {
+      await User.update(
+        {
+          avatar: req.body.avatar, //프론트
+        },
+        {
+          where: { id: req.user.id },
+        }
+      );
+      res.status(200).json({ avatar: req.body.avatar });
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  }
+);
+
+router.get("/:userId/posts", async (req, res, next) => {
+  // GET /user/1/posts
   try {
     const where = { UserId: req.params.userId };
-    if (parseInt(req.query.lastId, 10)) { // 초기 로딩이 아닐 때
-      where.id = { [Op.lt]: parseInt(req.query.lastId, 10)}
+    if (parseInt(req.query.lastId, 10)) {
+      // 초기 로딩이 아닐 때
+      where.id = { [Op.lt]: parseInt(req.query.lastId, 10) };
     } // 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1
     const posts = await Post.findAll({
       where,
       limit: 10,
-      order: [['createdAt', 'DESC']],
-      include: [{
-        model: User,
-        attributes: ['id', 'nickname'],
-      }, {
-        model: Image,
-      }, {
-        model: Comment,
-        include: [{
+      order: [["createdAt", "DESC"]],
+      include: [
+        {
           model: User,
-          attributes: ['id', 'nickname'],
-          order: [['createdAt', 'DESC']],
-        }],
-      }, {
-        model: User, // 좋아요 누른 사람
-        as: 'Likers',
-        attributes: ['id'],
-      }, {
-        model: Post,
-        as: 'Retweet',
-        include: [{
-          model: User,
-          attributes: ['id', 'nickname'],
-        }, {
+          attributes: ["id", "nickname"],
+        },
+        {
           model: Image,
-        }]
-      }],
+        },
+        {
+          model: Comment,
+          include: [
+            {
+              model: User,
+              attributes: ["id", "nickname"],
+              order: [["createdAt", "DESC"]],
+            },
+          ],
+        },
+        {
+          model: User, // 좋아요 누른 사람
+          as: "Likers",
+          attributes: ["id"],
+        },
+        {
+          model: Post,
+          as: "Retweet",
+          include: [
+            {
+              model: User,
+              attributes: ["id", "nickname"],
+            },
+            {
+              model: Image,
+            },
+          ],
+        },
+      ],
     });
     res.status(200).json(posts);
   } catch (error) {
@@ -214,30 +232,38 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
   })(req, res, next);
 }); //POST /user/login
 
-router.post("/", isNotLoggedIn, async (req, res, next) => {
-  try {
-    const exUser = await User.findOne({
-      where: {
+router.post(
+  "/",
+  isNotLoggedIn,
+  upload.array("avatar"),
+  async (req, res, next) => {
+    console.log("req.body.formData 입니다111", req.body.avatar);
+    try {
+      const exUser = await User.findOne({
+        where: {
+          email: req.body.email,
+        },
+      });
+      if (exUser) {
+        return res.status(403).send("이미 사용 중인 이메일 입니다");
+      }
+
+      const hashedPassword = await bcrypt.hash(req.body.password, 12);
+      await User.create({
         email: req.body.email,
-      },
-    });
-    if (exUser) {
-      return res.status(403).send("이미 사용 중인 이메일 입니다");
+        nickname: req.body.nickname,
+        password: hashedPassword,
+        avatar: req.body.avatar,
+      });
+      console.log("req.body.formData 입니다222", req.body.avatar);
+
+      res.status(200).send("ok");
+    } catch (error) {
+      console.error(error);
+      next(error);
     }
-
-    const hashedPassword = await bcrypt.hash(req.body.password, 12);
-    await User.create({
-      email: req.body.email,
-      nickname: req.body.nickname,
-      password: hashedPassword,
-    });
-
-    res.status(200).send("ok");
-  } catch (error) {
-    console.error(error);
-    next(error);
   }
-}); // POST /user/
+); // POST /user/
 
 router.post("/logout", isLoggedIn, (req, res, next) => {
   req.logout();
@@ -312,7 +338,5 @@ router.delete("/follower/:userId", isLoggedIn, async (req, res, next) => {
     next(error);
   }
 });
-
-
 
 module.exports = router;
