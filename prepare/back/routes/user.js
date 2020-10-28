@@ -232,38 +232,31 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
   })(req, res, next);
 }); //POST /user/login
 
-router.post(
-  "/",
-  isNotLoggedIn,
-  upload.array("avatar"),
-  async (req, res, next) => {
-    console.log("req.body.formData 입니다111", req.body.avatar);
-    try {
-      const exUser = await User.findOne({
-        where: {
-          email: req.body.email,
-        },
-      });
-      if (exUser) {
-        return res.status(403).send("이미 사용 중인 이메일 입니다");
-      }
-
-      const hashedPassword = await bcrypt.hash(req.body.password, 12);
-      await User.create({
+router.post("/", isNotLoggedIn, upload.none(), async (req, res, next) => {
+  try {
+    const exUser = await User.findOne({
+      where: {
         email: req.body.email,
-        nickname: req.body.nickname,
-        password: hashedPassword,
-        avatar: req.body.avatar,
-      });
-      console.log("req.body.formData 입니다222", req.body.avatar);
-
-      res.status(200).send("ok");
-    } catch (error) {
-      console.error(error);
-      next(error);
+      },
+    });
+    if (exUser) {
+      return res.status(403).send("이미 사용 중인 이메일 입니다");
     }
+
+    const hashedPassword = await bcrypt.hash(req.body.password, 12);
+    await User.create({
+      email: req.body.email,
+      nickname: req.body.nickname,
+      password: hashedPassword,
+      avatar: req.body.avatar[0],
+    });
+
+    res.status(200).send("ok");
+  } catch (error) {
+    console.error(error);
+    next(error);
   }
-); // POST /user/
+}); // POST /user/
 
 router.post("/logout", isLoggedIn, (req, res, next) => {
   req.logout();
