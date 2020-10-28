@@ -276,4 +276,4 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
 export default Signup;
 
-// checkbox 에서 check 의 기본값은 false.
+// checkbox 에서 check 의 기본값은 false..
