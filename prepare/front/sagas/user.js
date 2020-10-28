@@ -153,7 +153,7 @@ function signUpAPI(data) {
 }
 
 function* signUp(action) {
-  console.log("sign saga실행", result.data);
+  console.log("sign saga실행");
   try {
     const result = yield call(signUpAPI, action.data);
     console.log("sign saga 값", result.data);

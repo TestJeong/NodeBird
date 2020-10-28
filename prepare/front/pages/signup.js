@@ -79,7 +79,7 @@ const Signup = () => {
       imageFormData.append("avatar", f);
     });
 
-    console.log("회원가입 이미지 테스트", imageFormData);
+    console.log("회원가입", imageFormData);
 
     dispatch({
       type: UPLOAD_AVATAR_IMAGE_REQUEST,
@@ -101,7 +101,7 @@ const Signup = () => {
       });
       dispatch({
         type: SIGN_UP_REQUEST,
-        data: { email, password, nickname, formData },
+        data: { email, password, nickname, avatar: avatarImage },
       });
     },
     [password, passwordCheck, term, avatarImage]
@@ -144,7 +144,7 @@ const Signup = () => {
                           src={
                             avatarImage
                               ? `http://localhost:3065/avatar/${avatarImage[0]}`
-                              : "https://placeimg.com/140/140/any"
+                              : null
                           }
                         />
                       </div>
