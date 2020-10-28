@@ -17,6 +17,12 @@ import {
   UPLOAD_AVATAR_IMAGE_REQUEST,
 } from "../reducers/user";
 import wrapper from "../store/configureStore";
+import {
+  faCameraRetro,
+  faCommentAlt,
+  faMousePointer,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ErrorMessage = styled.div`
   color: red;
@@ -30,6 +36,7 @@ const Signup = () => {
     signUpError,
     me,
     avatarImage,
+    changeAvatarUploadDone,
   } = useSelector((state) => state.user);
   // replace는 뒤로가기 눌렀을때 나오지 않음
   useEffect(() => {
@@ -115,7 +122,24 @@ const Signup = () => {
       </Head>
 
       <div className={styles.main_container}>
-        <div className={styles.left_section}></div>
+        <div className={styles.left_section}>
+          <div className={styles.left_msg}>
+            <ul>
+              <li>
+                <FontAwesomeIcon icon={faMousePointer} />
+                <span>반가워요.</span>
+              </li>
+              <li>
+                <FontAwesomeIcon icon={faCameraRetro} />
+                <span>당신의 일상이 궁금해요!</span>{" "}
+              </li>
+              <li>
+                <FontAwesomeIcon icon={faCommentAlt} />
+                <span>함께 일상을 공유해봐요</span>
+              </li>
+            </ul>
+          </div>
+        </div>
 
         <div className={styles.right_section}>
           <div className={styles.form_container}>
@@ -142,9 +166,9 @@ const Signup = () => {
                       <div class={avatarimg.avatarpreview}>
                         <img
                           src={
-                            avatarImage
+                            changeAvatarUploadDone
                               ? `http://localhost:3065/avatar/${avatarImage[0]}`
-                              : null
+                              : `http://localhost:3065/avatar/스크린샷 2020-10-28 오후 9.46.10_1603889182495.png`
                           }
                         />
                       </div>
