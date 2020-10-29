@@ -8,7 +8,7 @@ import {
   MessageOutlined,
   EllipsisOutlined,
 } from "@ant-design/icons";
-import Link from 'next/link'
+import Link from "next/link";
 
 import { useSelector, useDispatch } from "react-redux";
 import Avatar from "antd/lib/avatar/avatar";
@@ -22,18 +22,16 @@ import {
   RETWEET_REQUEST,
 } from "../reducers/post";
 import FollowButton from "../components/FollowButton";
-import moment from 'moment'
-import styles from '../styles//postcard.module.scss'
+import moment from "moment";
+import styles from "../styles//postcard.module.scss";
 
-moment.locale("ko")
+moment.locale("ko");
 
 const PostCard = ({ post }) => {
   const dispatch = useDispatch();
-  const { removePostLoading } = useSelector(
-    (state) => state.post
-  );
+  const { removePostLoading } = useSelector((state) => state.post);
   const id = useSelector((state) => state.user.me?.id); // 옵셔널 체이닝
-  const { me } = useSelector((state) => state.user)
+  const { me } = useSelector((state) => state.user);
   const [commetFormOpened, setCommentFormOpened] = useState(false);
 
   const onLike = useCallback(() => {
@@ -78,11 +76,11 @@ const PostCard = ({ post }) => {
   const liked = post.Likers.find((v) => v.id === id);
 
   return (
-    <div style={{ marginBottom: "20px"}}>
+    <div style={{ marginBottom: "20px" }}>
       <Card
-      className={styles.card}
-      style={{width: "600px", margin: "0 auto"}}
-      title={post.User.nickname}
+        className={styles.card}
+        style={{ width: "600px", margin: "0 auto" }}
+        title={post.User.nickname}
         cover={post.Images[0] && <PostImages images={post.Images} />}
         actions={[
           <RetweetOutlined key="retwwet" onClick={onRetweet} />,
@@ -121,13 +119,10 @@ const PostCard = ({ post }) => {
             <EllipsisOutlined />
           </Popover>,
         ]}
-        
         title={
           post.RetweetId ? `${post.User.nickname}님이 리트윗 하셨습니다` : null
         }
-        
         extra={id && <FollowButton post={post} />}
-        
       >
         {post.RetweetId && post.Retweet ? (
           <Card
@@ -138,29 +133,43 @@ const PostCard = ({ post }) => {
             }
           >
             {" "}
-            <div style={{float: 'right'}}>{moment(post.createAt).format("YYYY.MM.DD")}</div>
+            <div style={{ float: "right" }}>
+              {moment(post.createAt).format("YYYY.MM.DD")}
+            </div>
             <Card.Meta
-              avatar={(
+              avatar={
                 <Link href={`/user/${post.Retweet.User.id}`}>
-                  <a><Avatar src={`http://localhost:3065/avatar/${post.User.avatar}`}></Avatar></a>
+                  <a>
+                    <Avatar
+                      src={`http://localhost:3065/avatar/${post.User.avatar}`}
+                    ></Avatar>
+                  </a>
                 </Link>
-              )}
+              }
               title={post.Retweet.User.nickname}
               description={<PostCardContent postData={post.Retweet.content} />}
             />{" "}
           </Card>
-        ) : (<>
-        <div style={{float: 'right'}}>{moment(post.createAt).format("YYYY.MM.DD")}</div>
-          <Card.Meta
-            avatar={(
-              <Link href={`/user/${post.User.id}`}>
-                <a><Avatar src={`http://localhost:3065/avatar/${post.User.avatar}`}></Avatar></a>
+        ) : (
+          <>
+            <div style={{ float: "right" }}>
+              {moment(post.createAt).format("YYYY.MM.DD")}
+            </div>
+            <Card.Meta
+              avatar={
+                <Link href={`/user/${post.User.id}`}>
+                  <a>
+                    <Avatar
+                      src={`http://localhost:3065/avatar/${post.User.avatar}`}
+                    ></Avatar>
+                  </a>
                 </Link>
-                )}
-            title={post.User.nickname}
-            description={<PostCardContent postData={post.content} />}
-          />
-        </>)}
+              }
+              title={post.User.nickname}
+              description={<PostCardContent postData={post.content} />}
+            />
+          </>
+        )}
       </Card>
       {commetFormOpened && (
         <div>
@@ -173,11 +182,15 @@ const PostCard = ({ post }) => {
               <li>
                 <Comment
                   author={item.User.nickname}
-                  avatar={(
+                  avatar={
                     <Link href={`/user/${item.User.id}`}>
-                      <a><Avatar src={`http://localhost:3065/avatar/${post.User.avatar}`}></Avatar></a>
+                      <a>
+                        <Avatar
+                          src={`http://localhost:3065/avatar/${post.User.avatar}`}
+                        ></Avatar>
+                      </a>
                     </Link>
-                  )}
+                  }
                   content={item.content}
                 />
               </li>
@@ -206,3 +219,4 @@ PostCard.propTypes = {
 export default PostCard;
 
 // 배열안에 jsx를 넣을때는 항상 key 값을 입력해야한다
+// 테스트
