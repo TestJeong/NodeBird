@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import Link from "next/link";
-import { Menu, Input, Row, Col } from "antd";
+import { Button, Input, Row, Col, Card, Avatar } from "antd";
 import { TwitterOutlined } from "@ant-design/icons";
 import Router from "next/router";
 import LoginForm from "../components/LoginForm";
@@ -42,13 +42,32 @@ const AppLayout = ({ children }) => {
             value={searchInput}
             onChange={onChangeSearchInput}
             onSearch={onSearch}
+            placeholder={"무엇을 찾으시나요?"}
           />
         </nav>
 
-        <nav className={styles.item}>
-          <Link href="/profile">
-            <a className={styles.item_aTag_avatar}>프로필</a>
-          </Link>
+        <nav className={styles.item_avatar}>
+          {me ? (
+            <Card.Meta
+              className={styles.item_aTag_avatar}
+              avatar={
+                <Link href={`/user/${me.id}`}>
+                  <a>
+                    <Avatar
+                      src={`http://localhost:3065/avatar/${me.avatar}`}
+                    ></Avatar>
+                  </a>
+                </Link>
+              }
+              title={me.nickname}
+            />
+          ) : (
+            <Link href="/signup">
+              <a className={styles.item_aTag_avatar}>
+                <Button type="primary">SIGN UP</Button>
+              </a>
+            </Link>
+          )}
         </nav>
       </div>
       <Row gutter={0}>

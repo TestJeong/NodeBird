@@ -13,8 +13,18 @@
   font-size: 1.5rem;
 }
 
+.item_avatar {
+  margin: 15px 20px;
+  font-size: 1.5rem;
+}
+
 .item_aTag_avatar {
   float: right;
+  :last-child {
+    div {
+    margin-top: 6px;
+    }
+  }
 }
 
 .item_aTag_logo {
