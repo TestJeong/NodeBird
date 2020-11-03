@@ -1,0 +1,35 @@
+.container {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 0.5fr;
+  align-items: center;
+  margin-bottom: 30px;
+  background-color: white;
+}
+
+.item {
+  text-align: center;
+  margin: 15px 20px;
+  font-size: 1.5rem;
+}
+
+.item_avatar {
+  margin: 15px 20px;
+  font-size: 1.5rem;
+}
+
+.item_aTag_avatar {
+  float: right;
+  display: flex;
+  :last-child {
+    div {
+    margin-top: 6px;
+    }
+  }
+}
+
+.item_aTag_logo {
+  float: left;
+  span {
+    margin-right: 60px;
+  }
+}

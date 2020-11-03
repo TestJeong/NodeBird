@@ -1,7 +1,13 @@
 import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import Link from "next/link";
-import { Menu, Input, Row, Col } from "antd";
+import { Button, Input, Row, Col, Card, Avatar } from "antd";
+import {
+  TwitterOutlined,
+  NotificationOutlined,
+  MessageOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 import Router from "next/router";
 import LoginForm from "../components/LoginForm";
 import UserProfile from "../components/UserProfile";
@@ -9,13 +15,11 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import useInput from "../hooks/useInput";
 import FollowList from "./FollowList";
+import styles from "../styles//applayout.module.scss";
 
 const SearchInput = styled(Input.Search)`
   vertical-align: middle;
-`;
-
-const MenuAntd = styled(Menu)`
-  margin-bottom: 40px;
+  width: 94%;
 `;
 
 const AppLayout = ({ children }) => {
@@ -27,34 +31,62 @@ const AppLayout = ({ children }) => {
   }, [searchInput]);
 
   return (
-    <div style={{ padding: "10px", backgroundColor: "#f7f7f7" }}>
-      <MenuAntd mode="horizontal">
-        <Menu.Item>
+    <div style={{ backgroundColor: "#f7f7f7" }}>
+      <div className={styles.container}>
+        <nav className={styles.item}>
           <Link href="/">
-            <a>노드버드</a>
+            <a className={styles.item_aTag_logo}>
+              <TwitterOutlined />
+            </a>
           </Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link href="/profile">
-            <a>프로필</a>
+          <Link href="">
+            <a className={styles.item_aTag_logo}>
+              <NotificationOutlined />
+            </a>
           </Link>
-        </Menu.Item>
-        <Menu.Item>
+          <Link href="">
+            <a className={styles.item_aTag_logo}>
+              <MessageOutlined />
+            </a>
+          </Link>
+        </nav>
+
+        <nav className={styles.item}>
           <SearchInput
             enterButton
             value={searchInput}
             onChange={onChangeSearchInput}
             onSearch={onSearch}
+            placeholder={"Search Twitter"}
           />
-        </Menu.Item>
-        <Menu.Item>
-          <Link href="/signup">
-            <a>회원가입</a>
-          </Link>
-        </Menu.Item>
-      </MenuAntd>
-      <Row gutter={0}>
-        <Col xs={24} md={6} style={{ backgroundColor: "#f7f7f7" }}>
+        </nav>
+
+        <nav className={styles.item_avatar}>
+          {me ? (
+            <Card.Meta
+              className={styles.item_aTag_avatar}
+              avatar={
+                <Link href={`/user/${me.id}`}>
+                  <a>
+                    <Avatar
+                      src={`http://localhost:3065/avatar/${me.avatar}`}
+                    ></Avatar>
+                  </a>
+                </Link>
+              }
+              title={me.nickname}
+            />
+          ) : (
+            <Link href="/signup">
+              <a className={styles.item_aTag_avatar}>
+                <Button type="primary">SIGN UP</Button>
+              </a>
+            </Link>
+          )}
+        </nav>
+      </div>
+      <Row style={{ padding: "0px 10px" }}>
+        <Col xs={24} md={6}>
           {me ? <UserProfile /> : <LoginForm />}
         </Col>
         <Col xs={24} md={12} style={{ backgroundColor: "#f7f7f7" }}>
@@ -67,8 +99,6 @@ const AppLayout = ({ children }) => {
     </div>
   );
 };
-
-// gutter 컴럼사이의 간격 양쪽 합쳐 8px
 
 AppLayout.propTypes = {
   children: PropTypes.node.isRequired,

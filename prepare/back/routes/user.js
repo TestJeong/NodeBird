@@ -145,7 +145,7 @@ router.get("/:userId/posts", async (req, res, next) => {
       include: [
         {
           model: User,
-          attributes: ["id", "nickname"],
+          attributes: ["id", "nickname", "avatar"],
         },
         {
           model: Image,
@@ -155,7 +155,7 @@ router.get("/:userId/posts", async (req, res, next) => {
           include: [
             {
               model: User,
-              attributes: ["id", "nickname"],
+              attributes: ["id", "nickname", "avatar"],
               order: [["createdAt", "DESC"]],
             },
           ],
@@ -171,7 +171,7 @@ router.get("/:userId/posts", async (req, res, next) => {
           include: [
             {
               model: User,
-              attributes: ["id", "nickname"],
+              attributes: ["id", "nickname", "avatar"],
             },
             {
               model: Image,

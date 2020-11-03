@@ -11,7 +11,9 @@ const ButtonWrapper = styled.div`
 `;
 
 const FormWrapper = styled(Form)`
-  padding: 10px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
 `;
 
 const LoginForm = () => {
