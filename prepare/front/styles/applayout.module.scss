@@ -4,7 +4,6 @@
   align-items: center;
   margin-bottom: 30px;
   background-color: white;
-  border-radius: 10px;
 }
 
 .item {
@@ -20,6 +19,7 @@
 
 .item_aTag_avatar {
   float: right;
+  display: flex;
   :last-child {
     div {
     margin-top: 6px;
@@ -29,4 +29,7 @@
 
 .item_aTag_logo {
   float: left;
+  span {
+    margin-right: 60px;
+  }
 }

@@ -2,7 +2,12 @@ import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import Link from "next/link";
 import { Button, Input, Row, Col, Card, Avatar } from "antd";
-import { TwitterOutlined } from "@ant-design/icons";
+import {
+  TwitterOutlined,
+  NotificationOutlined,
+  MessageOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
 import Router from "next/router";
 import LoginForm from "../components/LoginForm";
 import UserProfile from "../components/UserProfile";
@@ -26,12 +31,22 @@ const AppLayout = ({ children }) => {
   }, [searchInput]);
 
   return (
-    <div style={{ padding: "10px", backgroundColor: "#f7f7f7" }}>
+    <div style={{ backgroundColor: "#f7f7f7" }}>
       <div className={styles.container}>
         <nav className={styles.item}>
           <Link href="/">
             <a className={styles.item_aTag_logo}>
               <TwitterOutlined />
+            </a>
+          </Link>
+          <Link href="">
+            <a className={styles.item_aTag_logo}>
+              <NotificationOutlined />
+            </a>
+          </Link>
+          <Link href="">
+            <a className={styles.item_aTag_logo}>
+              <MessageOutlined />
             </a>
           </Link>
         </nav>
@@ -42,7 +57,7 @@ const AppLayout = ({ children }) => {
             value={searchInput}
             onChange={onChangeSearchInput}
             onSearch={onSearch}
-            placeholder={"무엇을 찾으시나요?"}
+            placeholder={"Search Twitter"}
           />
         </nav>
 
@@ -70,7 +85,7 @@ const AppLayout = ({ children }) => {
           )}
         </nav>
       </div>
-      <Row gutter={0}>
+      <Row style={{ padding: "0px 10px" }}>
         <Col xs={24} md={6}>
           {me ? <UserProfile /> : <LoginForm />}
         </Col>
@@ -84,8 +99,6 @@ const AppLayout = ({ children }) => {
     </div>
   );
 };
-
-// gutter 컴럼사이의 간격 양쪽 합쳐 8px
 
 AppLayout.propTypes = {
   children: PropTypes.node.isRequired,
