@@ -5,7 +5,16 @@
 .card {
   width: 90%;
   margin: 0 auto;
+  border-radius: 10px;
   &:hover {
     background-color: #f7f7f7;
   }
+  ul {
+    border-radius: 0 0 10px 10px;;
+  }
+}
+
+.commentList {
+  width: 90%;
+  margin: 20px auto 20px auto;
 }

@@ -165,21 +165,12 @@ const PostCard = ({ post }) => {
             />{" "}
           </Card>
         ) : (
+          // postCard content 부분
           <>
             <div style={{ float: "right" }}>
               {moment(post.createAt).format("YYYY.MM.DD")}
             </div>
             <Card.Meta
-              avatar={
-                <Link href={`/user/${post.User.id}`}>
-                  <a>
-                    <Avatar
-                      src={`http://localhost:3065/avatar/${post.User.avatar}`}
-                    ></Avatar>
-                  </a>
-                </Link>
-              }
-              title={post.User.nickname}
               description={<PostCardContent postData={post.content} />}
             />
           </>
@@ -189,6 +180,7 @@ const PostCard = ({ post }) => {
         <div>
           <CommentForm post={post} />
           <List
+            className={styles.commentList}
             header={`${post.Comments.length}개의 댓글`}
             itemLayout="horizontal"
             dataSource={post.Comments}
@@ -200,7 +192,7 @@ const PostCard = ({ post }) => {
                     <Link href={`/user/${item.User.id}`}>
                       <a>
                         <Avatar
-                          src={`http://localhost:3065/avatar/${post.User.avatar}`}
+                          src={`http://localhost:3065/avatar/${item.User.avatar}`}
                         ></Avatar>
                       </a>
                     </Link>

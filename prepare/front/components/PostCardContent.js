@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import PropTypes from "prop-types";
+import PostImages from "./PostImages";
 
 const PostCardContent = ({ postData }) => (
   <div>
@@ -20,3 +21,5 @@ const PostCardContent = ({ postData }) => (
 PostCardContent.propTypes = { postData: PropTypes.string };
 
 export default PostCardContent;
+
+//
