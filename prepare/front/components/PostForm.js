@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { Form, Input, Button } from "antd";
+import { CameraOutlined } from "@ant-design/icons";
 import { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import useInput from "../hooks/useInput";
@@ -84,9 +85,12 @@ const PostForm = () => {
           ref={imageInput}
           onChange={onChangeImages}
         />
-        <Button onClick={onClickImageUpload} style={{ marginTop: "15px" }}>
-          이미지 업로드
-        </Button>
+        <Button
+          icon={<CameraOutlined />}
+          shape="round"
+          onClick={onClickImageUpload}
+          style={{ marginTop: "15px" }}
+        />
         <Button
           type="primary"
           style={{ float: "right", marginTop: "15px" }}
