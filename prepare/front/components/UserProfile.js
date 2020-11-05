@@ -3,7 +3,8 @@ import Link from "next/link";
 import { Card, Avatar, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutRequestAction } from "../reducers/user";
-import styles from "../styles/mediaquery.module.scss";
+import media from "../styles/mediaquery.module.scss";
+import styles from "../styles/userprofile.module.scss";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ const UserProfile = () => {
 
   return (
     <Card
-      className={styles.userProfile}
+      className={media.userProfile}
       actions={[
         <div key="twit">
           <Link href={`/user/${me.id}`}>
@@ -49,6 +50,7 @@ const UserProfile = () => {
       ]}
     >
       <Card.Meta
+        className={styles.item_aTag_avatar}
         avatar={
           <Link href={`/user/${me.id}`}>
             <a>

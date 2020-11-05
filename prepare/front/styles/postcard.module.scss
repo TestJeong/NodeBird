@@ -18,3 +18,15 @@
   width: 90%;
   margin: 20px auto 20px auto;
 }
+
+.item_aTag_avatar {
+  :last-child {
+    :nth-child(1){
+    margin-bottom: 0px;
+    }
+    :nth-child(2) {
+      font-size: .7rem;
+      opacity: 0.7;
+    }
+  }
+}
