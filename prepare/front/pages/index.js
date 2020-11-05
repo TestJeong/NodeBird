@@ -8,7 +8,7 @@ import { LOAD_POSTS_REQUEST } from "../reducers/post";
 import { LOAD_MY_INFO_REQUEST } from "../reducers/user";
 import wrapper from "../store/configureStore";
 import axios from "axios";
-
+import SignupCard from "../components/SignupCard";
 
 const Home = () => {
   const { me } = useSelector((state) => state.user);
@@ -46,18 +46,17 @@ const Home = () => {
 
   return (
     <AppLayout>
-      {me && <PostForm />}
+      {me ? <PostForm /> : <SignupCard />}
       {mainPosts.map((post) => (
         <PostCard key={post.id} post={post} />
       ))}
     </AppLayout>
   );
-  
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
   async (context) => {
-    console.log("context => ", (context));
+    console.log("context => ", context);
     const cookie = context.req ? context.req.headers.cookie : "";
     axios.defaults.headers.Cookie = "";
     if (context && cookie) {
@@ -73,8 +72,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     });
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();
-  },
+  }
 );
-
 
 export default Home;
