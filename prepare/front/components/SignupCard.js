@@ -1,20 +1,27 @@
 import React from "react";
+import styled from "styled-components";
 import { Card, Button } from "antd";
 import Link from "next/link";
 import styles from "../styles/SignUp_Card.module.scss";
+import SignUpImage from "../img/clip.png";
+
+const Image = styled.img`
+  width: 100%;
+  height: auto;
+`;
 
 const SignupCard = () => {
   return (
     <Card className={styles.container}>
-      <img src={"https://ifh.cc/g/QfJ6NR.jpg"} alt="" />
+      <Image src={SignUpImage} alt="image" />
       <p>
         <h1>
-          Wellcome! Nice to meet You &&
+          사람들이 무엇에 대해 얘기하고 있는지 알아보세요
           <br />
-          sdafsdfasdfa
+          당신은 무엇에 관심이있나요?
         </h1>
       </p>
-      <p>How are you? Have a good day?</p>
+      <p>당신의 일상이 궁금해요 함께 공유해주세요!</p>
       <p>
         {
           <Link href="/signup">

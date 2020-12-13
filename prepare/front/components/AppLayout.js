@@ -35,7 +35,7 @@ const AppLayout = ({ children }) => {
       <div className={styles.container}>
         <nav className={styles.item}>
           <Link href="/">
-            <a className={styles.item_aTag_logo}>
+            <a className={styles.item_aTag_Mainlogo}>
               <TwitterOutlined />
             </a>
           </Link>
@@ -74,7 +74,6 @@ const AppLayout = ({ children }) => {
                   </a>
                 </Link>
               }
-              title={me.nickname}
             />
           ) : (
             <Link href="/signup">

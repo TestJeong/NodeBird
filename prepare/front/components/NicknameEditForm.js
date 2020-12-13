@@ -1,8 +1,18 @@
 import React, { useCallback, useMemo } from "react";
+import styled from "styled-components";
 import { Form, Input, Card, Button } from "antd";
 import { CHANGE_NICKNAME_REQUEST } from "../reducers/user";
 import useInput from "../hooks/useInput";
 import { useSelector, useDispatch } from "react-redux";
+
+const FormContainer = styled(Form)`
+  width: 90%;
+  border-radius: 10px;
+  margin: 0 auto 30px auto;
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #f0f0f0;
+`;
 
 const NicknameEditForm = () => {
   const { me } = useSelector((state) => state.user);
@@ -16,15 +26,8 @@ const NicknameEditForm = () => {
     });
   }, [nickname]);
 
-  const style = useMemo(() => ({
-    marginBottom: "20px",
-    border: "1px solid #d9d9d9",
-    padding: "20px",
-  }));
-
-
   return (
-    <Form style={style}>
+    <FormContainer>
       <Input.Search
         value={nickname}
         onChange={onChangeNickname}
@@ -32,8 +35,7 @@ const NicknameEditForm = () => {
         enterButton="수정"
         onSearch={onSubmit}
       />
-    </Form>
-    
+    </FormContainer>
   );
 };
 

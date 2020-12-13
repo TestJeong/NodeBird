@@ -23,6 +23,7 @@ import {
   faMousePointer,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Noimg from "../img/noimg.png";
 
 const ErrorMessage = styled.div`
   color: red;
@@ -168,7 +169,7 @@ const Signup = () => {
                           src={
                             changeAvatarUploadDone
                               ? `http://localhost:3065/avatar/${avatarImage[0]}`
-                              : `http://localhost:3065/avatar/스크린샷 2020-10-28 오후 9.46.10_1603889182495.png`
+                              : Noimg
                           }
                         />
                       </div>

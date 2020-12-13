@@ -1,10 +1,20 @@
 import React, { useCallback } from "react";
+import styled from "styled-components";
 import Link from "next/link";
 import { Card, Avatar, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutRequestAction } from "../reducers/user";
-import media from "../styles/mediaquery.module.scss";
 import styles from "../styles/userprofile.module.scss";
+
+const CardConatiner = styled(Card)`
+  border-radius: 10px;
+  @media (max-width: 768px) {
+    display: none;
+  }
+  ul {
+    border-radius: 0 0 10px 10px;
+  }
+`;
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -15,8 +25,7 @@ const UserProfile = () => {
   });
 
   return (
-    <Card
-      className={media.userProfile}
+    <CardConatiner
       actions={[
         <div key="twit">
           <Link href={`/user/${me.id}`}>
@@ -65,7 +74,7 @@ const UserProfile = () => {
       <Button onClick={onLogOut} loading={logOutLoading}>
         로그아웃
       </Button>
-    </Card>
+    </CardConatiner>
   );
 };
 

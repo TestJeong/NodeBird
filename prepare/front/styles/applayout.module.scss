@@ -30,9 +30,20 @@
   }
 }
 
+.item_aTag_Mainlogo{
+  float: left;
+  span {
+    margin-right: 60px;
+  }
+
+}
+
 .item_aTag_logo {
   float: left;
   span {
     margin-right: 60px;
+  }
+  @media (max-width : 768px) {
+      display: none;  
   }
 }
