@@ -15,17 +15,23 @@ import Avatar from "antd/lib/avatar/avatar";
 import PostImages from "./PostImages";
 import CommentForm from "./CommentForm";
 import PostCardContent from "./PostCardContent";
+import FollowButton from "../components/FollowButton";
+
 import {
   REMOVE_POST_REQUEST,
   LIKE_POST_REQUEST,
   UNLIKE_POST_REQUEST,
   RETWEET_REQUEST,
 } from "../reducers/post";
-import FollowButton from "../components/FollowButton";
-import moment from "moment";
+
+import dayjs from "dayjs";
+import "dayjs/locale/ko";
+import relativeTime from "dayjs/plugin/relativeTime";
+
 import styles from "../styles//postcard.module.scss";
 
-moment.locale("ko");
+dayjs.locale("ko");
+dayjs.extend(relativeTime);
 
 const PostCard = ({ post }) => {
   const dispatch = useDispatch();
@@ -123,6 +129,7 @@ const PostCard = ({ post }) => {
             `${post.User.nickname}님이 리트윗 하셨습니다`
           ) : (
             <Card.Meta
+              className={styles.item_aTag_avatar}
               avatar={
                 <Link href={`/user/${post.User.id}`}>
                   <a>
@@ -133,6 +140,7 @@ const PostCard = ({ post }) => {
                 </Link>
               }
               title={post.User.nickname}
+              description={dayjs(post.createdAt).fromNow()}
             />
           )
         }
@@ -146,11 +154,8 @@ const PostCard = ({ post }) => {
               )
             }
           >
-            {" "}
-            <div style={{ float: "right" }}>
-              {moment(post.createAt).format("YYYY.MM.DD")}
-            </div>
             <Card.Meta
+              className={styles.item_aTag_avatar}
               avatar={
                 <Link href={`/user/${post.Retweet.User.id}`}>
                   <a>
@@ -162,24 +167,12 @@ const PostCard = ({ post }) => {
               }
               title={post.Retweet.User.nickname}
               description={<PostCardContent postData={post.Retweet.content} />}
-            />{" "}
+            />
           </Card>
         ) : (
+          // postCard content 부분
           <>
-            <div style={{ float: "right" }}>
-              {moment(post.createAt).format("YYYY.MM.DD")}
-            </div>
             <Card.Meta
-              avatar={
-                <Link href={`/user/${post.User.id}`}>
-                  <a>
-                    <Avatar
-                      src={`http://localhost:3065/avatar/${post.User.avatar}`}
-                    ></Avatar>
-                  </a>
-                </Link>
-              }
-              title={post.User.nickname}
               description={<PostCardContent postData={post.content} />}
             />
           </>
@@ -189,6 +182,7 @@ const PostCard = ({ post }) => {
         <div>
           <CommentForm post={post} />
           <List
+            className={styles.commentList}
             header={`${post.Comments.length}개의 댓글`}
             itemLayout="horizontal"
             dataSource={post.Comments}
@@ -200,7 +194,7 @@ const PostCard = ({ post }) => {
                     <Link href={`/user/${item.User.id}`}>
                       <a>
                         <Avatar
-                          src={`http://localhost:3065/avatar/${post.User.avatar}`}
+                          src={`http://localhost:3065/avatar/${item.User.avatar}`}
                         ></Avatar>
                       </a>
                     </Link>

@@ -70,7 +70,7 @@ router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
         { model: Image },
         {
           model: Comment,
-          include: [{ model: User, attributes: ["id", "nickname"] }], // 댓글 작성자
+          include: [{ model: User, attributes: ["id", "nickname", "avatar"] }], // 댓글 작성자
         },
         { model: User, attributes: ["id", "nickname", "avatar"] }, // 게시글 작성자
         {
@@ -154,7 +154,7 @@ router.post("/:postId/retweet", isLoggedIn, async (req, res, next) => {
         { model: Image },
         {
           model: Comment,
-          include: [{ model: User, attributes: ["id", "nickname"] }],
+          include: [{ model: User, attributes: ["id", "nickname", "avatar"] }],
         },
         { model: User, as: "Likers", attributes: ["id"] },
       ],
@@ -208,7 +208,7 @@ router.get("/:postId", async (req, res, next) => {
           include: [
             {
               model: User,
-              attributes: ["id", "nickname"],
+              attributes: ["id", "nickname", "avatar"],
             },
           ],
         },
@@ -242,7 +242,7 @@ router.post("/:postId/comment", isLoggedIn, async (req, res, next) => {
       include: [
         {
           model: User,
-          attributes: ["id", "nickname"],
+          attributes: ["id", "nickname", "avatar"],
         },
       ],
     });
