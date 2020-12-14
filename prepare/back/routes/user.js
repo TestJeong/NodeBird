@@ -29,7 +29,7 @@ const upload = multer({
       done(null, basename + "_" + new Date().getTime() + ext);
     },
   }),
-  limits: { fileSize: 20 * 1024 * 1024 },
+  limits: { fileSize: 20 * 1200 * 1200 },
 });
 
 router.get("/", async (req, res, next) => {

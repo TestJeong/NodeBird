@@ -5,10 +5,11 @@ import { Card, Avatar, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutRequestAction } from "../reducers/user";
 import styles from "../styles/userprofile.module.scss";
+import Noimg from "../img/noimg.png";
 
 const CardConatiner = styled(Card)`
   border-radius: 10px;
-  @media (max-width: 768px) {
+  @media (max-width: 1200px) {
     display: none;
   }
   ul {
@@ -23,6 +24,8 @@ const UserProfile = () => {
   const onLogOut = useCallback(() => {
     dispatch(logoutRequestAction());
   });
+
+  console.log("test", me.avatar === null);
 
   return (
     <CardConatiner
@@ -64,7 +67,11 @@ const UserProfile = () => {
           <Link href={`/user/${me.id}`}>
             <a>
               <Avatar
-                src={`http://localhost:3065/avatar/${me.avatar}`}
+                src={
+                  me.avatar === null
+                    ? Noimg
+                    : `http://localhost:3065/avatar/${me.avatar}`
+                }
               ></Avatar>
             </a>
           </Link>

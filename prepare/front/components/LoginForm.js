@@ -19,7 +19,7 @@ const FormWrapper = styled(Form)`
   background-color: white;
   border-radius: 10px;
   margin: 0 auto 30px auto;
-  @media (max-width: 768px) {
+  @media (max-width: 1200px) {
     width: 90%;
   }
 `;
