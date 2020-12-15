@@ -7,6 +7,21 @@ import { logoutRequestAction } from "../reducers/user";
 import styles from "../styles/userprofile.module.scss";
 import Noimg from "../img/noimg.png";
 
+const ButtonContainer = styled.div`
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+`;
+
+const ProfileBnt = styled(Button)`
+  margin-right: 20px;
+`;
+
+const AvatarContainer = styled(Avatar)`
+  width: 100px;
+  height: 100px;
+`;
+
 const CardConatiner = styled(Card)`
   border-radius: 10px;
   @media (max-width: 1200px) {
@@ -66,21 +81,26 @@ const UserProfile = () => {
         avatar={
           <Link href={`/user/${me.id}`}>
             <a>
-              <Avatar
+              <AvatarContainer
                 src={
                   me.avatar === null
                     ? Noimg
                     : `http://localhost:3065/avatar/${me.avatar}`
                 }
-              ></Avatar>
+              />
             </a>
           </Link>
         }
         title={me.nickname}
       />
-      <Button onClick={onLogOut} loading={logOutLoading}>
-        로그아웃
-      </Button>
+      <ButtonContainer>
+        <ProfileBnt type="primary" onClick={onLogOut} loading={logOutLoading}>
+          내 프로필
+        </ProfileBnt>
+        <Button onClick={onLogOut} loading={logOutLoading}>
+          로그아웃
+        </Button>
+      </ButtonContainer>
     </CardConatiner>
   );
 };

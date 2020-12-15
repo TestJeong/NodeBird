@@ -18,13 +18,14 @@ import styles from "../styles//applayout.module.scss";
 import FollowRecommend from "./FollowRecommend";
 import Noimg from "../img/noimg.png";
 
-const SearchInput = styled(Input.Search)`
-  vertical-align: middle;
+const { Search } = Input;
+
+const SearchInput = styled(Search)`
   width: 90%;
 `;
 
 const GridContainer = styled(Row)`
-  padding: 0px 50px;
+  padding: 0px 200px;
   @media (max-width: 1200px) {
     padding: 0px 20px;
   }
@@ -42,7 +43,7 @@ const AppLayout = ({ children }) => {
     <div style={{ backgroundColor: "#f7f7f7" }}>
       <div className={styles.container}>
         <GridContainer>
-          <Col xs={24} xl={6}>
+          <Col span={6}>
             <nav className={styles.item}>
               <Link href="/">
                 <a className={styles.item_aTag_Mainlogo}>
@@ -61,7 +62,8 @@ const AppLayout = ({ children }) => {
               </Link>
             </nav>
           </Col>
-          <Col xs={24} xl={12}>
+
+          <Col span={12}>
             <nav className={styles.item}>
               <SearchInput
                 enterButton
@@ -72,11 +74,11 @@ const AppLayout = ({ children }) => {
               />
             </nav>
           </Col>
-          <Col xs={24} xl={6}>
+
+          <Col span={6}>
             <nav className={styles.item_avatar}>
               {me ? (
                 <Card.Meta
-                  className={styles.item_aTag_avatar}
                   avatar={
                     <Link href={`/user/${me.id}`}>
                       <a>
@@ -94,7 +96,7 @@ const AppLayout = ({ children }) => {
               ) : (
                 <Link href="/signup">
                   <a className={styles.item_aTag_avatar}>
-                    <Button type="primary">SIGN UP</Button>
+                    <Button type="primary">회원가입</Button>
                   </a>
                 </Link>
               )}
@@ -102,62 +104,7 @@ const AppLayout = ({ children }) => {
           </Col>
         </GridContainer>
       </div>
-      {/* <div className={styles.container}>
-        <nav className={styles.item}>
-          <Link href="/">
-            <a className={styles.item_aTag_Mainlogo}>
-              <TwitterOutlined />
-            </a>
-          </Link>
-          <Link href="">
-            <a className={styles.item_aTag_logo}>
-              <NotificationOutlined />
-            </a>
-          </Link>
-          <Link href="">
-            <a className={styles.item_aTag_logo}>
-              <MessageOutlined />
-            </a>
-          </Link>
-        </nav>
 
-        <nav className={styles.item}>
-          <SearchInput
-            enterButton
-            value={searchInput}
-            onChange={onChangeSearchInput}
-            onSearch={onSearch}
-            placeholder={"Search Twitter"}
-          />
-        </nav>
-
-        <nav className={styles.item_avatar}>
-          {me ? (
-            <Card.Meta
-              className={styles.item_aTag_avatar}
-              avatar={
-                <Link href={`/user/${me.id}`}>
-                  <a>
-                    <Avatar
-                      src={
-                        me.avatar === null
-                          ? Noimg
-                          : `http://localhost:3065/avatar/${me.avatar}`
-                      }
-                    ></Avatar>
-                  </a>
-                </Link>
-              }
-            />
-          ) : (
-            <Link href="/signup">
-              <a className={styles.item_aTag_avatar}>
-                <Button type="primary">SIGN UP</Button>
-              </a>
-            </Link>
-          )}
-        </nav>
-      </div> */}
       <GridContainer>
         <Col xs={24} xl={6}>
           {me ? <UserProfile /> : <LoginForm />}

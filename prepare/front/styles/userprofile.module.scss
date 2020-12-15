@@ -1,7 +1,10 @@
 .item_aTag_avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   :last-child {
     div {
-    margin-top: 3px;
+    margin-top: 10px;
     }
   }
 }
