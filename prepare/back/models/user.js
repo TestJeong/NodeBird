@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         defaultValue: null,
       },
+      influencer: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     {
       charset: "utf8mb4",

@@ -26,7 +26,7 @@ const SignupCard = () => {
         {
           <Link href="/signup">
             <a className={styles.item_aTag_avatar}>
-              <Button type="primary">SIGN UP</Button>
+              <Button type="primary">회원가입</Button>
             </a>
           </Link>
         }

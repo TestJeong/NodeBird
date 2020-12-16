@@ -83,7 +83,9 @@ const AvatarImage = () => {
                 src={
                   changeAvatarUploadDone
                     ? `http://localhost:3065/avatar/${avatarImage[0]}`
-                    : Noimg
+                    : me.avatar.length === 0
+                    ? Noimg
+                    : `http://localhost:3065/avatar/${me.avatar}`
                 }
               />
             </div>

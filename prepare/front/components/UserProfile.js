@@ -5,6 +5,8 @@ import { Card, Avatar, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutRequestAction } from "../reducers/user";
 import styles from "../styles/userprofile.module.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRibbon } from "@fortawesome/free-solid-svg-icons";
 import Noimg from "../img/noimg.png";
 
 const ButtonContainer = styled.div`
@@ -40,7 +42,7 @@ const UserProfile = () => {
     dispatch(logoutRequestAction());
   });
 
-  console.log("test", me.avatar === null);
+  const test = <FontAwesomeIcon icon={faRibbon} />;
 
   return (
     <CardConatiner
@@ -91,12 +93,20 @@ const UserProfile = () => {
             </a>
           </Link>
         }
-        title={me.nickname}
+        title={
+          <div>
+            <FontAwesomeIcon style={{ color: "#40a9ff" }} icon={faRibbon} />
+            {me.nickname}
+          </div>
+        }
       />
+
       <ButtonContainer>
-        <ProfileBnt type="primary" onClick={onLogOut} loading={logOutLoading}>
-          내 프로필
-        </ProfileBnt>
+        <Link href="/profile">
+          <ProfileBnt type="primary" loading={logOutLoading}>
+            내 프로필
+          </ProfileBnt>
+        </Link>
         <Button onClick={onLogOut} loading={logOutLoading}>
           로그아웃
         </Button>
