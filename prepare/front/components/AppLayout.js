@@ -16,10 +16,19 @@ import { useSelector } from "react-redux";
 import useInput from "../hooks/useInput";
 import styles from "../styles//applayout.module.scss";
 import FollowRecommend from "./FollowRecommend";
+import Noimg from "../img/noimg.png";
 
-const SearchInput = styled(Input.Search)`
-  vertical-align: middle;
-  width: 94%;
+const { Search } = Input;
+
+const SearchInput = styled(Search)`
+  width: 90%;
+`;
+
+const GridContainer = styled(Row)`
+  padding: 0px 200px;
+  @media (max-width: 1200px) {
+    padding: 0px 20px;
+  }
 `;
 
 const AppLayout = ({ children }) => {
@@ -33,68 +42,80 @@ const AppLayout = ({ children }) => {
   return (
     <div style={{ backgroundColor: "#f7f7f7" }}>
       <div className={styles.container}>
-        <nav className={styles.item}>
-          <Link href="/">
-            <a className={styles.item_aTag_Mainlogo}>
-              <TwitterOutlined />
-            </a>
-          </Link>
-          <Link href="">
-            <a className={styles.item_aTag_logo}>
-              <NotificationOutlined />
-            </a>
-          </Link>
-          <Link href="">
-            <a className={styles.item_aTag_logo}>
-              <MessageOutlined />
-            </a>
-          </Link>
-        </nav>
+        <GridContainer>
+          <Col span={6}>
+            <nav className={styles.item}>
+              <Link href="/">
+                <a className={styles.item_aTag_Mainlogo}>
+                  <TwitterOutlined />
+                </a>
+              </Link>
+              <Link href="">
+                <a className={styles.item_aTag_logo}>
+                  <NotificationOutlined />
+                </a>
+              </Link>
+              <Link href="">
+                <a className={styles.item_aTag_logo}>
+                  <MessageOutlined />
+                </a>
+              </Link>
+            </nav>
+          </Col>
 
-        <nav className={styles.item}>
-          <SearchInput
-            enterButton
-            value={searchInput}
-            onChange={onChangeSearchInput}
-            onSearch={onSearch}
-            placeholder={"Search Twitter"}
-          />
-        </nav>
+          <Col span={12}>
+            <nav className={styles.item}>
+              <SearchInput
+                enterButton
+                value={searchInput}
+                onChange={onChangeSearchInput}
+                onSearch={onSearch}
+                placeholder={"Search Twitter"}
+              />
+            </nav>
+          </Col>
 
-        <nav className={styles.item_avatar}>
-          {me ? (
-            <Card.Meta
-              className={styles.item_aTag_avatar}
-              avatar={
-                <Link href={`/user/${me.id}`}>
-                  <a>
-                    <Avatar
-                      src={`http://localhost:3065/avatar/${me.avatar}`}
-                    ></Avatar>
+          <Col span={6}>
+            <nav className={styles.item_avatar}>
+              {me ? (
+                <Card.Meta
+                  avatar={
+                    <Link href={`/user/${me.id}`}>
+                      <a>
+                        <Avatar
+                          src={
+                            me.avatar === null
+                              ? Noimg
+                              : `http://localhost:3065/avatar/${me.avatar}`
+                          }
+                        ></Avatar>
+                      </a>
+                    </Link>
+                  }
+                />
+              ) : (
+                <Link href="/signup">
+                  <a className={styles.item_aTag_avatar}>
+                    <Button type="primary">회원가입</Button>
                   </a>
                 </Link>
-              }
-            />
-          ) : (
-            <Link href="/signup">
-              <a className={styles.item_aTag_avatar}>
-                <Button type="primary">SIGN UP</Button>
-              </a>
-            </Link>
-          )}
-        </nav>
+              )}
+            </nav>
+          </Col>
+        </GridContainer>
       </div>
-      <Row style={{ padding: "0px 10px" }}>
-        <Col xs={24} md={6}>
+
+      <GridContainer>
+        <Col xs={24} xl={6}>
           {me ? <UserProfile /> : <LoginForm />}
         </Col>
-        <Col xs={24} md={12} style={{ backgroundColor: "#f7f7f7" }}>
+        <Col xs={24} xl={12} style={{ backgroundColor: "#f7f7f7" }}>
           {children}
         </Col>
-        <Col xs={24} md={6} style={{ backgroundColor: "#f7f7f7" }}>
+        <Col xs={24} xl={6} style={{ backgroundColor: "#f7f7f7" }}>
           <FollowRecommend />
         </Col>
-      </Row>
+      </GridContainer>
     </div>
   );
 };

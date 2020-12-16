@@ -17,6 +17,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       avatar: {
         type: DataTypes.STRING,
+        defaultValue: null,
+      },
+      influencer: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
       },
     },
     {

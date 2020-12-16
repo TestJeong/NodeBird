@@ -178,52 +178,74 @@ const Signup = () => {
                 </div>
               </div>
 
-              <div className={(styles.email, styles.rowbutton)}>
-                <label htmlFor="user-email">이메일</label>
-                <br />
-                <Input
-                  name="user-email"
+              <div class={styles.form__group}>
+                <input
+                  autoComplete="off"
                   type="email"
+                  class={styles.form__field}
+                  placeholder="Email"
+                  name="email"
                   value={email}
-                  required
                   onChange={onChangeEmail}
+                  id="name"
+                  required
                 />
+                <label for="name" class={styles.form__label}>
+                  Email
+                </label>
               </div>
 
-              <div className={(styles.nickname, styles.rowbutton)}>
-                <label htmlFor="user-nickname">닉네임</label>
-                <br />
-                <Input
-                  name="user-nickname"
+              <div class={styles.form__group}>
+                <input
+                  autoComplete="off"
+                  class={styles.form__field}
+                  placeholder="Name"
+                  name="name"
                   value={nickname}
-                  required
                   onChange={onChangeNickname}
+                  id="name"
+                  required
                 />
+                <label for="name" class={styles.form__label}>
+                  Name
+                </label>
               </div>
-              <div className={(styles.password, styles.rowbutton)}>
-                <label htmlFor="user-password">비밀번호</label>
-                <br />
-                <Input
-                  name="user-password"
+
+              <div class={styles.form__group}>
+                <input
+                  autoComplete="new-password"
                   type="password"
+                  class={styles.form__field}
+                  placeholder="Password"
+                  name="password"
                   value={password}
-                  required
                   onChange={onChangePassword}
-                />
-              </div>
-              <div className={(styles.passwordcheck, styles.rowbutton)}>
-                <label htmlFor="user-password">비밀번호 체크</label>
-                <br />
-                <Input
-                  name="user-password"
-                  type="password"
-                  value={passwordCheck}
+                  id="password"
                   required
+                />
+                <label for="password" class={styles.form__label}>
+                  Password
+                </label>
+              </div>
+
+              <div class={styles.form__group}>
+                <input
+                  autoComplete="off"
+                  type="password"
+                  class={styles.form__field}
+                  placeholder="passwordCheck"
+                  name="passwordCheck"
+                  value={passwordCheck}
                   onChange={onChangePasswordCheck}
+                  id="password"
+                  required
                 />
                 {passwordError && (
                   <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
                 )}
+                <label for="passwordCheck" class={styles.form__label}>
+                  Password Check
+                </label>
               </div>
 
               <div className={(styles.checkbox, styles.rowbutton)}>

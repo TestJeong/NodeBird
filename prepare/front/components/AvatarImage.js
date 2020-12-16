@@ -8,6 +8,7 @@ import {
 } from "../reducers/user";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../styles/avatarimg.module.scss";
+import Noimg from "../img/noimg.png";
 
 const CardContainer = styled(Form)`
   width: 90%;
@@ -79,9 +80,13 @@ const AvatarImage = () => {
             </div>
             <div class={styles.avatarpreview}>
               <img
-                src={`http://localhost:3065/avatar/${
-                  changeAvatarUploadDone ? avatarImage[0] : me.avatar
-                }`}
+                src={
+                  changeAvatarUploadDone
+                    ? `http://localhost:3065/avatar/${avatarImage[0]}`
+                    : me.avatar.length === 0
+                    ? Noimg
+                    : `http://localhost:3065/avatar/${me.avatar}`
+                }
               />
             </div>
           </div>

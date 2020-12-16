@@ -5,10 +5,28 @@ import { Card, Avatar, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutRequestAction } from "../reducers/user";
 import styles from "../styles/userprofile.module.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRibbon } from "@fortawesome/free-solid-svg-icons";
+import Noimg from "../img/noimg.png";
+
+const ButtonContainer = styled.div`
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+`;
+
+const ProfileBnt = styled(Button)`
+  margin-right: 20px;
+`;
+
+const AvatarContainer = styled(Avatar)`
+  width: 100px;
+  height: 100px;
+`;
 
 const CardConatiner = styled(Card)`
   border-radius: 10px;
-  @media (max-width: 768px) {
+  @media (max-width: 1200px) {
     display: none;
   }
   ul {
@@ -23,6 +41,8 @@ const UserProfile = () => {
   const onLogOut = useCallback(() => {
     dispatch(logoutRequestAction());
   });
+
+  const test = <FontAwesomeIcon icon={faRibbon} />;
 
   return (
     <CardConatiner
@@ -63,17 +83,34 @@ const UserProfile = () => {
         avatar={
           <Link href={`/user/${me.id}`}>
             <a>
-              <Avatar
-                src={`http://localhost:3065/avatar/${me.avatar}`}
-              ></Avatar>
+              <AvatarContainer
+                src={
+                  me.avatar === null
+                    ? Noimg
+                    : `http://localhost:3065/avatar/${me.avatar}`
+                }
+              />
             </a>
           </Link>
         }
-        title={me.nickname}
+        title={
+          <div>
+            <FontAwesomeIcon style={{ color: "#40a9ff" }} icon={faRibbon} />
+            {me.nickname}
+          </div>
+        }
       />
-      <Button onClick={onLogOut} loading={logOutLoading}>
-        로그아웃
-      </Button>
+
+      <ButtonContainer>
+        <Link href="/profile">
+          <ProfileBnt type="primary" loading={logOutLoading}>
+            내 프로필
+          </ProfileBnt>
+        </Link>
+        <Button onClick={onLogOut} loading={logOutLoading}>
+          로그아웃
+        </Button>
+      </ButtonContainer>
     </CardConatiner>
   );
 };
