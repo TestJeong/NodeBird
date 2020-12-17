@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import PostForm from "../components/PostForm";
 import PostCard from "../components/PostCard";
 import { LOAD_POSTS_REQUEST } from "../reducers/post";
-import { LOAD_MY_INFO_REQUEST } from "../reducers/user";
+import {
+  LOAD_MY_INFO_REQUEST,
+  RECOMMEND_FOLLOW_LIST_REQUEST,
+} from "../reducers/user";
 import wrapper from "../store/configureStore";
 import axios from "axios";
 import SignupCard from "../components/SignupCard";
@@ -65,6 +68,10 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
     context.store.dispatch({
       type: LOAD_MY_INFO_REQUEST,
+    });
+
+    context.store.dispatch({
+      type: RECOMMEND_FOLLOW_LIST_REQUEST,
     });
 
     context.store.dispatch({

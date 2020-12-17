@@ -9,8 +9,11 @@ import axios from "axios";
 import useSWR from "swr";
 
 import FollowList from "../components/FollowList";
-import { useSelector, useDispatch } from "react-redux";
-import { LOAD_MY_INFO_REQUEST } from "../reducers/user";
+import { useSelector } from "react-redux";
+import {
+  LOAD_MY_INFO_REQUEST,
+  RECOMMEND_FOLLOW_LIST_REQUEST,
+} from "../reducers/user";
 import wrapper from "../store/configureStore";
 
 const fetcher = (url) =>
@@ -87,6 +90,11 @@ export const getServerSideProps = wrapper.getServerSideProps(
     if (context.req && cookie) {
       axios.defaults.headers.Cookie = cookie;
     }
+
+    context.store.dispatch({
+      type: RECOMMEND_FOLLOW_LIST_REQUEST,
+    });
+
     context.store.dispatch({
       type: LOAD_MY_INFO_REQUEST,
     });

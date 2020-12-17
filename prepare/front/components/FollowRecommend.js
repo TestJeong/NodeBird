@@ -1,5 +1,8 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRibbon } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "antd";
 import Link from "next/link";
 import Avatar from "antd/lib/avatar/avatar";
@@ -27,15 +30,19 @@ const FollowContents = styled.div``;
 const AvatarContainer = styled.div``;
 
 const FollowRecommend = () => {
+  const { recommendFollowList } = useSelector((state) => state.user);
+
   return (
     <Container>
       <Title>팔로우 추천</Title>
       <AvatarContainer>
-        <FollowContents>
-          <Avatar
-            src={"http://localhost:3065/avatar/김봉진_1607860934601.jpeg"}
-          />
-        </FollowContents>
+        {recommendFollowList.map((user) => (
+          <FollowContents>
+            <Avatar src={`http://localhost:3065/avatar/${user.avatar}`} />
+            {user.nickname}
+            <FontAwesomeIcon style={{ color: "#40a9ff" }} icon={faRibbon} />
+          </FollowContents>
+        ))}
       </AvatarContainer>
     </Container>
   );

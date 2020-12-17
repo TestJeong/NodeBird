@@ -15,6 +15,7 @@ import {
   SIGN_UP_REQUEST,
   LOAD_MY_INFO_REQUEST,
   UPLOAD_AVATAR_IMAGE_REQUEST,
+  RECOMMEND_FOLLOW_LIST_REQUEST,
 } from "../reducers/user";
 import wrapper from "../store/configureStore";
 import {
@@ -290,6 +291,10 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
     context.store.dispatch({
       type: LOAD_MY_INFO_REQUEST,
+    });
+
+    context.store.dispatch({
+      type: RECOMMEND_FOLLOW_LIST_REQUEST,
     });
 
     context.store.dispatch(END);
