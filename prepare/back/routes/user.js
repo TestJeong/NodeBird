@@ -70,6 +70,7 @@ router.get("/", async (req, res, next) => {
 router.get("/recommend", async (req, res, next) => {
   try {
     const recommendUser = await User.findAll({
+      limit: 3,
       where: { influencer: true },
 
       attributes: ["id", "nickname", "avatar", "influencer"],
