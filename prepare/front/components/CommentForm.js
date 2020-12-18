@@ -1,9 +1,15 @@
 import { Form, Input, Button } from "antd";
 import { useCallback, useEffect } from "react";
 import useInput from "../hooks/useInput";
+import styled from "styled-components";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { ADD_COMMENT_REQUEST } from "../reducers/post";
+
+const FormWrapper = styled(Form)`
+  width: 90%;
+  margin: 20px auto 20px auto;
+`;
 
 const CommentForm = ({ post }) => {
   const dispatch = useDispatch();
@@ -28,7 +34,7 @@ const CommentForm = ({ post }) => {
   }, [commentText, id]);
 
   return (
-    <Form onFinish={onSubmitComment}>
+    <FormWrapper onFinish={onSubmitComment}>
       <Form.Item style={{ position: "relative", margine: 0 }}>
         <Input.TextArea
           value={commentText}
@@ -44,7 +50,7 @@ const CommentForm = ({ post }) => {
           삐약
         </Button>
       </Form.Item>
-    </Form>
+    </FormWrapper>
   );
 };
 

@@ -15,6 +15,7 @@ import {
   SIGN_UP_REQUEST,
   LOAD_MY_INFO_REQUEST,
   UPLOAD_AVATAR_IMAGE_REQUEST,
+  RECOMMEND_FOLLOW_LIST_REQUEST,
 } from "../reducers/user";
 import wrapper from "../store/configureStore";
 import {
@@ -23,6 +24,7 @@ import {
   faMousePointer,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Noimg from "../img/noimg.png";
 
 const ErrorMessage = styled.div`
   color: red;
@@ -168,7 +170,7 @@ const Signup = () => {
                           src={
                             changeAvatarUploadDone
                               ? `http://localhost:3065/avatar/${avatarImage[0]}`
-                              : `http://localhost:3065/avatar/스크린샷 2020-10-28 오후 9.46.10_1603889182495.png`
+                              : Noimg
                           }
                         />
                       </div>
@@ -177,52 +179,74 @@ const Signup = () => {
                 </div>
               </div>
 
-              <div className={(styles.email, styles.rowbutton)}>
-                <label htmlFor="user-email">이메일</label>
-                <br />
-                <Input
-                  name="user-email"
+              <div class={styles.form__group}>
+                <input
+                  autoComplete="off"
                   type="email"
+                  class={styles.form__field}
+                  placeholder="Email"
+                  name="email"
                   value={email}
-                  required
                   onChange={onChangeEmail}
+                  id="name"
+                  required
                 />
+                <label for="name" class={styles.form__label}>
+                  Email
+                </label>
               </div>
 
-              <div className={(styles.nickname, styles.rowbutton)}>
-                <label htmlFor="user-nickname">닉네임</label>
-                <br />
-                <Input
-                  name="user-nickname"
+              <div class={styles.form__group}>
+                <input
+                  autoComplete="off"
+                  class={styles.form__field}
+                  placeholder="Name"
+                  name="name"
                   value={nickname}
-                  required
                   onChange={onChangeNickname}
+                  id="name"
+                  required
                 />
+                <label for="name" class={styles.form__label}>
+                  Name
+                </label>
               </div>
-              <div className={(styles.password, styles.rowbutton)}>
-                <label htmlFor="user-password">비밀번호</label>
-                <br />
-                <Input
-                  name="user-password"
+
+              <div class={styles.form__group}>
+                <input
+                  autoComplete="new-password"
                   type="password"
+                  class={styles.form__field}
+                  placeholder="Password"
+                  name="password"
                   value={password}
-                  required
                   onChange={onChangePassword}
-                />
-              </div>
-              <div className={(styles.passwordcheck, styles.rowbutton)}>
-                <label htmlFor="user-password">비밀번호 체크</label>
-                <br />
-                <Input
-                  name="user-password"
-                  type="password"
-                  value={passwordCheck}
+                  id="password"
                   required
+                />
+                <label for="password" class={styles.form__label}>
+                  Password
+                </label>
+              </div>
+
+              <div class={styles.form__group}>
+                <input
+                  autoComplete="off"
+                  type="password"
+                  class={styles.form__field}
+                  placeholder="passwordCheck"
+                  name="passwordCheck"
+                  value={passwordCheck}
                   onChange={onChangePasswordCheck}
+                  id="password"
+                  required
                 />
                 {passwordError && (
                   <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
                 )}
+                <label for="passwordCheck" class={styles.form__label}>
+                  Password Check
+                </label>
               </div>
 
               <div className={(styles.checkbox, styles.rowbutton)}>
@@ -267,6 +291,10 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
     context.store.dispatch({
       type: LOAD_MY_INFO_REQUEST,
+    });
+
+    context.store.dispatch({
+      type: RECOMMEND_FOLLOW_LIST_REQUEST,
     });
 
     context.store.dispatch(END);

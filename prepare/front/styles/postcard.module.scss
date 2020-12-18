@@ -1,8 +1,32 @@
+.cardContainer {
+  margin-bottom: 30px;
+}
+
 .card {
-  width: 600px;
+  width: 90%;
   margin: 0 auto;
+  border-radius: 10px;
   &:hover {
     background-color: #f7f7f7;
-    
+  }
+  ul {
+    border-radius: 0 0 10px 10px;;
+  }
+}
+
+.commentList {
+  width: 90%;
+  margin: 20px auto 20px auto;
+}
+
+.item_aTag_avatar {
+  :last-child {
+    :nth-child(1){
+    margin-bottom: 0px;
+    }
+    :nth-child(2) {
+      font-size: .7rem;
+      opacity: 0.7;
+    }
   }
 }

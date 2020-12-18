@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { Form, Input, Button } from "antd";
+import { CameraOutlined } from "@ant-design/icons";
 import { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import useInput from "../hooks/useInput";
@@ -8,6 +9,7 @@ import {
   REMOVE_IMAGE,
   ADD_POST_REQUEST,
 } from "../reducers/post";
+import styles from "../styles/postform.module.scss";
 
 const PostForm = () => {
   const { imagePaths, addPostDone } = useSelector((state) => state.post);
@@ -47,7 +49,7 @@ const PostForm = () => {
     [].forEach.call(e.target.files, (f) => {
       imageFormData.append("image", f);
     });
-    console.log("postimage", imageFormData)
+    console.log("postimage", imageFormData);
     dispatch({
       type: UPLOAD_IMAGES_REQUEST,
       data: imageFormData,
@@ -63,14 +65,14 @@ const PostForm = () => {
 
   return (
     <Form
-      style={{ margin: "30px 0 30px" }}
+      className={styles.form}
       encType="multipart/form-data" //업로드할 파일이있는 양식에서 사용
       onFinish={onSubmit}
     >
       <Input.TextArea
         value={text}
         onChange={onChangeText}
-        maxLength={140}
+        maxLength={340}
         placeholder="어떤 일이 있었나요?"
       />
 
@@ -83,8 +85,17 @@ const PostForm = () => {
           ref={imageInput}
           onChange={onChangeImages}
         />
-        <Button onClick={onClickImageUpload} style={{marginTop : "15px"}}>이미지 업로드</Button>
-        <Button type="primary" style={{ float: "right", marginTop : "15px"  }} htmlType="submit">
+        <Button
+          icon={<CameraOutlined />}
+          shape="round"
+          onClick={onClickImageUpload}
+          style={{ marginTop: "15px" }}
+        />
+        <Button
+          type="primary"
+          style={{ float: "right", marginTop: "15px" }}
+          htmlType="submit"
+        >
           SEND
         </Button>
       </div>

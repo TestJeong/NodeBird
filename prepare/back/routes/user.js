@@ -29,11 +29,10 @@ const upload = multer({
       done(null, basename + "_" + new Date().getTime() + ext);
     },
   }),
-  limits: { fileSize: 20 * 1024 * 1024 },
+  limits: { fileSize: 20 * 1200 * 1200 },
 });
 
 router.get("/", async (req, res, next) => {
-  console.log(req.headers);
   try {
     if (req.user) {
       const fullUserWithoutPassword = await User.findOne({
@@ -62,6 +61,21 @@ router.get("/", async (req, res, next) => {
     } else {
       res.status(200).json(null);
     }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.get("/recommend", async (req, res, next) => {
+  try {
+    const recommendUser = await User.findAll({
+      limit: 3,
+      where: { influencer: true },
+
+      attributes: ["id", "nickname", "avatar", "influencer"],
+    });
+    res.status(200).json(recommendUser);
   } catch (error) {
     console.error(error);
     next(error);
@@ -145,7 +159,7 @@ router.get("/:userId/posts", async (req, res, next) => {
       include: [
         {
           model: User,
-          attributes: ["id", "nickname"],
+          attributes: ["id", "nickname", "avatar"],
         },
         {
           model: Image,
@@ -155,7 +169,7 @@ router.get("/:userId/posts", async (req, res, next) => {
           include: [
             {
               model: User,
-              attributes: ["id", "nickname"],
+              attributes: ["id", "nickname", "avatar"],
               order: [["createdAt", "DESC"]],
             },
           ],
@@ -171,7 +185,7 @@ router.get("/:userId/posts", async (req, res, next) => {
           include: [
             {
               model: User,
-              attributes: ["id", "nickname"],
+              attributes: ["id", "nickname", "avatar"],
             },
             {
               model: Image,
@@ -227,6 +241,7 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
           },
         ],
       });
+
       return res.status(200).json(fullUserWithoutPassword);
     });
   })(req, res, next);

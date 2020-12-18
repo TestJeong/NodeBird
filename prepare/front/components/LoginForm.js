@@ -10,8 +10,18 @@ const ButtonWrapper = styled.div`
   margin-top: 11px;
 `;
 
+const LoginButton = styled(Button)`
+  margin-right: 15px;
+`;
+
 const FormWrapper = styled(Form)`
-  padding: 10px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  margin: 0 auto 30px auto;
+  @media (max-width: 1200px) {
+    width: 90%;
+  }
 `;
 
 const LoginForm = () => {
@@ -57,9 +67,9 @@ const LoginForm = () => {
         />
       </div>
       <ButtonWrapper>
-        <Button type="primary" htmlType="submit" loading={logInLodading}>
+        <LoginButton type="primary" htmlType="submit" loading={logInLodading}>
           로그인
-        </Button>
+        </LoginButton>
 
         <Link href="/signup">
           <a>

@@ -1,10 +1,19 @@
 import React from "react";
+import styled from "styled-components";
 import { List, Button, Avatar, Card } from "antd";
 import { StopOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { UNFOLLOW_REQUEST, REMOVE_FOLLOWER_REQUEST } from "../reducers/user";
 import { useDispatch, useSelector } from "react-redux";
-import Link from 'next/link'
+import Link from "next/link";
+
+const ListConatiner = styled(List)`
+  width: 90%;
+  border-radius: 10px;
+  margin: 0 auto 30px auto;
+  background-color: white;
+  border: 1px solid #f0f0f0;
+`;
 
 const FollowList = ({ header, data, onClickMore, loading }) => {
   const dispatch = useDispatch();
@@ -23,14 +32,16 @@ const FollowList = ({ header, data, onClickMore, loading }) => {
     }
   };
   return (
-    <List
+    <ListConatiner
       style={{ marginBottom: 20 }}
       grid={{ gutter: 4, xs: 2, md: 3 }}
       size="small"
       header={<div>{header}</div>}
       loadMore={
         <div style={{ textAlign: "center", margin: "10px 0" }}>
-          <Button onClick={onClickMore} loading={loading}>더 보기</Button>
+          <Button type="primary" ghost onClick={onClickMore} loading={loading}>
+            더 보기
+          </Button>
         </div>
       }
       bordered
@@ -38,14 +49,24 @@ const FollowList = ({ header, data, onClickMore, loading }) => {
       renderItem={(item) => (
         <List.Item style={{ marginTop: 20 }}>
           <Card
-
-            actions={[<StopOutlined key="stop" onClick={onCancle(item.id)} />]}
+            actions={[
+              <Button danger key="stop" onClick={onCancle(item.id)}>
+                삭제
+              </Button>,
+            ]}
           >
-            <Card.Meta description={item.nickname} avatar={(
+            <Card.Meta
+              description={item.nickname}
+              avatar={
                 <Link href={`/user/${item.id}`}>
-                  <a><Avatar src={`http://localhost:3065/avatar/${item.avatar}`}></Avatar></a>
+                  <a>
+                    <Avatar
+                      src={`http://localhost:3065/avatar/${item.avatar}`}
+                    ></Avatar>
+                  </a>
                 </Link>
-              )} />
+              }
+            />
           </Card>
         </List.Item>
       )}

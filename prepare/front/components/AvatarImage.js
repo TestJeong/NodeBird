@@ -1,4 +1,5 @@
 import React, { useMemo, useCallback, useEffect } from "react";
+import styled from "styled-components";
 import { Form, Card, Button } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import {
@@ -7,6 +8,15 @@ import {
 } from "../reducers/user";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../styles/avatarimg.module.scss";
+import Noimg from "../img/noimg.png";
+
+const CardContainer = styled(Form)`
+  width: 90%;
+  border-radius: 10px;
+  margin: 0 auto 30px auto;
+  background-color: white;
+  border: 1px solid #f0f0f0;
+`;
 
 const AvatarImage = () => {
   const dispatch = useDispatch();
@@ -51,14 +61,9 @@ const AvatarImage = () => {
     }
   });
 
-  const style = useMemo(() => ({
-    marginBottom: "20px",
-    border: "1px solid #d9d9d9",
-  }));
-
   return (
     <Form encType="multipart/form-data" onFinish={onSubmit}>
-      <Card title={"프로필 다미지 변경"} style={style}>
+      <CardContainer title={"프로필 이미지 변경"}>
         <div class={styles.container}>
           <div class={styles.avatarupload}>
             <div class={styles.avataredit}>
@@ -75,9 +80,13 @@ const AvatarImage = () => {
             </div>
             <div class={styles.avatarpreview}>
               <img
-                src={`http://localhost:3065/avatar/${
-                  changeAvatarUploadDone ? avatarImage[0] : me.avatar
-                }`}
+                src={
+                  changeAvatarUploadDone
+                    ? `http://localhost:3065/avatar/${avatarImage[0]}`
+                    : me.avatar.length === 0
+                    ? Noimg
+                    : `http://localhost:3065/avatar/${me.avatar}`
+                }
               />
             </div>
           </div>
@@ -87,7 +96,7 @@ const AvatarImage = () => {
             변경
           </Button>
         </div>
-      </Card>
+      </CardContainer>
     </Form>
   );
 };

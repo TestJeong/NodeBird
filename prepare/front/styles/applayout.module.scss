@@ -1,0 +1,41 @@
+.container {
+
+  align-items: center;
+  margin-bottom: 30px;
+  background-color: white;
+  @media (max-width: 1200px) {
+    padding: 0px 20px;
+  }
+}
+
+.item {
+  text-align: center;
+  margin: 15px 0px;
+  font-size: 1.5rem;
+
+}
+
+.item_avatar {
+  margin: 15px 0px;
+  float: right;
+
+}
+
+
+.item_aTag_Mainlogo{
+  float: left;
+  span {
+    margin-right: 60px;
+  }
+
+}
+
+.item_aTag_logo {
+  float: left;
+  span {
+    margin-right: 60px;
+  }
+  @media (max-width : 1200px) {
+      display: none;  
+  }
+}
