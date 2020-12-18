@@ -99,7 +99,7 @@ router.post(
 
 router.post("/:postId/retweet", isLoggedIn, async (req, res, next) => {
   // POST/ post/1/retweet
-  console.log("테스트 ");
+
   try {
     const post = await Post.findOne({
       where: { id: req.params.postId },
@@ -143,14 +143,14 @@ router.post("/:postId/retweet", isLoggedIn, async (req, res, next) => {
           include: [
             {
               model: User,
-              attributes: ["id", "nickname"],
+              attributes: ["id", "nickname", "avatar"],
             },
             {
               model: Image,
             },
           ],
         },
-        { model: User, attributes: ["id", "nickname"] },
+        { model: User, attributes: ["id", "nickname", "avatar"] },
         { model: Image },
         {
           model: Comment,
@@ -184,7 +184,7 @@ router.get("/:postId", async (req, res, next) => {
           include: [
             {
               model: User,
-              attributes: ["id", "nickname"],
+              attributes: ["id", "nickname", "avatar"],
             },
             {
               model: Image,
@@ -193,12 +193,12 @@ router.get("/:postId", async (req, res, next) => {
         },
         {
           model: User,
-          attributes: ["id", "nickname"],
+          attributes: ["id", "nickname", "avatar"],
         },
         {
           model: User,
           as: "Likers",
-          attributes: ["id", "nickname"],
+          attributes: ["id", "nickname", "avatar"],
         },
         {
           model: Image,

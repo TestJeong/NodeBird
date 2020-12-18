@@ -1,7 +1,13 @@
 import produce from "immer";
 
 export const init = {
-  avatarImage : [],
+  avatarImage: [],
+
+  recommendFollowList: null,
+
+  recommendLoading: false,
+  recommendDone: false,
+  recommendError: false,
 
   loadUserLodading: false, // 유저 정보 가져오기 시도중
   loadUserDone: false,
@@ -47,19 +53,22 @@ export const init = {
   loadFollowingsDone: false,
   loadFollowingsError: null,
 
-  changeAvatarImageLoading : false,
-  changeAvatarImageDone : false,
-  changeAvatarImageError : null,
-  
-  changeAvatarUploadLoading : false,
-  changeAvatarUploadDone : false,
-  changeAvatarUploadError : null,
+  changeAvatarImageLoading: false,
+  changeAvatarImageDone: false,
+  changeAvatarImageError: null,
 
+  changeAvatarUploadLoading: false,
+  changeAvatarUploadDone: false,
+  changeAvatarUploadError: null,
 
   me: null, // 로그인한 id와 paw가 저장
   userInfo: null,
 };
 //LOAD_MY_INFO_REQUEST
+
+export const RECOMMEND_FOLLOW_LIST_REQUEST = "RECOMMEND_FOLLOW_LIST_REQUEST";
+export const RECOMMEND_FOLLOW_LIST_SUCCESS = "RECOMMEND_FOLLOW_LIST_SUCCESS";
+export const RECOMMEND_FOLLOW_LIST_FAILURE = "RECOMMEND_FOLLOW_LIST_FAILURE";
 
 export const LOAD_MY_INFO_REQUEST = "LOAD_MY_INFO_REQUEST";
 export const LOAD_MY_INFO_SUCCESS = "LOAD_MY_INFO_SUCCESS";
@@ -149,6 +158,23 @@ export const logoutRequestAction = () => {
 const reducer = (state = init, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
+      case RECOMMEND_FOLLOW_LIST_REQUEST:
+        draft.recommendLoading = true;
+        draft.recommendError = null;
+        draft.recommendDone = false;
+        break;
+
+      case RECOMMEND_FOLLOW_LIST_SUCCESS:
+        draft.recommendLoading = false;
+        draft.recommendDone = true;
+        draft.recommendFollowList = action.data;
+        break;
+
+      case RECOMMEND_FOLLOW_LIST_FAILURE:
+        draft.recommendLoading = false;
+        draft.recommendError = action.error;
+        break;
+
       case CHANGE_AVATAR_IMAGE_REQUEST:
         draft.changeAvatarImageLoading = true;
         draft.changeAvatarImageError = null;
@@ -159,8 +185,6 @@ const reducer = (state = init, action) => {
         draft.changeAvatarImageLoading = false;
         draft.changeAvatarImageDone = true;
         draft.me.avatar = action.data;
-        
-        
         break;
 
       case CHANGE_AVATAR_IMAGE_FAILURE:
@@ -212,7 +236,7 @@ const reducer = (state = init, action) => {
         draft.loadUserLodading = false;
         draft.loadUserDone = true;
         draft.userInfo = action.data;
-       
+
         break;
 
       case LOAD_USER_FAILURE:

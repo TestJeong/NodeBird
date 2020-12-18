@@ -40,6 +40,9 @@ import {
   CHANGE_AVATAR_IMAGE_REQUEST,
   CHANGE_AVATAR_IMAGE_SUCCESS,
   CHANGE_AVATAR_IMAGE_FAILURE,
+  RECOMMEND_FOLLOW_LIST_REQUEST,
+  RECOMMEND_FOLLOW_LIST_SUCCESS,
+  RECOMMEND_FOLLOW_LIST_FAILURE,
 } from "../reducers/user";
 
 function changeNicknameAPI(data) {
@@ -76,11 +79,11 @@ function loadMyInfoAPI() {
   return axios.get("/user");
 }
 
-function* loadMyInfo(action) {
+function* loadMyInfo() {
   console.log("사가 실행");
   try {
-    console.log("saga run", action.data);
     const result = yield call(loadMyInfoAPI);
+    console.log("loadMy", result);
     yield put({ type: LOAD_MY_INFO_SUCCESS, data: result.data });
   } catch (err) {
     yield put({ type: LOAD_MY_INFO_FAILURE, error: err.response.data });
@@ -231,6 +234,25 @@ function* uploadAvatar(action) {
   }
 } // put 디스패치
 
+function recommendFollowListAPI(data) {
+  return axios.get(`/user/recommend`, data);
+}
+
+function* recommendFollowList(action) {
+  console.log("recommendFollowList 실행");
+  try {
+    const result = yield call(recommendFollowListAPI, action.data);
+    console.log("recommendFollowList", result);
+    yield put({ type: RECOMMEND_FOLLOW_LIST_SUCCESS, data: result.data });
+  } catch (error) {
+    console.error(error);
+    yield put({
+      type: RECOMMEND_FOLLOW_LIST_FAILURE,
+      error: error.response.data,
+    });
+  }
+} // put 디스패치
+
 function changeAvatarAPI(data) {
   return axios.post(`/user/changeavatar`, data);
 }
@@ -302,8 +324,13 @@ function* watchChangeAvatar() {
   yield takeLatest(CHANGE_AVATAR_IMAGE_REQUEST, changeAvatar);
 }
 
+function* watchRecommendFollowList() {
+  yield takeLatest(RECOMMEND_FOLLOW_LIST_REQUEST, recommendFollowList);
+}
+
 export default function* userSaga() {
   yield all([
+    fork(watchRecommendFollowList),
     fork(watchChangeAvatar),
     fork(watchUploadAvatar),
     fork(watchRemoveFollower),

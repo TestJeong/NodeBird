@@ -39,7 +39,7 @@ const FollowList = ({ header, data, onClickMore, loading }) => {
       header={<div>{header}</div>}
       loadMore={
         <div style={{ textAlign: "center", margin: "10px 0" }}>
-          <Button onClick={onClickMore} loading={loading}>
+          <Button type="primary" ghost onClick={onClickMore} loading={loading}>
             더 보기
           </Button>
         </div>
@@ -49,7 +49,11 @@ const FollowList = ({ header, data, onClickMore, loading }) => {
       renderItem={(item) => (
         <List.Item style={{ marginTop: 20 }}>
           <Card
-            actions={[<StopOutlined key="stop" onClick={onCancle(item.id)} />]}
+            actions={[
+              <Button danger key="stop" onClick={onCancle(item.id)}>
+                삭제
+              </Button>,
+            ]}
           >
             <Card.Meta
               description={item.nickname}

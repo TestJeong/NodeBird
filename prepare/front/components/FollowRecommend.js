@@ -1,9 +1,12 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRibbon } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "antd";
 import Link from "next/link";
 import Avatar from "antd/lib/avatar/avatar";
-import FollowButton from "../components/FollowButton";
+import RecommendBtn from "../components/RecommendBtn";
 
 const Container = styled.div`
   width: 100%;
@@ -11,7 +14,7 @@ const Container = styled.div`
   background-color: white;
   border-radius: 10px;
   margin: 0 auto 20px auto;
-  padding: 15px;
+  padding: 25px;
   @media (max-width: 1200px) {
     width: 90%;
   }
@@ -19,24 +22,51 @@ const Container = styled.div`
 
 const Title = styled.div`
   font-size: 2vh;
-  margin-bottom: 20px;
+  font-weight: 800;
+  margin-bottom: 25px;
+  border-bottom: 0.3px solid #eeeeee;
+  padding-bottom: 20px;
 `;
 
-const FollowContents = styled.div``;
+const FollowContents = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  border-bottom: 0.3px solid #eeeeee;
+  padding-bottom: 20px;
+`;
 
-const AvatarContainer = styled.div``;
+const AvatarContents = styled.div`
+  font-size: 16px;
+  font-weight: 700;
+`;
+
+const Nickname = styled.span`
+  margin: 0px 5px 0px 15px;
+`;
+
+const FollowBtn = styled.div``;
 
 const FollowRecommend = () => {
+  const { recommendFollowList } = useSelector((state) => state.user);
+
   return (
     <Container>
       <Title>팔로우 추천</Title>
-      <AvatarContainer>
+
+      {recommendFollowList.map((user) => (
         <FollowContents>
-          <Avatar
-            src={"http://localhost:3065/avatar/김봉진_1607860934601.jpeg"}
-          />
+          <AvatarContents>
+            <Avatar src={`http://localhost:3065/avatar/${user.avatar}`} />
+            <Nickname>{user.nickname}</Nickname>
+            <FontAwesomeIcon style={{ color: "#40a9ff" }} icon={faRibbon} />
+          </AvatarContents>
+
+          <FollowBtn>
+            <RecommendBtn post={user} />
+          </FollowBtn>
         </FollowContents>
-      </AvatarContainer>
+      ))}
     </Container>
   );
 };

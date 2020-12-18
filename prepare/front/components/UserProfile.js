@@ -42,7 +42,7 @@ const UserProfile = () => {
     dispatch(logoutRequestAction());
   });
 
-  const test = <FontAwesomeIcon icon={faRibbon} />;
+  console.log("power", me.influencer);
 
   return (
     <CardConatiner
@@ -94,10 +94,16 @@ const UserProfile = () => {
           </Link>
         }
         title={
-          <div>
-            <FontAwesomeIcon style={{ color: "#40a9ff" }} icon={faRibbon} />
-            {me.nickname}
-          </div>
+          <>
+            {me.influencer ? (
+              <div>
+                {me.nickname}
+                <FontAwesomeIcon style={{ color: "#40a9ff" }} icon={faRibbon} />
+              </div>
+            ) : (
+              <div>{me.nickname}</div>
+            )}
+          </>
         }
       />
 

@@ -33,7 +33,6 @@ const upload = multer({
 });
 
 router.get("/", async (req, res, next) => {
-  console.log(req.headers);
   try {
     if (req.user) {
       const fullUserWithoutPassword = await User.findOne({
@@ -62,6 +61,21 @@ router.get("/", async (req, res, next) => {
     } else {
       res.status(200).json(null);
     }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.get("/recommend", async (req, res, next) => {
+  try {
+    const recommendUser = await User.findAll({
+      limit: 3,
+      where: { influencer: true },
+
+      attributes: ["id", "nickname", "avatar", "influencer"],
+    });
+    res.status(200).json(recommendUser);
   } catch (error) {
     console.error(error);
     next(error);
@@ -227,6 +241,7 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
           },
         ],
       });
+
       return res.status(200).json(fullUserWithoutPassword);
     });
   })(req, res, next);
