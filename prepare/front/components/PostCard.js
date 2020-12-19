@@ -91,7 +91,7 @@ const PostCard = ({ post }) => {
           <RetweetOutlined key="retwwet" onClick={onRetweet} />,
           liked ? (
             <HeartTwoTone
-              twoTonecolor="#eb2f96"
+              twoToneColor="#eb2f96"
               key="heart"
               onClick={onUnLike}
             />

@@ -22,7 +22,16 @@ const FormWrapper = styled(Form)`
   @media (max-width: 1200px) {
     width: 90%;
   }
+  label {
+    font-weight: 700;
+  }
 `;
+
+const EmailContainer = styled.div`
+  margin-bottom: 10px;
+`;
+
+const PasswordContainer = styled.div``;
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -44,7 +53,7 @@ const LoginForm = () => {
   return (
     // onFinsh는 자동적으로 e.prevent가 들어가있다(새로고침)
     <FormWrapper onFinish={onSubmitForm}>
-      <div>
+      <EmailContainer>
         <label htmlFor="user-email">이메일</label>
         <br />
         <Input
@@ -54,8 +63,9 @@ const LoginForm = () => {
           onChange={onChangeEmail}
           required
         />
-      </div>
-      <div>
+      </EmailContainer>
+
+      <PasswordContainer>
         <label htmlFor="user-password">비밀번호</label>
         <br />
         <Input
@@ -65,7 +75,7 @@ const LoginForm = () => {
           onChange={onChangePassword}
           required
         />
-      </div>
+      </PasswordContainer>
       <ButtonWrapper>
         <LoginButton type="primary" htmlType="submit" loading={logInLodading}>
           로그인
