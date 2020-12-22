@@ -16,7 +16,8 @@ import PostImages from "./PostImages";
 import CommentForm from "./CommentForm";
 import PostCardContent from "./PostCardContent";
 import FollowButton from "../components/FollowButton";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRibbon } from "@fortawesome/free-solid-svg-icons";
 import {
   REMOVE_POST_REQUEST,
   LIKE_POST_REQUEST,
@@ -27,7 +28,7 @@ import {
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
 import relativeTime from "dayjs/plugin/relativeTime";
-
+import Noimg from "../img/noimg.png";
 import styles from "../styles//postcard.module.scss";
 
 dayjs.locale("ko");
@@ -85,7 +86,18 @@ const PostCard = ({ post }) => {
     <div className={styles.cardContainer}>
       <Card
         className={styles.card}
-        title={post.User.nickname}
+        title={
+          <>
+            {post.User.influencer ? (
+              <div>
+                {post.User.nickname}
+                <FontAwesomeIcon style={{ color: "#40a9ff" }} icon={faRibbon} />
+              </div>
+            ) : (
+              <div>{post.User.nickname}</div>
+            )}
+          </>
+        }
         cover={post.Images[0] && <PostImages images={post.Images} />}
         actions={[
           <RetweetOutlined key="retwwet" onClick={onRetweet} />,
@@ -134,12 +146,30 @@ const PostCard = ({ post }) => {
                 <Link href={`/user/${post.User.id}`}>
                   <a>
                     <Avatar
-                      src={`http://localhost:3065/avatar/${post.User.avatar}`}
+                      src={
+                        post.User.avatar === null
+                          ? Noimg
+                          : `http://localhost:3065/avatar/${post.User.avatar}`
+                      }
                     ></Avatar>
                   </a>
                 </Link>
               }
-              title={post.User.nickname}
+              title={
+                <>
+                  {post.User.influencer ? (
+                    <div>
+                      {post.User.nickname}
+                      <FontAwesomeIcon
+                        style={{ color: "#40a9ff" }}
+                        icon={faRibbon}
+                      />
+                    </div>
+                  ) : (
+                    <div>{post.User.nickname}</div>
+                  )}
+                </>
+              }
               description={dayjs(post.createdAt).fromNow()}
             />
           )
@@ -160,7 +190,11 @@ const PostCard = ({ post }) => {
                 <Link href={`/user/${post.Retweet.User.id}`}>
                   <a>
                     <Avatar
-                      src={`http://localhost:3065/avatar/${post.Retweet.User.avatar}`}
+                      src={
+                        post.Retweet.User.avatar === null
+                          ? Noimg
+                          : `http://localhost:3065/avatar/${post.Retweet.User.avatar}`
+                      }
                     ></Avatar>
                   </a>
                 </Link>
@@ -187,19 +221,38 @@ const PostCard = ({ post }) => {
             itemLayout="horizontal"
             dataSource={post.Comments}
             renderItem={(item) => (
-              <li>
+              <li style={{ whiteSpace: "pre-line" }}>
                 <Comment
-                  author={item.User.nickname}
+                  author={
+                    <>
+                      {item.User.influencer ? (
+                        <div>
+                          {item.User.nickname}
+                          <FontAwesomeIcon
+                            style={{ color: "#40a9ff" }}
+                            icon={faRibbon}
+                          />
+                        </div>
+                      ) : (
+                        <div>{item.User.nickname}</div>
+                      )}
+                    </>
+                  }
                   avatar={
                     <Link href={`/user/${item.User.id}`}>
                       <a>
                         <Avatar
-                          src={`http://localhost:3065/avatar/${item.User.avatar}`}
+                          src={
+                            item.User.avatar === null
+                              ? Noimg
+                              : `http://localhost:3065/avatar/${item.User.avatar}`
+                          }
                         ></Avatar>
                       </a>
                     </Link>
                   }
                   content={item.content}
+                  datetime={dayjs(item.createdAt).fromNow()}
                 />
               </li>
             )}

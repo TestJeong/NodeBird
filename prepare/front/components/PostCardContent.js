@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import PostImages from "./PostImages";
 
 const PostCardContent = ({ postData }) => (
-  <div>
+  <div style={{ whiteSpace: "pre-line" }}>
     {postData.split(/(#[^\s#]+)/g).map((v, i) => {
       if (v.match(/(#[^\s#]+)/g)) {
         return (

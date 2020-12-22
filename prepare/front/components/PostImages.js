@@ -5,6 +5,7 @@ import ImagesZoom from "../components/ImagesZoom";
 import styled from "styled-components";
 
 const Contianer = styled.div`
+  padding: 20px;
   display: flex;
   width: 100%;
   height: 100%;
@@ -20,6 +21,7 @@ const Plusimg = styled.div`
   justify-content: center;
   align-items: center;
   margin: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 `;
 
 const ImageP = styled.img`

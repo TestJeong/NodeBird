@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "../styles/avatarimg.module.scss";
 import Noimg from "../img/noimg.png";
 
-const CardContainer = styled(Form)`
+const CardContainer = styled(Card)`
   width: 90%;
   border-radius: 10px;
   margin: 0 auto 30px auto;
@@ -83,7 +83,7 @@ const AvatarImage = () => {
                 src={
                   changeAvatarUploadDone
                     ? `http://localhost:3065/avatar/${avatarImage[0]}`
-                    : me.avatar.length === 0
+                    : me.avatar === null
                     ? Noimg
                     : `http://localhost:3065/avatar/${me.avatar}`
                 }
